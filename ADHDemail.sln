@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2016
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDemail", "ADHDemail\ADHDemail.csproj", "{EE49A8BD-41E2-4A26-9714-2FD170E25271}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDemail", "src\ADHDemail\ADHDemail.csproj", "{EE49A8BD-41E2-4A26-9714-2FD170E25271}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADHDemail.Tests", "ADHDemail.Tests", "{E1A53EF5-0911-47DB-BF30-36E89CBE5F99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDemailTests", "ADHDemail.\ADHDemailTests.csproj", "{3624BFE3-848E-470C-9F6A-EF9D546DA704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{EE49A8BD-41E2-4A26-9714-2FD170E25271}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE49A8BD-41E2-4A26-9714-2FD170E25271}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE49A8BD-41E2-4A26-9714-2FD170E25271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3624BFE3-848E-470C-9F6A-EF9D546DA704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3624BFE3-848E-470C-9F6A-EF9D546DA704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3624BFE3-848E-470C-9F6A-EF9D546DA704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3624BFE3-848E-470C-9F6A-EF9D546DA704}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3624BFE3-848E-470C-9F6A-EF9D546DA704} = {E1A53EF5-0911-47DB-BF30-36E89CBE5F99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CBA45149-944A-4FC1-9BA0-868CD7EA06B3}
