@@ -4,9 +4,37 @@ using System.Runtime.CompilerServices;
 
 namespace ADHDemail
 {
+    /// <summary>
+    /// A simple log file writer.
+    /// <para>
+    /// The default log file location is the LocalAppData folder.
+    /// </para>
+    /// </summary>
     public static class LogWriter
     {
-        private static readonly string _logPath;
+        private static string _logPath;
+        /// <summary>
+        /// The full path to the log file.
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown when given a string with one or more invalid path characters.</exception>
+        public static string LogPath
+        {
+            get { return _logPath; }
+            set
+            {
+                // create other extension methods that verify path and make it into one call here
+                if (!value.IsValidPath())
+                    throw new ArgumentException("The LogPath provided contains an invalid path character.");
+                _logPath = value;
+            }
+        }
+
+        // moving to Extensions
+        //private static bool IsValidPath(string path)
+        //{
+        //    const int MaxPath = 260;
+        //    return (path.ContainsInvalidPathChar() || path.Length > MaxPath) ? false : true;
+        //}
 
         static LogWriter()
         {

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ADHDemail</name>
+    </assembly>
+    <members>
+        <member name="M:ADHDemail.API.GmailApi.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDemail.API.GmailApi"/> class.
+            </summary>
+        </member>
+        <member name="T:ADHDemail.Config.ConfigFile">
+            <summary>
+            Abstract base class for all config files. 
+            <para>Provides default implementation
+            of file encryption and decryption as well as common config file locations.
+            </para>
+            </summary>
+        </member>
+        <member name="F:ADHDemail.Config.ConfigFile._appDataPath">
+            <summary>
+            Represents the path for the AppData folder.
+            </summary>
+        </member>
+        <member name="M:ADHDemail.Config.ConfigFile.Encrypt(System.String)">
+            <summary>
+            Encrypts a file so that only the account used to encrypt the file can decrypt it.
+            </summary>
+            <param name="path"> A path that describes a file to encrypt.</param>
+        </member>
+        <member name="M:ADHDemail.Config.ConfigFile.Decrypt(System.String)">
+            <summary>
+            Decrypts a file that was encrypted by the current account using the Encrypt(String) method.
+            </summary>
+            <param name="path"> A path that describes a file to decrypt.</param>
+        </member>
+        <member name="M:ADHDemail.Config.IgnoredSendersConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDemail.Config.IgnoredSendersConfig"/> class.
+            </summary>
+        </member>
+        <member name="M:ADHDemail.Config.IgnoredSendersConfig.GetIgnoredSendersConfigPath">
+            <summary>
+            
+            </summary>
+            <returns>
+            
+            </returns>
+            <exception cref="T:System.UnauthorizedAccessException">Thrown when one .</exception>
+        </member>
+        <member name="M:ADHDemail.Config.GmailOAuthConfig.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDemail.Config.GmailOAuthConfig"/> class.
+            </summary>
+        </member>
+        <member name="M:ADHDemail.Config.GmailOAuthConfig.GetGmailOAuthConfigPath">
+            <summary>
+            
+            </summary>
+            <returns>
+            
+            </returns>
+            <exception cref="T:System.UnauthorizedAccessException">Thrown when one .</exception>
+        </member>
+        <member name="M:ADHDemail.LogWriter.Write(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Summary here including reference to <paramref name="message"/>, <paramref name="callerName"/>, and other params.
+            </summary>
+            <exception cref="T:System.OverflowException">Thrown when one parameter is max 
+            and the other is greater than zero.</exception>
+            See <see cref="!:Math.Add(int, int)"/> to add integers.
+            <param name="message">A double precision number.</param>
+            <param name="callerName">A double precision number.</param>
+        </member>
+    </members>
+</doc>

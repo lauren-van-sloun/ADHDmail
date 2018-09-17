@@ -3,20 +3,18 @@ using System.IO;
 
 namespace ADHDemail.Config
 {
-
     /// <summary>
-    /// Abstract base class for all config files. 
-    /// <para>Provides default implementation
-    /// of file encryption and decryption as well as common config file locations.
+    /// The abstract base class for all config files. 
+    /// <para>Provides default implementation of file encryption and decryption 
+    /// as well as common config file locations.
     /// </para>
     /// </summary>
-    internal abstract class ConfigFile
+    public abstract class ConfigFile
     {
-
         /// <summary>
         /// Represents the path for the AppData folder.
         /// </summary>
-        internal readonly string _appDataPath;
+        public readonly string _appDataPath;
 
         internal ConfigFile()
         {

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDemail", "src\ADHDemail\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADHDemail.Tests", "ADHDemail.Tests", "{E1A53EF5-0911-47DB-BF30-36E89CBE5F99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDemailTests", "ADHDemail.\ADHDemailTests.csproj", "{3624BFE3-848E-470C-9F6A-EF9D546DA704}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDemailTests", "ADHDemail\ADHDemailTests.csproj", "{3624BFE3-848E-470C-9F6A-EF9D546DA704}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -3,7 +3,12 @@ using System.IO;
 
 namespace ADHDemail.Config
 {
-    internal class GmailOAuthConfig : ConfigFile
+    /// <summary>
+    /// Represents the config file for Gmail's OAuth credentials.
+    /// <para>This file should be encrypted to secure the user's credentials.
+    /// </para>
+    /// </summary>
+    public class GmailOAuthConfig : ConfigFile
     {
         private readonly string _gmailOAuthConfigPath;
 
@@ -16,18 +21,32 @@ namespace ADHDemail.Config
         }
 
         /// <summary>
-        /// 
+        /// Retrieves the file's location in the AppData folder.
         /// </summary>
+        /// <remarks>
+        /// If the file does not exist, 
+        /// </remarks>
         /// <returns>
-        /// 
+        /// If the filepath exists, returns the full path. Otherwise returns an emtpy string.
         /// </returns>
-        /// <exception cref="System.UnauthorizedAccessException">Thrown when one .</exception>
+        /// <exception cref="FileNotFoundException">Thrown when one .
+        /// </exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown when one .
+        /// </exception>
+
         private string GetGmailOAuthConfigPath()
         {
             try
             {
                 string fullPath = Path.Combine(base._appDataPath, "ADHDemail", "GmailOAuth.json");
-                return File.Exists(fullPath) ? fullPath : string.Empty;
+                if (!File.Exists(fullPath)) throw new FileNotFoundException();
+                return fullPath;
+            }
+            catch(FileNotFoundException ex)
+            {
+                // May change this behavior (hence the duplication) - tbd
+                LogWriter.Write($"Could not get the Gmail OAuth config file path. {ex.GetType()}: \"{ex.Message}\"");
+                return string.Empty;
             }
             catch (UnauthorizedAccessException ex)
             {
