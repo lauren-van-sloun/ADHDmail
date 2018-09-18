@@ -1,8 +1,8 @@
 ## <a id="how-to-contribute">How to contribute?</a>
-Your contributions to ADHDemail are very welcome.
+Your contributions to ADHDmail are very welcome.
 If you find a bug, please raise it as an issue.
 Even better fix it and send a pull request.
-If you like to help out with existing bugs and feature requests just check out the list of [issues](https://github.com/Ashera138/ADHDemail/issues) and grab and fix one.
+If you like to help out with existing bugs and feature requests just check out the list of [issues](https://github.com/Ashera138/ADHDmail/issues) and grab and fix one.
 Some of the issues are labeled as as `jump in`. These issues are generally low hanging fruit so you can start with easier tasks.
 
 This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)

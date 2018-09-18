@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 namespace ADHDmail.Email
 {
     /// <summary>
-    /// The abstract base class for all email objects. 
+    /// The base class for all email objects. 
     /// </summary>
-    public abstract class Email
+    public class Email : Message
     {
-        #region Headers
         /// <summary>
         /// A description of the topic of the message.
         /// </summary>
@@ -20,19 +19,6 @@ namespace ADHDmail.Email
         /// <summary>
         /// The sender's email address.
         /// </summary>
-        public string Sender { get; set; }
-
-        /// <summary>
-        /// The date and time the message was received.
-        /// </summary>
-        public DateTime TimeReceived { get; set; }
-        #endregion
-
-        #region Body
-        /// <summary>
-        /// The main text content of the email.
-        /// </summary>
-        public string Body { get; set; }
-        #endregion
+        public string SendersEmail { get; set; }
     }
 }

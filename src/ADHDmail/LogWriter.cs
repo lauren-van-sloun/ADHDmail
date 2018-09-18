@@ -16,25 +16,19 @@ namespace ADHDmail
         /// <summary>
         /// The full path to the log file.
         /// </summary>
-        /// <exception cref="ArgumentException">Thrown when given a string with one or more invalid path characters.</exception>
+        /// <exception 
+        /// cref="ArgumentException">Thrown when given a string with one or more invalid path characters.
+        /// </exception>
         public static string LogPath
         {
             get { return _logPath; }
             set
             {
-                // create other extension methods that verify path and make it into one call here
                 if (!value.IsValidPath())
-                    throw new ArgumentException("The LogPath provided contains an invalid path character.");
+                    throw new ArgumentException("The LogPath provided is not a valid filepath.");
                 _logPath = value;
             }
         }
-
-        // moving to Extensions
-        //private static bool IsValidPath(string path)
-        //{
-        //    const int MaxPath = 260;
-        //    return (path.ContainsInvalidPathChar() || path.Length > MaxPath) ? false : true;
-        //}
 
         static LogWriter()
         {
@@ -49,15 +43,15 @@ namespace ADHDmail
         }
 
         /// <summary>
-        /// Appends text to an existing log file, or to a new one if the specified file does not exist.
-        /// <para>
-        /// <paramref name="message"/>, <paramref name="callerName"/>, and other params.
-        /// </para>
+        /// Appends text to an existing log file, or to a new one if the file does not exist.
         /// </summary>
-        /// <exception cref="OverflowException">Thrown when one parameter is max 
-        /// and the other is greater than zero.</exception>
-        /// <param name="message">A double precision number.</param>
-        /// <param name="callerName">A double precision number.</param>
+        /// <param name="message">The message to record in the log.</param>
+        /// <param name="callerName">An optional parameter that automatically obtains the method or property 
+        /// name of the caller to the method.</param>
+        /// <param name="sourceFilePath">An optional parameter that automatically obtains the full path of the 
+        /// source file that contains the caller. This is the file path at compile time.</param>
+        /// <param name="sourceLineNumber">An optional parameter that automatically obtains the line number in 
+        /// the source file at which the method is called.</param>
         public static void Write(string message, 
                                  [CallerMemberName] string callerName = "", 
                                  [CallerFilePath] string sourceFilePath = "",

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ADHDemail")]
+[assembly: AssemblyTitle("ADHDmailTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ADHDemail")]
+[assembly: AssemblyProduct("ADHDmailTests")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3624bfe3-848e-470c-9f6a-ef9d546da704")]
+[assembly: Guid("78998bcd-8f0c-4126-9ec1-f1377ce3e208")]
 
 // Version information for an assembly consists of the following four values:
 //

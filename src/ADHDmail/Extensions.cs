@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ADHDmail
 {
+    /// <summary>
+    /// Holds extension methods for added functionality.
+    /// </summary>
     public static class Extensions
     {
         /// <summary>

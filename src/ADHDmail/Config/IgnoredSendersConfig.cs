@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace ADHDmail.Config
 {
-    internal class IgnoredSendersConfig : ConfigFile
+    internal class IgnoredMessagesConfig : ConfigFile
     {
         private readonly string _ignoredSendersConfigPath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IgnoredSendersConfig"/> class.
+        /// Initializes a new instance of the <see cref="IgnoredMessagesConfig"/> class.
         /// </summary>
-        public IgnoredSendersConfig()
+        public IgnoredMessagesConfig()
         {
             _ignoredSendersConfigPath = GetIgnoredSendersConfigPath();
         }
