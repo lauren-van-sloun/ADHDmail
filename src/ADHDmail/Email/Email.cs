@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADHDemail.Email
+namespace ADHDmail.Email
 {
     /// <summary>
     /// The abstract base class for all email objects. 

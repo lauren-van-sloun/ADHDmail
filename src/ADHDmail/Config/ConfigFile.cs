@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ADHDemail.Config
+namespace ADHDmail.Config
 {
     /// <summary>
     /// The abstract base class for all config files. 

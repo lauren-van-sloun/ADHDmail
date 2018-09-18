@@ -8,8 +8,8 @@
     <ProjectGuid>{3624BFE3-848E-470C-9F6A-EF9D546DA704}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ADHDemail</RootNamespace>
-    <AssemblyName>ADHDemail</AssemblyName>
+    <RootNamespace>ADHDmail</RootNamespace>
+    <AssemblyName>ADHDmail</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -51,13 +51,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\ADHDmail\ADHDmail.csproj">
+      <Project>{ee49a8bd-41e2-4a26-9714-2fd170e25271}</Project>
+      <Name>ADHDmail</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\ADHDemail\ADHDemail.csproj">
-      <Project>{ee49a8bd-41e2-4a26-9714-2fd170e25271}</Project>
-      <Name>ADHDemail</Name>
-    </ProjectReference>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

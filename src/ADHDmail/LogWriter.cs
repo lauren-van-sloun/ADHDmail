@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 
-namespace ADHDemail
+namespace ADHDmail
 {
     /// <summary>
     /// A simple log file writer.
@@ -49,11 +49,13 @@ namespace ADHDemail
         }
 
         /// <summary>
-        /// Summary here including reference to <paramref name="message"/>, <paramref name="callerName"/>, and other params.
+        /// Appends text to an existing log file, or to a new one if the specified file does not exist.
+        /// <para>
+        /// <paramref name="message"/>, <paramref name="callerName"/>, and other params.
+        /// </para>
         /// </summary>
-        /// <exception cref="System.OverflowException">Thrown when one parameter is max 
+        /// <exception cref="OverflowException">Thrown when one parameter is max 
         /// and the other is greater than zero.</exception>
-        /// See <see cref="Math.Add(int, int)"/> to add integers.
         /// <param name="message">A double precision number.</param>
         /// <param name="callerName">A double precision number.</param>
         public static void Write(string message, 
