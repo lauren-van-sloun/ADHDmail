@@ -8,31 +8,17 @@ namespace ADHDmail.Config
     /// <para>This file should be encrypted to secure the user's credentials.
     /// </para>
     /// </summary>
-    public class GmailOAuthConfig : ConfigFile
+    public class GmailOAuthConfigFile : ConfigFile
     {
-        private readonly string _gmailOAuthConfigPath;
+        private readonly string fullPath;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GmailOAuthConfig"/> class.
+        /// Initializes a new instance of the <see cref="GmailOAuthConfigFile"/> class.
         /// </summary>
-        public GmailOAuthConfig()
+        public GmailOAuthConfigFile()
         {
-            _gmailOAuthConfigPath = GetGmailOAuthConfigPath();
+            fullPath = GetGmailOAuthConfigPath();
         }
-
-        /// <summary>
-        /// Retrieves the file's location in the AppData folder.
-        /// </summary>
-        /// <remarks>
-        /// If the file does not exist, 
-        /// </remarks>
-        /// <returns>
-        /// If the filepath exists, returns the full path. Otherwise returns an emtpy string.
-        /// </returns>
-        /// <exception cref="FileNotFoundException">Thrown when one .
-        /// </exception>
-        /// <exception cref="UnauthorizedAccessException">Thrown when one .
-        /// </exception>
 
         private string GetGmailOAuthConfigPath()
         {

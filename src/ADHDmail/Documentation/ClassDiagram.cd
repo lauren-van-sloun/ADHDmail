@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ADHDmail.Config.ConfigFile">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAQAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Config\ConfigFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.Config.GmailOAuthConfig">
+    <Position X="4.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQAAAA=</HashCode>
+      <FileName>Config\GmailOAuthConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.Config.IgnoreFilterConfig">
+    <Position X="6.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Config\IgnoreFilterConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.Email.Email">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Email\Email.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.Message">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAFAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.LogWriter">
+    <Position X="8.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAABAAAAAAAAAAAAAAAABAAAAAAEAAAA=</HashCode>
+      <FileName>LogWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.Extensions" Collapsed="true">
+    <Position X="10.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAEAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

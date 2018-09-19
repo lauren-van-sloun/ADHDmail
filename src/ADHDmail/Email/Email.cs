@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ADHDmail.Email
 {
     /// <summary>
-    /// The base class for all email objects. 
+    /// Represents a standard email.
     /// </summary>
     public class Email : Message
     {
