@@ -13,45 +13,17 @@ namespace ADHDmail.Config
     /// </summary>
     public class IgnoreFiltersConfigFile : ConfigFile
     {
-        private readonly string fullPath;
-        private readonly bool _exists;
+        /// <summary>
+        /// The path and name of the <see cref="IgnoreFiltersConfigFile"/>.
+        /// </summary>
+        public override string FullPath { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IgnoreFiltersConfigFile"/> class.
         /// </summary>
         public IgnoreFiltersConfigFile()
         {
-            fullPath = GetIgnoredSendersConfigPath();
-            _exists = Exists(fullPath);
-        }
-
-        private string GetIgnoredSendersConfigPath()
-        {
-            return Path.Combine(base._appDataPath, "ADHDemail", "IgnoreFilters.json");
-        }
-
-        // Depending on how many times I need to call this method, I might be able to get rid of it
-        // and inline the File.Exists() call assuming the try-catch won't clutter up the calling code
-        private bool Exists(string path)
-        {
-            try
-            {
-                return File.Exists(path);
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write($"Could not check if the path {path} exists. {ex.GetType()}: \"{ex.Message}\"");
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Creates an <see cref="IgnoreFiltersConfigFile"/> file in the user's AppData folder if it does not already exist.
-        /// </summary>
-        public void Create()
-        {
-            if (!this._exists)
-                File.Create(fullPath);
+            FullPath = GetFullPath("IgnoreFilters.json");
         }
 
         /// <summary>
@@ -65,7 +37,7 @@ namespace ADHDmail.Config
         /// <exception cref="System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Append(Filter filter)
         {
-            File.AppendAllText(fullPath, JsonConvert.SerializeObject(filter));
+            File.AppendAllText(FullPath, JsonConvert.SerializeObject(filter));
         }
 
         /// <summary>
@@ -87,7 +59,7 @@ namespace ADHDmail.Config
         /// </summary>
         public void Clear()
         {
-            File.WriteAllText(fullPath, string.Empty);
+            File.WriteAllText(FullPath, string.Empty);
         }
 
         /// <summary>
@@ -96,7 +68,7 @@ namespace ADHDmail.Config
         /// <returns>A list of <see cref="Filter"/> objects that were saved in the file.</returns>
         public List<Filter> LoadJson()
         {
-            using (StreamReader reader = File.OpenText(fullPath))
+            using (StreamReader reader = File.OpenText(FullPath))
             {
                 string json = reader.ReadToEnd();
                 return JsonConvert.DeserializeObject<List<Filter>>(json);

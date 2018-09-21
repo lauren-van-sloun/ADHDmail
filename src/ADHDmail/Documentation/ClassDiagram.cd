@@ -3,22 +3,8 @@
   <Class Name="ADHDmail.Config.ConfigFile">
     <Position X="5.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AQAAAAAAAAAAAAAQAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>CQAAAAAAAAAAAACQBAAAAAAAAAAEAEAAAAAAIAEQAAA=</HashCode>
       <FileName>Config\ConfigFile.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ADHDmail.Config.GmailOAuthConfig">
-    <Position X="4.25" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQAAAA=</HashCode>
-      <FileName>Config\GmailOAuthConfig.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="ADHDmail.Config.IgnoreFilterConfig">
-    <Position X="6.25" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Config\IgnoreFilterConfig.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ADHDmail.Email.Email">
@@ -47,6 +33,20 @@
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAAAAEAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>Extensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.Config.GmailOAuthConfigFile">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Config\GmailOAuthConfigFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ADHDmail.Config.IgnoreFiltersConfigFile">
+    <Position X="3.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAAQAAAAAAAQAAAAAAAABAAAA=</HashCode>
+      <FileName>Config\IgnoreFilterConfigFile.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

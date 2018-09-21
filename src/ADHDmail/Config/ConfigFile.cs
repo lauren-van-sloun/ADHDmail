@@ -5,51 +5,92 @@ namespace ADHDmail.Config
 {
     /// <summary>
     /// The abstract base class for all config files. 
-    /// <para>Provides default implementation of file encryption and decryption 
-    /// as well as common config file locations.
-    /// </para>
     /// </summary>
     public abstract class ConfigFile
     {
+        private readonly string _appDataFolderPath;
+        private const string _appNameFolder = "ADHDmail";
+
         /// <summary>
-        /// Represents the path for the AppData folder.
+        /// The path and name of the <see cref="ConfigFile"/>.
         /// </summary>
-        public readonly string _appDataPath;
+        public abstract string FullPath { get; set; }
+
+        private bool _exists { get; set; }
+        /// <summary>
+        /// Determines whether the specified file exists.
+        /// </summary>
+        public bool Exists
+        {
+            get { return _exists; }
+            set { _exists = FileExists(FullPath) ? true : false; }
+        }
 
         internal ConfigFile()
         {
-            _appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            _appDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        }
+
+        private bool FileExists(string path)
+        {
+            try
+            {
+                return File.Exists(path);
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write($"Could not check if the path {path} exists. {ex.GetType()}: \"{ex.Message}\"");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Combines the <see cref="_appDataFolderPath"/>, <see cref="_appNameFolder"/>, and <paramref name="fileName"/> 
+        /// to make the full file path.
+        /// </summary>
+        /// <param name="fileName">The name of the file.</param>
+        /// <returns></returns>
+        public string GetFullPath(string fileName)
+        {
+            return Path.Combine(_appDataFolderPath, _appNameFolder, fileName);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="ConfigFile"/> file in the <see cref="FullPath"/> if it does not already exist.
+        /// </summary>
+        public void Create()
+        {
+            if (!this.Exists)
+                File.Create(FullPath);
         }
 
         /// <summary>
         /// Encrypts a file so that only the account used to encrypt the file can decrypt it.
         /// </summary>
-        /// <param name="path"> A path that describes a file to encrypt.</param>
-        public void Encrypt(string path)
+        public void Encrypt()
         {
             try
             {
-                File.Encrypt(path);
+                File.Encrypt(FullPath);
             }
             catch (Exception ex)
             {
-                LogWriter.Write($"Could not encrypt {path}. {ex.GetType()}: \"{ex.Message}\"");
+                LogWriter.Write($"Could not encrypt {FullPath}. {ex.GetType()}: \"{ex.Message}\"");
             }
         }
 
         /// <summary>
         /// Decrypts a file that was encrypted by the current account using the Encrypt(String) method.
         /// </summary>
-        /// <param name="path"> A path that describes a file to decrypt.</param>
-        public void Decrypt(string path)
+        public void Decrypt()
         {
             try
             {
-                File.Decrypt(path);
+                File.Decrypt(FullPath);
             }
             catch (Exception ex)
             {
-                LogWriter.Write($"Could not decrypt {path}. {ex.GetType()}: \"{ex.Message}\"");
+                LogWriter.Write($"Could not decrypt {FullPath}. {ex.GetType()}: \"{ex.Message}\"");
             }
         }
     }

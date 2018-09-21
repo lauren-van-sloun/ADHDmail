@@ -10,35 +10,19 @@ namespace ADHDmail.Config
     /// </summary>
     public class GmailOAuthConfigFile : ConfigFile
     {
-        private readonly string fullPath;
+        /// <summary>
+        /// The path and name of the <see cref="GmailOAuthConfigFile"/>.
+        /// </summary>
+        public override string FullPath { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GmailOAuthConfigFile"/> class.
         /// </summary>
         public GmailOAuthConfigFile()
         {
-            fullPath = GetGmailOAuthConfigPath();
+            FullPath = GetFullPath("GmailOAuth.json"); 
         }
 
-        private string GetGmailOAuthConfigPath()
-        {
-            try
-            {
-                string fullPath = Path.Combine(base._appDataPath, "ADHDemail", "GmailOAuth.json");
-                if (!File.Exists(fullPath)) throw new FileNotFoundException();
-                return fullPath;
-            }
-            catch(FileNotFoundException ex)
-            {
-                // May change this behavior (hence the duplication) - tbd
-                LogWriter.Write($"Could not get the Gmail OAuth config file path. {ex.GetType()}: \"{ex.Message}\"");
-                return string.Empty;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                LogWriter.Write($"Could not get the Gmail OAuth config file path. {ex.GetType()}: \"{ex.Message}\"");
-                return string.Empty;
-            }
-        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADHDmail.Config;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,8 @@ namespace ADHDmail
     /// </summary>
     public static class Extensions
     {
+        private static readonly char[] _invalidPathChars = Path.GetInvalidPathChars();
+
         /// <summary>
         /// Determines whether a string is a valid path based on the length and character content.
         /// </summary>
@@ -27,7 +30,5 @@ namespace ADHDmail
         {
             return text.IndexOfAny(_invalidPathChars) >= 0;
         }
-
-        private static readonly char[] _invalidPathChars = Path.GetInvalidPathChars();
     }
 }
