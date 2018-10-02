@@ -21,7 +21,7 @@ Pull requests are code reviewed. Here is a checklist you should tick through bef
 
  - Here is a checklist you should tick through before submitting a pull request: 
  - Implementation is clean
- - Code adheres to the existing coding standards; e.g. no curlies for one-line blocks, no redundant empty lines between methods or code blocks, spaces rather than tabs, etc. Full conventions can be found here: (add link to coding-style.md)
+ - Code adheres to the existing coding standards; e.g. no curlies for one-line blocks, no redundant empty lines between methods or code blocks, spaces rather than tabs, etc. Full conventions can be found [here](https://github.com/Ashera138/ADHDmail/blob/master/coding-style.md).
  - There is proper unit test coverage
  - If the code is copied from StackOverflow (or a blog or OSS) full disclosure is included. That includes required license files and/or file headers explaining where the code came from with proper attribution
  - There are very few or no comments (because comments shouldn't be needed if you write clean code)
@@ -36,7 +36,9 @@ Also before sending the pull request please rebase your code as there is a chanc
 Please refer to [this guide](https://gist.github.com/jbenet/ee6c9ac48068889b0912#the-workflow) if you're new to git.
 
 <hr>
+
 **Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+
 <hr>
 
 Source for most of this text: https://github.com/Humanizr/Humanizer/blob/master/CONTRIBUTING.md
