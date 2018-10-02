@@ -36,5 +36,7 @@ Also before sending the pull request please rebase your code as there is a chanc
 Please refer to [this guide](https://gist.github.com/jbenet/ee6c9ac48068889b0912#the-workflow) if you're new to git.
 
 <hr>
+**Working on your first Pull Request?** You can learn how from this *free* series [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github)
+<hr>
 
 Source for most of this text: https://github.com/Humanizr/Humanizer/blob/master/CONTRIBUTING.md
