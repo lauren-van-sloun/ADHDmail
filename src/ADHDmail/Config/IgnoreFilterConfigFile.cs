@@ -65,9 +65,13 @@ namespace ADHDmail.Config
         /// <summary>
         /// Reads the file and returns its contents.
         /// </summary>
-        /// <returns>A list of <see cref="Filter"/> objects that were saved in the file.</returns>
+        /// <returns>A list of <see cref="Filter"/> objects that were saved in the file. 
+        /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
         public List<Filter> LoadJson()
         {
+            if (!this.Exists)
+                return null;
+
             using (StreamReader reader = File.OpenText(FullPath))
             {
                 string json = reader.ReadToEnd();

@@ -22,7 +22,5 @@ namespace ADHDmail.Config
         {
             FullPath = GetFullPath("GmailOAuth.json"); 
         }
-
-
     }
 }
