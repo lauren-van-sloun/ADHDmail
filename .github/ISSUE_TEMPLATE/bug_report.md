@@ -5,7 +5,7 @@ about: Create a report to help us improve
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. Provide example code that reproduces the issue. Specify any relevant exception messages and stack traces. 
 
 **To Reproduce**
 Steps to reproduce the behavior:
@@ -18,7 +18,7 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots to help explain your problem. 
 
 **Desktop (please complete the following information):**
  - OS: [e.g. iOS]
@@ -33,3 +33,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here.
+
+
+:sparkles: Make sure to subscribe to notifications for the created issue in case there are any follow up questions. :ear: :speech_balloon:
