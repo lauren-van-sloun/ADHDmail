@@ -118,7 +118,7 @@ namespace ADHDmail.API
                 var emailListRequest = gmailService.Users.Messages.List(userId);
                 emailListRequest.LabelIds = "INBOX";
                 emailListRequest.IncludeSpamTrash = false;
-                emailListRequest.Q = "is:unread"; //this was added because I only wanted unread emails...
+                //emailListRequest.Q = "is:unread"; //this was added because I only wanted unread emails...
 
                 //get our emails 
                 // This line is crashing the app
