@@ -19,7 +19,5 @@
         {
             FullPath = GetFullPath("GmailOAuth.json"); 
         }
-
-
     }
 }
