@@ -11,6 +11,7 @@ using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 
 namespace ADHDmail.API
 {
@@ -28,7 +29,6 @@ namespace ADHDmail.API
         public GmailApi()
         {
            _credential = GetCredential(@"C:\Users\Ashie\AppData\Roaming\ADHDmail\GmailOAuth.json");
-
         }
 
         internal UserCredential GetCredential(string path)
@@ -52,55 +52,43 @@ namespace ADHDmail.API
             }
         }
 
-        // first attempt
-        public void GetMessages()
+        /// <summary>
+        /// List all Messages of the user's mailbox matching the query.
+        /// </summary>
+        /// <param name="service">Gmail API service instance.</param>
+        /// <param name="userId">User's email address. The special value "me"
+        /// can be used to indicate the authenticated user.</param>
+        /// <param name="query">String used to filter Messages returned.</param>
+        public static List<GmailMessage> ListMessages(
+            GmailService service, string userId, string query)
         {
-            string fullName = Assembly.GetEntryAssembly().Location;
-            string applicationName = Path.GetFileNameWithoutExtension(fullName);
+            var result = new List<GmailMessage>();
+            UsersResource.MessagesResource.ListRequest request = service.Users.Messages.List(userId);
+            request.Q = query;
 
-            try
+            do
             {
-                // Create Gmail API service.
-                var service = new GmailService(new BaseClientService.Initializer()
+                try
                 {
-                    HttpClientInitializer = _credential,
-                    ApplicationName = applicationName,
-                });
-
-                // Define parameters of request.;
-                UsersResource.MessagesResource.ListRequest request = service.Users.Messages.List("me");
-
-                // List messages.
-                IList<Google.Apis.Gmail.v1.Data.Message> messages = request.Execute().Messages;
-                Console.WriteLine("Messages:");
-                if (messages != null && messages.Count > 0)
-                {
-                    foreach (var message in messages)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine(message.Payload.Body.ToString());
-                        Console.WriteLine(message.Raw);
-                        Console.WriteLine(message.Snippet);
-                    }
+                    ListMessagesResponse response = request.Execute();
+                    result.AddRange(response.Messages);
+                    request.PageToken = response.NextPageToken;
                 }
-                else
+                catch (Exception e)
                 {
-                    Console.WriteLine("No messages found.");
+                    Console.WriteLine("An error occurred: " + e.Message);
                 }
-                Console.Read();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                Console.WriteLine(ex.Message);
+            while (!string.IsNullOrEmpty(request.PageToken));
 
-            }
+            return result;
         }
 
         // code modified from SO
         // https://stackoverflow.com/questions/36448193/how-to-retrieve-my-gmail-messages-using-gmail-api
-        internal async Task GetEmails()
+        internal List<Email.Email> GetEmails()
         {
+            var emails = new List<Email.Email>();
             string fullName = Assembly.GetEntryAssembly().Location;
             string applicationName = Path.GetFileNameWithoutExtension(fullName);
 
@@ -114,65 +102,25 @@ namespace ADHDmail.API
 
                 // The user's email address. The special value "me" can be used to indicate the authenticated user.
                 const string userId = "me";
-
-                var emailListRequest = gmailService.Users.Messages.List(userId);
-                emailListRequest.LabelIds = "INBOX";
-                emailListRequest.IncludeSpamTrash = false;
-                //emailListRequest.Q = "is:unread"; //this was added because I only wanted unread emails...
-
-                //get our emails 
-                // This line is crashing the app
-                var emailListResponse = await emailListRequest.ExecuteAsync();
-
-                if (emailListResponse?.Messages != null)
+                var gmailMessages = ListMessages(gmailService, userId, /*"is:unread"*/ "");
+                
+                if (gmailMessages != null && gmailMessages.Count > 0)
                 {
-                    // loop through each email and get what fields I want...
-                    foreach (var email in emailListResponse.Messages)
+                    foreach (var message in gmailMessages)
                     {
-                        var emailInfoRequest = gmailService.Users.Messages.Get("EMAIL ADDRESS HERE", email.Id);
-                        // make another request for that email id...
-                        var emailInfoResponse = await emailInfoRequest.ExecuteAsync();
+                        var gmailMessage = GetMessage(gmailService, userId, message.Id);
+                        // BODY IS NULL, work on this next
+                        var body = gmailMessage.Payload.Body?.Data;
+                        var convertedBody = ConvertCharactersFromBase64(body);
 
-                        if (emailInfoResponse != null)
+                        var emailToAdd = new Email.Email
                         {
-                            string from = "";
-                            string date = "";
-                            string subject = "";
-                            string body = "";
-                            // loop through the headers and get the fields I need...
-                            foreach (var mParts in emailInfoResponse.Payload.Headers)
-                            {
-                                switch (mParts.Name)
-                                {
-                                    case "Date":
-                                        date = mParts.Value;
-                                        break;
-                                    case "From":
-                                        from = mParts.Value;
-                                        break;
-                                    case "Subject":
-                                        subject = mParts.Value;
-                                        break;
-                                }
+                            Account = "Gmail",
+                            Body = convertedBody
+                        };
 
-                                if (date == "" || from == "")
-                                    continue;
-                                if (emailInfoResponse.Payload.Parts == null && emailInfoResponse.Payload.Body != null)
-                                {
-                                    body = emailInfoResponse.Payload.Body.Data;
-                                    Console.WriteLine(body);
-                                }
-                                else
-                                    body = GetNestedParts(emailInfoResponse.Payload.Parts, "");
-                                // need to replace some characters as the data for the email's body is base64
-                                string codedBody = body.Replace("-", "+");
-                                codedBody = codedBody.Replace("_", "/");
-                                byte[] data = Convert.FromBase64String(codedBody);
-                                body = Encoding.UTF8.GetString(data);
-
-                                // now I have the data I want....
-                            }
-                        }
+                        ExtractDataFromHeader(ref emailToAdd, gmailMessage);
+                        emails.Add(emailToAdd);
                     }
                 }
             }
@@ -180,28 +128,70 @@ namespace ADHDmail.API
             {
                 Console.WriteLine("Failed to get messages!");
             }
+            return emails;
         }
 
-        static string GetNestedParts(IList<MessagePart> part, string curr)
+        private void ExtractDataFromHeader(ref Email.Email email, GmailMessage message)
         {
-            string str = curr;
-            if (part == null)
+            // loop through the headers to get the rest of the fields I need...
+            foreach (var header in message.Payload.Headers)
             {
-                return str;
-            }
-
-            foreach (var parts in part)
-            {
-                if (parts.Parts == null)
+                switch (header.Name)
                 {
-                    if (parts.Body != null && parts.Body.Data != null)
-                        str += parts.Body.Data;
+                    case "Date":
+                        email.TimeReceived = ConvertToDateTime(header.Value);
+                        break;
+                    case "From": // or this could be sender's name?
+                        email.SendersEmail = header.Value;
+                        break;
+                    case "Subject":
+                        email.Subject = header.Value;
+                        break;
+                    default:
+                        break;
                 }
-                else
-                    return GetNestedParts(parts.Parts, str);
+            }
+        }
+
+        // Make these names more descriptive and maybe write xml doc for this method instead of explaining below
+        // need to replace some characters as the data for the email's body is base64
+        private string ConvertCharactersFromBase64(string body)
+        {
+            string codedBody = body.Replace("-", "+");
+            codedBody = codedBody.Replace("_", "/");
+            byte[] data = Convert.FromBase64String(codedBody);
+            body = Encoding.UTF8.GetString(data);
+            return body;
+        }
+
+        // Move this method somewhere else
+        private DateTime ConvertToDateTime(string date)
+        {
+            var result = new DateTime();
+            if (!string.IsNullOrWhiteSpace(date))
+                DateTime.TryParse(date, out result);
+            return result;
+        }
+
+        /// <summary>
+        /// Retrieve a Message by ID.
+        /// </summary>
+        /// <param name="service">Gmail API service instance.</param>
+        /// <param name="userId">User's email address. The special value "me"
+        /// can be used to indicate the authenticated user.</param>
+        /// <param name="messageId">ID of Message to retrieve.</param>
+        public static GmailMessage GetMessage(GmailService service, string userId, string messageId)
+        {
+            try
+            {
+                return service.Users.Messages.Get(userId, messageId).Execute();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
             }
 
-            return str;
+            return null;
         }
     }
 }

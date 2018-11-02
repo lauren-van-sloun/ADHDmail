@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADHDmail.API;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            var api = new API.GmailApi();
+            // use thunderbird
+            var api = new GmailApi();
             api.GetEmails();
         }
     }
