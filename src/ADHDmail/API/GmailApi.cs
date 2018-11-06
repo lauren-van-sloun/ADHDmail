@@ -111,13 +111,26 @@ namespace ADHDmail.API
                         var gmailMessage = GetMessage(gmailService, userId, message.Id);
                         // BODY IS NULL, work on this next
                         var body = gmailMessage.Payload.Body?.Data;
-                        var convertedBody = ConvertCharactersFromBase64(body);
 
-                        var emailToAdd = new Email.Email
+                        Email.Email emailToAdd = new Email.Email();
+                        if (body == null)
                         {
-                            Account = "Gmail",
-                            Body = convertedBody
-                        };
+                            emailToAdd = new Email.Email
+                            {
+                                Account = "Gmail",
+                                Body = null
+                            };
+                        }
+                        else
+                        {
+                            var convertedBody = ConvertCharactersFromBase64(body);
+
+                            emailToAdd = new Email.Email
+                            {
+                                Account = "Gmail",
+                                Body = convertedBody
+                            };
+                        }
 
                         ExtractDataFromHeader(ref emailToAdd, gmailMessage);
                         emails.Add(emailToAdd);
@@ -141,7 +154,7 @@ namespace ADHDmail.API
                     case "Date":
                         email.TimeReceived = ConvertToDateTime(header.Value);
                         break;
-                    case "From": // or this could be sender's name?
+                    case "From": // this is both name and email - Name <email@address.com>
                         email.SendersEmail = header.Value;
                         break;
                     case "Subject":
@@ -184,6 +197,7 @@ namespace ADHDmail.API
         {
             try
             {
+                // check out optional query format parameter for populating the payload fields
                 return service.Users.Messages.Get(userId, messageId).Execute();
             }
             catch (Exception e)
