@@ -111,7 +111,11 @@ namespace ADHDmail.API
                         var gmailMessage = GetMessage(gmailService, userId, message.Id);
                         // BODY IS NULL, work on this next
                         var body = gmailMessage.Payload.Body?.Data;
-
+                        // First email body can be found by:
+                        var decodedBody = ConvertCharactersFromBase64(gmailMessage.Payload.Parts[0].Parts[0].Body.Data);
+                        // the next one doesn't have that. Instead, it just has message.Payload.Parts[0].Body.Data
+                        // solution: add a method that loops through like the js one on SO
+                        var expectedNull = gmailMessage.Payload.Body.Data;
                         Email.Email emailToAdd = new Email.Email();
                         if (body == null)
                         {
@@ -142,6 +146,51 @@ namespace ADHDmail.API
                 Console.WriteLine("Failed to get messages!");
             }
             return emails;
+        }
+
+        private string GetBody(GmailMessage response)
+        {
+            // write this algorithm
+            /*
+               Traverse the payload.parts and check if it contains a part that has the 
+               body you were looking for (either text/ plain or text / html).If it has, 
+               you are done with your searching.If you were parsing a mail like the one 
+               above with no attachment, this would be enough.
+               Do step 1 again, but this time with the parts found inside the parts you just 
+               checked, recursively. You will eventually find your part. If you were parsing a 
+               mail like the one above with an attachment, this would eventually find you your body.
+            */
+
+            MessagePart messagePart = new MessagePart();
+
+            foreach (MessagePart part in response.Payload.Parts)
+            {
+                if (part.Body != null)
+                {
+                    messagePart = part;
+                    // decode this
+                    return messagePart.Body.Data;
+                }
+            }
+
+            /*
+            var parts = response.Payload.Parts;
+
+            while (parts.length)
+            {
+                var part = parts.shift();
+                if (part.parts)
+                {
+                    parts = parts.concat(part.parts);
+                }
+
+                if (part.mimeType == "text/html")
+                {
+                    var decodedPart = decodeURIComponent(escape(atob(part.body.data.replace(/\-/ g, '+').replace(/\_ / g, '/'))));
+                    Console.WriteLine(decodedPart);
+                }
+            }
+            */
         }
 
         private void ExtractDataFromHeader(ref Email.Email email, GmailMessage message)
