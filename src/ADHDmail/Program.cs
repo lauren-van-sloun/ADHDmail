@@ -12,9 +12,12 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            // use thunderbird
             var api = new GmailApi();
-            api.GetEmails();
+            var unreadEmails = api.GetEmails(GmailQueryParameter.Unread);
+
+            unreadEmails.ForEach(e => 
+                Console.WriteLine($"Time received: {e.TimeReceived}. Subject: {e.Subject}"));
+        
         }
     }
 }

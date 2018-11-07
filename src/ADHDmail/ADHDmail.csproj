@@ -93,6 +93,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\GmailApi.cs" />
+    <Compile Include="API\GmailQuery.cs" />
+    <Compile Include="API\GmailQueryParameter.cs" />
     <Compile Include="API\IEmailApi.cs" />
     <Compile Include="Config\ConfigFile.cs" />
     <Compile Include="Config\Filter.cs" />
