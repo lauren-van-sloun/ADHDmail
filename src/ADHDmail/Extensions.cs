@@ -30,5 +30,18 @@ namespace ADHDmail
         {
             return text.IndexOfAny(_invalidPathChars) >= 0;
         }
+
+        /// <summary>
+        /// Converts a specified value to a DateTime value.
+        /// </summary>
+        /// <param name="date">The date to be parsed.</param>
+        /// <returns>Returns the parsed date if able to be parsed, otherwise DateTime.MinValue.</returns>
+        public static DateTime ToDateTime(this string date)
+        {
+            var result = new DateTime();
+            if (!string.IsNullOrWhiteSpace(date))
+                DateTime.TryParse(date, out result);
+            return result;         
+        }
     }
 }

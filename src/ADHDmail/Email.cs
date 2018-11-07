@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ADHDmail.Email
+namespace ADHDmail
 {
     /// <summary>
     /// Represents a standard email.
