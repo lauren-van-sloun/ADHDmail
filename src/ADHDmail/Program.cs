@@ -13,7 +13,15 @@ namespace ADHDmail
         public static void Main(string[] args)
         {
             var api = new GmailApi();
-            var unreadEmails = api.GetEmails(GmailQueryParameter.Unread);
+            var queryFilters = new List<GmailQueryFilter>()
+            {
+                new GmailQueryFilter(GmailQueryFilterOption.Unread),
+                new GmailQueryFilter(GmailQueryFilterOption.LargerThan, "1"),
+                // this filter isn't applying, debug needed
+                new GmailQueryFilter(GmailQueryFilterOption.Contains, "Dog")
+            };
+            var query = new GmailQuery(queryFilters);
+            var unreadEmails = api.GetEmails(query);
 
             unreadEmails.ForEach(e => 
                 Console.WriteLine($"Time received: {e.TimeReceived}. Subject: {e.Subject}"));

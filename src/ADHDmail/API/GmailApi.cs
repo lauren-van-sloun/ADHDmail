@@ -95,16 +95,13 @@ namespace ADHDmail.API
             return result;
         }
 
-        internal List<Email> GetEmails(params GmailQueryParameter[] queryParameters)
+        internal List<Email> GetEmails(GmailQuery query)
         {
             var emails = new List<Email>();
 
             try
             {
-                // call a method to properly construct query
-                // for now...
-                string constructedQuery = GmailQuery.ConstructQuery(queryParameters[0]);
-                var gmailMessages = ListMessages(constructedQuery);
+                var gmailMessages = ListMessages(query.ToString());
 
                 if (gmailMessages != null && gmailMessages.Count > 0)
                 {
