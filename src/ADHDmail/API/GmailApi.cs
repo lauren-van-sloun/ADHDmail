@@ -53,7 +53,7 @@ namespace ADHDmail.API
             var fullName = Assembly.GetEntryAssembly().Location;
             var applicationName = Path.GetFileNameWithoutExtension(fullName);
 
-            _gmailService = new GmailService(new BaseClientService.Initializer()
+            _gmailService = new GmailService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = _credential,
                 ApplicationName = applicationName
@@ -93,55 +93,40 @@ namespace ADHDmail.API
         {
             var emails = new List<Email>();
 
-            try
+            var gmailMessages = ListMessages(/*query: "is:unread"*/);
+
+            if (gmailMessages != null && gmailMessages.Count > 0)
             {
-                var gmailMessages = ListMessages(/*query: "is:unread"*/);
-
-                if (gmailMessages != null && gmailMessages.Count > 0)
+                foreach (var message in gmailMessages)
                 {
-                    foreach (var message in gmailMessages)
+                    var gmailMessage = GetMessage(message.Id);
+                    var body = GetBody(gmailMessage.Payload.Parts);
+
+                    var emailToAdd = new Email();
+
+                    emailToAdd = new Email
                     {
-                        var gmailMessage = GetMessage(message.Id);
-                        var body = GetBody(gmailMessage.Payload.Parts);
+                        Account = "Gmail",
+                        Body = body
+                    };
 
-                        var emailToAdd = new Email();
-
-                        emailToAdd = new Email
-                        {
-                            Account = "Gmail",
-                            Body = body
-                        };
-
-                        ExtractDataFromHeader(ref emailToAdd, gmailMessage);
-                        emails.Add(emailToAdd);
-                    }
+                    ExtractDataFromHeader(ref emailToAdd, gmailMessage);
+                    emails.Add(emailToAdd);
                 }
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
             return emails;
         }
 
         private string GetBody(IList<MessagePart> parts)
         {
-            try
+            foreach (MessagePart part in parts)
             {
-                foreach (MessagePart part in parts)
-                {
-                    if (part.Body != null)
-                    {
-                        if (part.MimeType == "text/html" || part.MimeType == "text/plain")
-                            return Decode(part.Body.Data);
-                    }
-                }
-                return GetBody(parts[0].Parts);
+                if (part.Body == null) continue;
+                if (part.MimeType == "text/html" || part.MimeType == "text/plain")
+                    return Decode(part.Body.Data);
             }
-            catch (Exception)
-            {
-                throw;
-            }
+            return GetBody(parts[0].Parts);
         }
 
         private void ExtractDataFromHeader(ref Email email, GmailMessage message)

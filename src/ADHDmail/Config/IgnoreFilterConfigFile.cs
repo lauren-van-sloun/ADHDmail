@@ -65,7 +65,7 @@ namespace ADHDmail.Config
         /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
         public List<Filter> LoadJson()
         {
-            if (!this.Exists)
+            if (!Exists)
                 return null;
 
             using (var reader = File.OpenText(FullPath))

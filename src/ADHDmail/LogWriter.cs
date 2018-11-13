@@ -21,7 +21,7 @@ namespace ADHDmail
         /// </exception>
         public static string LogPath
         {
-            get { return _logPath; }
+            get => _logPath;
             set
             {
                 if (!value.IsValidPath())
@@ -68,7 +68,7 @@ namespace ADHDmail
                     writer.WriteLine($"CallerMemberName: {callerName}.");
                     writer.WriteLine($"Source file path: {sourceFilePath}");
                     writer.WriteLine($"Source line number: {sourceLineNumber}");
-                    writer.WriteLine($"");
+                    writer.WriteLine("");
                     writer.WriteLine("-------------------------------");
                 }
             }
