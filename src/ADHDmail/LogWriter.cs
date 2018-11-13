@@ -37,8 +37,8 @@ namespace ADHDmail
 
         private static string GetLogPath()
         {
-            string localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            string fileName = "ADHDemailLog.txt";
+            var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            var fileName = "ADHDemailLog.txt";
             return Path.Combine(localAppDataPath, fileName);
         }
 
@@ -59,7 +59,7 @@ namespace ADHDmail
         {
             try
             {
-                using (StreamWriter writer = File.AppendText(_logPath))
+                using (var writer = File.AppendText(_logPath))
                 {
                     writer.Write("\r\nLog Entry : ");
                     writer.WriteLine($"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}");

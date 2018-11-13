@@ -68,9 +68,9 @@ namespace ADHDmail.Config
             if (!this.Exists)
                 return null;
 
-            using (StreamReader reader = File.OpenText(FullPath))
+            using (var reader = File.OpenText(FullPath))
             {
-                string json = reader.ReadToEnd();
+                var json = reader.ReadToEnd();
                 return JsonConvert.DeserializeObject<List<Filter>>(json);
             }
         }
