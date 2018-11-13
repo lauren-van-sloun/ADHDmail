@@ -17,7 +17,7 @@ namespace ADHDmail.API
             { GmailQueryFilterOption.Label, "label:<>" },
             { GmailQueryFilterOption.HasAttachment, "has:attachment" },
             { GmailQueryFilterOption.HasFilename, "filename:<>" },
-            { GmailQueryFilterOption.Contains, "<>" },
+            { GmailQueryFilterOption.ContainsWord, "<>" },
             { GmailQueryFilterOption.AllFolders, "is:anywhere" },
             { GmailQueryFilterOption.Starred, "is:starred" },
             { GmailQueryFilterOption.Unread, "is:unread" },
@@ -51,7 +51,8 @@ namespace ADHDmail.API
                     queryBuilder.Append(_queryFilters[key]);
                 else
                     queryBuilder.Append(_queryFilters[key].Replace("<>", value));
-                queryBuilder.Append(' ');
+                if (i != QueryFilters.Count - 1)
+                    queryBuilder.Append(' ');
             }
 
             return queryBuilder.ToString();

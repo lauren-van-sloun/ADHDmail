@@ -17,13 +17,13 @@ namespace ADHDmail
             {
                 new GmailQueryFilter(GmailQueryFilterOption.Unread),
                 new GmailQueryFilter(GmailQueryFilterOption.LargerThan, "1"),
-                //new GmailQueryFilter(GmailQueryFilterOption.Contains, "Dog")
+                new GmailQueryFilter(GmailQueryFilterOption.ContainsWord, "DogFoodCon")
             };
             var query = new GmailQuery(queryFilters);
             var unreadEmails = api.GetEmails(query);
 
             unreadEmails.ForEach(e => 
-                Console.WriteLine($"Time received: {e.TimeReceived}. Subject: {e.Subject}"));
+                Console.WriteLine($"Email ID: {e.Id} Time received: {e.TimeReceived}. Subject: {e.Subject}"));
         
         }
     }

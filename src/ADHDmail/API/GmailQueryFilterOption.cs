@@ -38,7 +38,7 @@ namespace ADHDmail.API
         /// <summary>
         /// Search for an exact word or phrase
         /// </summary>
-        Contains,
+        ContainsWord,
         /// <summary>
         /// Messages in any folder, including Spam and Trash	
         /// </summary>
