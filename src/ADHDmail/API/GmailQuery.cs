@@ -8,32 +8,32 @@ namespace ADHDmail.API
 {
     internal class GmailQuery
     {
-        private Dictionary<GmailQueryFilterOption, string> _queryFilters = 
-            new Dictionary<GmailQueryFilterOption, string>()
+        private readonly Dictionary<GmailFilterOption, string> _queryFilters = 
+            new Dictionary<GmailFilterOption, string>()
         {
-            { GmailQueryFilterOption.From, "from:<>" },
-            { GmailQueryFilterOption.To, "to:<>" },
-            { GmailQueryFilterOption.Subject, "subject:<>" },
-            { GmailQueryFilterOption.Label, "label:<>" },
-            { GmailQueryFilterOption.HasAttachment, "has:attachment" },
-            { GmailQueryFilterOption.HasFilename, "filename:<>" },
-            { GmailQueryFilterOption.ContainsWord, "<>" },
-            { GmailQueryFilterOption.AllFolders, "is:anywhere" },
-            { GmailQueryFilterOption.Starred, "is:starred" },
-            { GmailQueryFilterOption.Unread, "is:unread" },
-            { GmailQueryFilterOption.Read, "is:read" },
-            { GmailQueryFilterOption.After, "after:<>" },
-            { GmailQueryFilterOption.Before, "before:<>" },
-            { GmailQueryFilterOption.DeliveredTo, "deliveredto:<>" },
-            { GmailQueryFilterOption.LargerThan, "larger:<>" },
-            { GmailQueryFilterOption.SmallerThan, "smaller:<>" },
-            { GmailQueryFilterOption.MatchesWordExactly, "+<>" }
+            { GmailFilterOption.From, "from:<>" },
+            { GmailFilterOption.To, "to:<>" },
+            { GmailFilterOption.Subject, "subject:<>" },
+            { GmailFilterOption.Label, "label:<>" },
+            { GmailFilterOption.HasAttachment, "has:attachment" },
+            { GmailFilterOption.HasFilename, "filename:<>" },
+            { GmailFilterOption.ContainsWord, "<>" },
+            { GmailFilterOption.AllFolders, "is:anywhere" },
+            { GmailFilterOption.Starred, "is:starred" },
+            { GmailFilterOption.Unread, "is:unread" },
+            { GmailFilterOption.Read, "is:read" },
+            { GmailFilterOption.After, "after:<>" },
+            { GmailFilterOption.Before, "before:<>" },
+            { GmailFilterOption.DeliveredTo, "deliveredto:<>" },
+            { GmailFilterOption.LargerThan, "larger:<>" },
+            { GmailFilterOption.SmallerThan, "smaller:<>" },
+            { GmailFilterOption.MatchesWordExactly, "+<>" }
         };
 
-        public List<GmailQueryFilter> QueryFilters { get; set; }
+        public List<GmailFilter> QueryFilters { get; set; }
         public string Query { get; private set; }
 
-        public GmailQuery(List<GmailQueryFilter> queryFilters)
+        public GmailQuery(List<GmailFilter> queryFilters)
         {
             this.QueryFilters = queryFilters;
             Query = ConstructQuery();

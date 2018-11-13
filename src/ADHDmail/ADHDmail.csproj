@@ -94,8 +94,8 @@
   <ItemGroup>
     <Compile Include="API\GmailApi.cs" />
     <Compile Include="API\GmailQuery.cs" />
-    <Compile Include="API\GmailQueryFilter.cs" />
-    <Compile Include="API\GmailQueryFilterOption.cs" />
+    <Compile Include="API\GmailFilter.cs" />
+    <Compile Include="API\GmailFilterOption.cs" />
     <Compile Include="API\IEmailApi.cs" />
     <Compile Include="Config\ConfigFile.cs" />
     <Compile Include="Config\Filter.cs" />

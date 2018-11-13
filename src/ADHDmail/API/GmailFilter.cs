@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ADHDmail.API
 {
-    class GmailQueryFilter
+    class GmailFilter
     {
-        public GmailQueryFilterOption Filter { get; set; }
+        public GmailFilterOption Filter { get; set; }
         public string Value { get; set; }
 
-        public GmailQueryFilter(GmailQueryFilterOption filter, string value = "")
+        public GmailFilter(GmailFilterOption filter, string value = "")
         {
             this.Filter = filter;
             this.Value = value;

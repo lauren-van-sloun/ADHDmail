@@ -9,14 +9,14 @@ namespace ADHDmail.API
     /// <summary>
     /// Search operators used to filter Gmail search results.
     /// </summary>
-    public enum GmailQueryFilterOption
+    public enum GmailFilterOption
     {
         /// <summary>
-        /// Specify the sender
+        /// Specify the sender's name or email address
         /// </summary>
         From,
         /// <summary>
-        /// Specify a recipient
+        /// Specify a recipient's name or email address
         /// </summary>
         To,
         /// <summary>
