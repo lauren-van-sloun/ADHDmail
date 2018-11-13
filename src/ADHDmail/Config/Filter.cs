@@ -36,5 +36,13 @@ namespace ADHDmail.Config
         /// The date and time the message was received to which to apply a filter.
         /// </summary>
         public DateTime TimeReceived { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Filter"/> class.
+        /// </summary>
+        public Filter()
+        {
+            
+        }
     }
 }
