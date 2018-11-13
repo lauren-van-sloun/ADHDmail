@@ -22,8 +22,8 @@ namespace ADHDmail.Config
         /// </summary>
         public bool Exists
         {
-            get { return _exists; }
-            set { _exists = FileExists(FullPath) ? true : false; }
+            get => _exists;
+            set => _exists = FileExists(FullPath);
         }
 
         internal ConfigFile()
@@ -60,7 +60,7 @@ namespace ADHDmail.Config
         /// </summary>
         public void Create()
         {
-            if (!this.Exists)
+            if (!Exists)
                 File.Create(FullPath);
         }
 

@@ -18,7 +18,7 @@ namespace ADHDmail
         public static bool IsValidPath(this string path)
         {
             const int MaxPath = 260;
-            return (path.ContainsInvalidPathChar() || path.Length > MaxPath) ? false : true;
+            return (!path.ContainsInvalidPathChar() && path.Length <= MaxPath);
         }
 
         private static bool ContainsInvalidPathChar(this string text)
