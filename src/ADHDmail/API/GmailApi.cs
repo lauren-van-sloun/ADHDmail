@@ -159,8 +159,6 @@ namespace ADHDmail.API
                     case "Subject":
                         email.Subject = header.Value;
                         break;
-                    default:
-                        break;
                 }
             }
         }
