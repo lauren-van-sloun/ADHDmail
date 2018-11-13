@@ -75,13 +75,14 @@ namespace ADHDmail.API
         {
             var result = new List<GmailMessage>();
             UsersResource.MessagesResource.ListRequest request = _gmailService.Users.Messages.List(userId);
-            request.Q = query;
+            request.Q = query; // Changing this to "" works fine
 
             do
             {
                 try
                 {
                     ListMessagesResponse response = request.Execute();
+                    // this line is throwing a nullref exception. "Parameter name: collection" (response.Messages is null)
                     result.AddRange(response.Messages);
                     request.PageToken = response.NextPageToken;
                 }

@@ -17,8 +17,7 @@ namespace ADHDmail
             {
                 new GmailQueryFilter(GmailQueryFilterOption.Unread),
                 new GmailQueryFilter(GmailQueryFilterOption.LargerThan, "1"),
-                // this filter isn't applying, debug needed
-                new GmailQueryFilter(GmailQueryFilterOption.Contains, "Dog")
+                //new GmailQueryFilter(GmailQueryFilterOption.Contains, "Dog")
             };
             var query = new GmailQuery(queryFilters);
             var unreadEmails = api.GetEmails(query);

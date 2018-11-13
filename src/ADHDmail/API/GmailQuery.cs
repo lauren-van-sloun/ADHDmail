@@ -43,7 +43,7 @@ namespace ADHDmail.API
         {
             var queryBuilder = new StringBuilder();
 
-            for (int i = 0; i < QueryFilters.Count - 1; i++)
+            for (int i = 0; i < QueryFilters.Count; i++)
             {
                 var key = QueryFilters[i].Filter;
                 var value = QueryFilters[i].Value;
