@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 
@@ -76,6 +77,8 @@ namespace ADHDmail.API
                 try
                 {
                     ListMessagesResponse response = request.Execute();
+                    if (response.Messages == null)
+                        return null;
                     result.AddRange(response.Messages);
                     request.PageToken = response.NextPageToken;
                 }
@@ -89,13 +92,13 @@ namespace ADHDmail.API
             return result;
         }
 
-        internal List<Email> GetEmails()
+        internal List<Email> GetEmails(GmailQuery query)
         {
             var emails = new List<Email>();
 
             try
             {
-                var gmailMessages = ListMessages(/*query: "is:unread"*/);
+                var gmailMessages = ListMessages(query.ToString());
 
                 if (gmailMessages != null && gmailMessages.Count > 0)
                 {
@@ -108,6 +111,7 @@ namespace ADHDmail.API
 
                         emailToAdd = new Email
                         {
+                            Id = message.Id,
                             Account = "Gmail",
                             Body = body
                         };
@@ -152,8 +156,8 @@ namespace ADHDmail.API
                     case "Date":
                         email.TimeReceived = header.Value.ToDateTime();
                         break;
-                    case "From": // this is both name and email - Name <email@address.com> Parse it accordingly
-                        email.SendersEmail = header.Value;
+                    case "From":
+                        PopulateSenderData(email, header.Value);
                         break;
                     case "Subject":
                         email.Subject = header.Value;
@@ -162,13 +166,21 @@ namespace ADHDmail.API
             }
         }
 
+        private void PopulateSenderData(Email email, string fromHeader)
+        {
+            Regex sendersNameRegex = new Regex(@"[^<]*");
+            Regex sendersEmailRegex = new Regex(@"<(.+)>");
+
+            email.SendersName = sendersNameRegex.Match(fromHeader).Value.Trim();
+            email.SendersEmail = sendersEmailRegex.Match(fromHeader).Groups[1].Value;
+        }
+
         private string Decode(string body)
         {
             var codedBody = body.Replace("-", "+");
             codedBody = codedBody.Replace("_", "/");
-            var data = Convert.FromBase64String(codedBody);
-            body = Encoding.UTF8.GetString(data);
-            return body;
+            byte[] convertedBody = Convert.FromBase64String(codedBody);
+            return Encoding.UTF8.GetString(convertedBody);
         }
 
         /// <summary>

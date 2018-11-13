@@ -6,9 +6,19 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            // use thunderbird
             var api = new GmailApi();
-            api.GetEmails();
+            var queryFilters = new List<GmailQueryFilter>()
+            {
+                new GmailQueryFilter(GmailQueryFilterOption.Unread),
+                new GmailQueryFilter(GmailQueryFilterOption.LargerThan, "1"),
+                new GmailQueryFilter(GmailQueryFilterOption.ContainsWord, "DogFoodCon")
+            };
+            var query = new GmailQuery(queryFilters);
+            var unreadEmails = api.GetEmails(query);
+
+            unreadEmails.ForEach(e => 
+                Console.WriteLine($"Email ID: {e.Id} Time received: {e.TimeReceived}. Subject: {e.Subject}"));
+        
         }
     }
 }

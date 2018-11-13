@@ -27,7 +27,7 @@ namespace ADHDmail
         }
 
         /// <summary>
-        /// Converts a specified value to a DateTime value.
+        /// Converts a specified value to a <see cref="DateTime"/> value.
         /// </summary>
         /// <param name="date">The date to be parsed.</param>
         /// <returns>Returns the parsed date if able to be parsed, otherwise DateTime.MinValue.</returns>
