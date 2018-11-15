@@ -1,10 +1,7 @@
 ﻿using ADHDmail.API;
+using ADHDmail.Config;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ADHDmail
 {
@@ -13,11 +10,11 @@ namespace ADHDmail
         public static void Main(string[] args)
         {
             var api = new GmailApi();
-            var queryFilters = new List<GmailFilter>()
+            var queryFilters = new List<Filter>()
             {
-                new GmailFilter(GmailFilterOption.Unread),
-                new GmailFilter(GmailFilterOption.LargerThan, "1"),
-                new GmailFilter(GmailFilterOption.From, "GitHub")
+                new Filter(FilterOption.Unread),
+                new Filter(FilterOption.LargerThan, "1"),
+                new Filter(FilterOption.From, "GitHub")
             };
             var query = new GmailQuery(queryFilters);
             var unreadEmails = api.GetEmails(query);
