@@ -22,8 +22,8 @@ namespace ADHDmail.Config
         /// </summary>
         public bool Exists
         {
-            get { return _exists; }
-            set { _exists = FileExists(FullPath) ? true : false; }
+            get => _exists;
+            set => _exists = FileExists(FullPath);
         }
 
         internal ConfigFile()
@@ -49,7 +49,6 @@ namespace ADHDmail.Config
         /// to make the full file path.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
-        /// <returns></returns>
         public string GetFullPath(string fileName)
         {
             return Path.Combine(_appDataFolderPath, _appNameFolder, fileName);
@@ -60,7 +59,7 @@ namespace ADHDmail.Config
         /// </summary>
         public void Create()
         {
-            if (!this.Exists)
+            if (!Exists)
                 File.Create(FullPath);
         }
 

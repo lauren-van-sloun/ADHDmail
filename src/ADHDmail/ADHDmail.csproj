@@ -38,7 +38,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ADHDmail.xml</DocumentationFile>
+    <DocumentationFile>Documentation\ADHDmail.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -93,11 +93,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\GmailApi.cs" />
+    <Compile Include="API\GmailQuery.cs" />
+    <Compile Include="API\Query.cs" />
+    <Compile Include="Config\Filter.cs" />
+    <Compile Include="Config\FilterOption.cs" />
     <Compile Include="API\IEmailApi.cs" />
     <Compile Include="Config\ConfigFile.cs" />
-    <Compile Include="Config\Filter.cs" />
     <Compile Include="Config\IgnoreFilterConfigFile.cs" />
-    <Compile Include="Email\Email.cs" />
+    <Compile Include="Email.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="Message.cs" />
@@ -127,12 +130,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Documentation\ADHDmail.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Documentation\ADHDmail.xml" />
     <Content Include="email.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

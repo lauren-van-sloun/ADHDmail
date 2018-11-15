@@ -7,11 +7,11 @@
       <FileName>Config\ConfigFile.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ADHDmail.Email.Email">
+  <Class Name="ADHDmail.Email">
     <Position X="0.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
-      <FileName>Email\Email.cs</FileName>
+      <FileName>Email.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ADHDmail.Message">
@@ -31,7 +31,7 @@
   <Class Name="ADHDmail.Extensions" Collapsed="true">
     <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAEAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAIAAAAAAAAAEAAAAAAAAAAAAAAAAACAAAAAQAAA=</HashCode>
       <FileName>Extensions.cs</FileName>
     </TypeIdentifier>
   </Class>

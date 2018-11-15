@@ -1,8 +1,10 @@
-﻿namespace ADHDmail.API
+﻿using System.Collections.Generic;
+
+namespace ADHDmail.API
 {
     interface IEmailApi
     {
-        // get single?
-        // get list?
+        List<Email> GetEmails(Query query);
+        Email GetEmail(string id);
     }
 }

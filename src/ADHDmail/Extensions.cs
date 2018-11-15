@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace ADHDmail
 {
@@ -17,12 +18,25 @@ namespace ADHDmail
         public static bool IsValidPath(this string path)
         {
             const int MaxPath = 260;
-            return (path.ContainsInvalidPathChar() || path.Length > MaxPath) ? false : true;
+            return (!path.ContainsInvalidPathChar() && path.Length <= MaxPath);
         }
 
         private static bool ContainsInvalidPathChar(this string text)
         {
             return text.IndexOfAny(_invalidPathChars) >= 0;
+        }
+
+        /// <summary>
+        /// Converts a specified value to a <see cref="DateTime"/> value.
+        /// </summary>
+        /// <param name="date">The date to be parsed.</param>
+        /// <returns>Returns the parsed date if able to be parsed, otherwise DateTime.MinValue.</returns>
+        public static DateTime ToDateTime(this string date)
+        {
+            var result = new DateTime();
+            if (!string.IsNullOrWhiteSpace(date))
+                DateTime.TryParse(date, out result);
+            return result;         
         }
     }
 }
