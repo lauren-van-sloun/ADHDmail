@@ -69,35 +69,8 @@ namespace ADHDmail.API
         /// <summary>
         /// List all Messages of the user's mailbox matching the query.
         /// </summary>
-        /// <param name="query">String used to filter Messages returned. By default, 
-        /// returns the full email message data with body content parsed in the payload field.</param>
-        public List<GmailMessage> ListMessages(string query = "")
-        {
-            var result = new List<GmailMessage>();
-            UsersResource.MessagesResource.ListRequest request = _gmailService.Users.Messages.List(userId);
-            request.Q = query;
-
-            do
-            {
-                try
-                {
-                    ListMessagesResponse response = request.Execute();
-                    if (response.Messages == null)
-                        return null;
-                    result.AddRange(response.Messages);
-                    request.PageToken = response.NextPageToken;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("An error occurred: " + e.Message);
-                }
-            }
-            while (!string.IsNullOrEmpty(request.PageToken));
-
-            return result;
-        }
-
-        internal List<Email> GetEmails(GmailQuery query)
+        /// <param name="query">Represents a query to retrieve messages from the Gmail API.</param>
+        public List<Email> GetEmails(GmailQuery query)
         {
             var emails = new List<Email>();
 
@@ -131,6 +104,37 @@ namespace ADHDmail.API
                 throw;
             }
             return emails;
+        }
+
+        /// <summary>
+        /// List all Messages of the user's mailbox matching the query.
+        /// </summary>
+        /// <param name="query">String used to filter Messages returned. By default, 
+        /// returns the full email message data with body content parsed in the payload field.</param>
+        private List<GmailMessage> ListMessages(string query = "")
+        {
+            var result = new List<GmailMessage>();
+            UsersResource.MessagesResource.ListRequest request = _gmailService.Users.Messages.List(userId);
+            request.Q = query;
+
+            do
+            {
+                try
+                {
+                    ListMessagesResponse response = request.Execute();
+                    if (response.Messages == null)
+                        return null;
+                    result.AddRange(response.Messages);
+                    request.PageToken = response.NextPageToken;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("An error occurred: " + e.Message);
+                }
+            }
+            while (!string.IsNullOrEmpty(request.PageToken));
+
+            return result;
         }
 
         private string GetBody(IList<MessagePart> parts)

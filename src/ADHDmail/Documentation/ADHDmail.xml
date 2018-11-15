@@ -16,83 +16,289 @@
             Initializes a new instance of the <see cref="T:ADHDmail.API.GmailApi"/> class.
             </summary>
         </member>
+        <member name="M:ADHDmail.API.GmailApi.ListMessages(System.String)">
+            <summary>
+            List all Messages of the user's mailbox matching the query.
+            </summary>
+            <param name="query">String used to filter Messages returned. By default, 
+            returns the full email message data with body content parsed in the payload field.</param>
+        </member>
+        <member name="M:ADHDmail.API.GmailApi.GetEmails(ADHDmail.API.GmailQuery)">
+            <summary>
+            List all Messages of the user's mailbox matching the query.
+            </summary>
+            <param name="query">Represents a query to retrieve messages from the Gmail API.</param>
+        </member>
+        <member name="M:ADHDmail.API.GmailApi.GetMessage(System.String)">
+            <summary>
+            Retrieve a Message by ID.
+            </summary>
+            <param name="messageId">ID of Message to retrieve.</param>
+        </member>
+        <member name="T:ADHDmail.API.GmailQuery">
+            <summary>
+            Represents a query to retrieve messages from the Gmail API.
+            </summary>
+        </member>
+        <member name="P:ADHDmail.API.GmailQuery.QueryFilters">
+            <summary>
+            Represents the filters to apply to a query.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.API.GmailQuery.#ctor(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDmail.API.GmailQuery"/> class with filters 
+            to apply to the query.
+            </summary>
+            <param name="queryFilters">Represents the filters to apply to the query.</param>
+        </member>
+        <member name="M:ADHDmail.API.GmailQuery.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDmail.API.GmailQuery"/> class with no filtering. 
+            This will make a request for all emails.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.API.GmailQuery.ToString">
+            <summary>
+            Represents the fully constructed query for use in the <see cref="M:ADHDmail.API.GmailApi.GetMessage(System.String)"/> 
+            method. 
+            <para>If this returns <see cref="F:System.String.Empty"/>, then no filtering is applied to the query.</para>
+            </summary>
+            <returns>Returns the fully constructed query.</returns>
+        </member>
+        <member name="T:ADHDmail.Config.Filter">
+            <summary>
+            Represents a filter to apply to a message based on the part of the message to 
+            filter and the value to filter by.
+            </summary>
+        </member>
+        <member name="P:ADHDmail.Config.Filter.FilterOption">
+            <summary>
+            Represents the part of the message to filter.
+            </summary>
+        </member>
+        <member name="P:ADHDmail.Config.Filter.Value">
+            <summary>
+            Represents the value to filter by.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.Config.Filter.#ctor(ADHDmail.Config.FilterOption,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDmail.Config.Filter"/> class.
+            </summary>
+            <param name="filterOption">The filter to apply.</param>
+            <param name="value">The value to filter by. Not needed for certain filters such 
+            as <see cref="F:ADHDmail.Config.FilterOption.HasAttachment"/>, <see cref="F:ADHDmail.Config.FilterOption.Unread"/>, etc.</param>
+        </member>
+        <member name="T:ADHDmail.Config.FilterOption">
+            <summary>
+            Search operators used to filter message search results.
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.From">
+            <summary>
+            Specify the sender's name or email address
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.To">
+            <summary>
+            Specify a recipient's name or email address
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.Subject">
+            <summary>
+            Words in the subject line
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.Label">
+            <summary>
+            Messages that have a certain label
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.HasAttachment">
+            <summary>
+            Messages that have an attachment
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.HasFilename">
+            <summary>
+            Attachments with a certain name or file type
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.ContainsWord">
+            <summary>
+            Search for an exact word or phrase
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.AllFolders">
+            <summary>
+            Messages in any folder, including Spam and Trash	
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.Starred">
+            <summary>
+            Search for messages that are starred
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.Unread">
+            <summary>
+            Search for messages that are unread
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.Read">
+            <summary>
+            Search for messages that are read
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.After">
+            <summary>
+            Search for messages sent before a certain time period
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.Before">
+            <summary>
+            Search for messages sent after a certain time period
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.DeliveredTo">
+            <summary>
+            Messages delivered to a certain email address
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.LargerThan">
+            <summary>
+            Messages larger than a certain size in bytes
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.SmallerThan">
+            <summary>
+            Messages smaller than a certain size in bytes	
+            </summary>
+        </member>
+        <member name="F:ADHDmail.Config.FilterOption.MatchesWordExactly">
+            <summary>
+            Results that match a word exactly
+            </summary>
+        </member>
         <member name="T:ADHDmail.Config.ConfigFile">
             <summary>
             The abstract base class for all config files. 
-            <para>Provides default implementation of file encryption and decryption 
-            as well as common config file locations.
-            </para>
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.ConfigFile._appDataPath">
+        <member name="P:ADHDmail.Config.ConfigFile.FullPath">
             <summary>
-            Represents the path for the AppData folder.
+            The path and name of the <see cref="T:ADHDmail.Config.ConfigFile"/>.
             </summary>
         </member>
-        <member name="M:ADHDmail.Config.ConfigFile.Encrypt(System.String)">
+        <member name="P:ADHDmail.Config.ConfigFile.Exists">
+            <summary>
+            Determines whether the specified file exists.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.Config.ConfigFile.GetFullPath(System.String)">
+            <summary>
+            Combines the <see cref="F:ADHDmail.Config.ConfigFile._appDataFolderPath"/>, <see cref="F:ADHDmail.Config.ConfigFile._appNameFolder"/>, and <paramref name="fileName"/> 
+            to make the full file path.
+            </summary>
+            <param name="fileName">The name of the file.</param>
+        </member>
+        <member name="M:ADHDmail.Config.ConfigFile.Create">
+            <summary>
+            Creates a <see cref="T:ADHDmail.Config.ConfigFile"/> file in the <see cref="P:ADHDmail.Config.ConfigFile.FullPath"/> if it does not already exist.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.Config.ConfigFile.Encrypt">
             <summary>
             Encrypts a file so that only the account used to encrypt the file can decrypt it.
             </summary>
-            <param name="path"> A path that describes a file to encrypt.</param>
         </member>
-        <member name="M:ADHDmail.Config.ConfigFile.Decrypt(System.String)">
+        <member name="M:ADHDmail.Config.ConfigFile.Decrypt">
             <summary>
             Decrypts a file that was encrypted by the current account using the Encrypt(String) method.
             </summary>
-            <param name="path"> A path that describes a file to decrypt.</param>
         </member>
-        <member name="M:ADHDmail.Config.IgnoredMessagesConfig.#ctor">
+        <member name="T:ADHDmail.Config.IgnoreFiltersConfigFile">
             <summary>
-            Initializes a new instance of the <see cref="T:ADHDmail.Config.IgnoredMessagesConfig"/> class.
+            Represents the config file for the ignoring specific fields and values of a message.
             </summary>
         </member>
-        <member name="M:ADHDmail.Config.IgnoredMessagesConfig.GetIgnoredSendersConfigPath">
+        <member name="P:ADHDmail.Config.IgnoreFiltersConfigFile.FullPath">
             <summary>
-            
+            The path and name of the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/>.
             </summary>
-            <returns>
-            
-            </returns>
-            <exception cref="T:System.UnauthorizedAccessException">Thrown when one .</exception>
         </member>
-        <member name="T:ADHDmail.Config.GmailOAuthConfig">
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> class.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(ADHDmail.Config.Filter)">
+            <summary>
+            Opens a file, appends the specified <see cref="T:ADHDmail.Config.Filter"/> to the file, and then closes the file. If the file does 
+            not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Config.Filter"/> to the file, then closes the file.
+            </summary>
+            <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
+            <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
+            <exception cref="T:System.UnauthorizedAccessException">Thrown when given a read-only filepath, when the operation is not supported on the current platform, 
+            or the caller does not have the required permission.</exception>
+            <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
+        </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+            <summary>
+            Opens a file, appends the specified <see cref="T:ADHDmail.Config.Filter"/>s to the file, and then closes the file. If the file does 
+            not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Config.Filter"/>s to the file, then closes the file.
+            </summary>
+            <param name="filters">Represents filters to apply to a message based on the part of the message to filter and the value to filter by.</param>
+            <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
+            <exception cref="T:System.UnauthorizedAccessException">Thrown when given a read-only filepath, when the operation is not supported on the current platform, 
+            or the caller does not have the required permission.</exception>
+            <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
+        </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Clear">
+            <summary>
+            Clears the contents of the file.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.LoadJson">
+            <summary>
+            Reads the file and returns its contents.
+            </summary>
+            <returns>A list of <see cref="T:ADHDmail.Config.Filter"/> objects that were saved in the file. 
+            Returns null if the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> does not exist.</returns>
+        </member>
+        <member name="T:ADHDmail.Config.GmailOAuthConfigFile">
             <summary>
             Represents the config file for Gmail's OAuth credentials.
             <para>This file should be encrypted to secure the user's credentials.
             </para>
             </summary>
         </member>
-        <member name="M:ADHDmail.Config.GmailOAuthConfig.#ctor">
+        <member name="P:ADHDmail.Config.GmailOAuthConfigFile.FullPath">
             <summary>
-            Initializes a new instance of the <see cref="T:ADHDmail.Config.GmailOAuthConfig"/> class.
+            The path and name of the <see cref="T:ADHDmail.Config.GmailOAuthConfigFile"/>.
             </summary>
         </member>
-        <member name="M:ADHDmail.Config.GmailOAuthConfig.GetGmailOAuthConfigPath">
+        <member name="M:ADHDmail.Config.GmailOAuthConfigFile.#ctor">
             <summary>
-            Retrieves the file's location in the AppData folder.
-            </summary>
-            <remarks>
-            If the file does not exist, 
-            </remarks>
-            <returns>
-            If the filepath exists, returns the full path. Otherwise returns an emtpy string.
-            </returns>
-            <exception cref="T:System.IO.FileNotFoundException">Thrown when one .
-            </exception>
-            <exception cref="T:System.UnauthorizedAccessException">Thrown when one .
-            </exception>
-        </member>
-        <member name="T:ADHDmail.Email.Email">
-            <summary>
-            The base class for all email objects. 
+            Initializes a new instance of the <see cref="T:ADHDmail.Config.GmailOAuthConfigFile"/> class.
             </summary>
         </member>
-        <member name="P:ADHDmail.Email.Email.Subject">
+        <member name="T:ADHDmail.Email">
+            <summary>
+            Represents a standard email.
+            </summary>
+        </member>
+        <member name="P:ADHDmail.Email.Id">
+            <summary>
+            The immutable ID of the message.
+            </summary>
+        </member>
+        <member name="P:ADHDmail.Email.Subject">
             <summary>
             A description of the topic of the message.
             </summary>
         </member>
-        <member name="P:ADHDmail.Email.Email.SendersEmail">
+        <member name="P:ADHDmail.Email.SendersEmail">
             <summary>
             The sender's email address.
             </summary>
@@ -108,6 +314,13 @@
             </summary>
             <param name="path">The path to be checked.</param>
             <returns>Returns true if the string is a valid path, false if not.</returns>
+        </member>
+        <member name="M:ADHDmail.Extensions.ToDateTime(System.String)">
+            <summary>
+            Converts a specified value to a <see cref="T:System.DateTime"/> value.
+            </summary>
+            <param name="date">The date to be parsed.</param>
+            <returns>Returns the parsed date if able to be parsed, otherwise DateTime.MinValue.</returns>
         </member>
         <member name="T:ADHDmail.LogWriter">
             <summary>

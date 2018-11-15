@@ -7,7 +7,13 @@ using System.Threading.Tasks;
 
 namespace ADHDmail.API
 {
-    internal class GmailQuery
+    // Potentially change this to just Query and not Gmail query depending on
+    // what query filters look like on other APIs
+
+    /// <summary>
+    /// Represents a query to retrieve messages from the Gmail API.
+    /// </summary>
+    public class GmailQuery
     {
         private readonly Dictionary<FilterOption, string> _queryFilters = 
             new Dictionary<FilterOption, string>()
@@ -31,13 +37,30 @@ namespace ADHDmail.API
             { FilterOption.MatchesWordExactly, "+<>" }
         };
 
+        /// <summary>
+        /// Represents the filters to apply to a query.
+        /// </summary>
         public List<Filter> QueryFilters { get; set; }
-        public string Query { get; private set; }
+        private readonly string _query;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GmailQuery"/> class with filters 
+        /// to apply to the query.
+        /// </summary>
+        /// <param name="queryFilters">Represents the filters to apply to the query.</param>
         public GmailQuery(List<Filter> queryFilters)
         {
             this.QueryFilters = queryFilters;
-            Query = ConstructQuery();
+            _query = ConstructQuery();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GmailQuery"/> class with no filtering. 
+        /// This will make a request for all emails.
+        /// </summary>
+        public GmailQuery()
+        {
+            _query = "";
         }
 
         private string ConstructQuery()
@@ -59,9 +82,12 @@ namespace ADHDmail.API
             return queryBuilder.ToString();
         }
 
-        public override string ToString()
-        {
-            return Query;
-        }
+        /// <summary>
+        /// Represents the fully constructed query for use in the <see cref="GmailApi.GetMessage(string)"/> 
+        /// method. 
+        /// <para>If this returns <see cref="string.Empty"/>, then no filtering is applied to the query.</para>
+        /// </summary>
+        /// <returns>Returns the fully constructed query.</returns>
+        public override string ToString() => _query;
     }
 }
