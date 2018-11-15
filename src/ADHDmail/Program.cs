@@ -1,7 +1,4 @@
 ﻿using ADHDmail.API;
-using ADHDmail.Config;
-using System;
-using System.Collections.Generic;
 
 namespace ADHDmail
 {

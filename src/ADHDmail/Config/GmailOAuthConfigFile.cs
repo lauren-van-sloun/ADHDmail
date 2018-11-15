@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-
-namespace ADHDmail.Config
+﻿namespace ADHDmail.Config
 {
     /// <summary>
     /// Represents the config file for Gmail's OAuth credentials.
