@@ -1,9 +1,4 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Apis.Gmail.v1;
-using Google.Apis.Gmail.v1.Data;
-using Google.Apis.Services;
-using Google.Apis.Util.Store;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -43,7 +38,7 @@ namespace ADHDmail.API
 
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                string credPath = "token.json";
+                var credPath = "token.json";
 
                 return GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
@@ -56,8 +51,8 @@ namespace ADHDmail.API
 
         private void PopulateService()
         {
-            string fullName = Assembly.GetEntryAssembly().Location;
-            string applicationName = Path.GetFileNameWithoutExtension(fullName);
+            var fullName = Assembly.GetEntryAssembly().Location;
+            var applicationName = Path.GetFileNameWithoutExtension(fullName);
 
             _gmailService = new GmailService(new BaseClientService.Initializer()
             {
@@ -112,7 +107,7 @@ namespace ADHDmail.API
                         var gmailMessage = GetMessage(message.Id);
                         var body = GetBody(gmailMessage.Payload.Parts);
 
-                        Email emailToAdd = new Email();
+                        var emailToAdd = new Email();
 
                         emailToAdd = new Email
                         {
@@ -130,6 +125,7 @@ namespace ADHDmail.API
             {
                 throw;
             }
+
             return emails;
         }
 
@@ -139,11 +135,9 @@ namespace ADHDmail.API
             {
                 foreach (MessagePart part in parts)
                 {
-                    if (part.Body != null)
-                    {
-                        if (part.MimeType == "text/html" || part.MimeType == "text/plain")
-                            return Decode(part.Body.Data);
-                    }
+                    if (part.Body == null) continue;
+                    if (part.MimeType == "text/html" || part.MimeType == "text/plain")
+                        return Decode(part.Body.Data);
                 }
                 return GetBody(parts[0].Parts);
             }
@@ -168,8 +162,6 @@ namespace ADHDmail.API
                     case "Subject":
                         email.Subject = header.Value;
                         break;
-                    default:
-                        break;
                 }
             }
         }
@@ -185,7 +177,7 @@ namespace ADHDmail.API
 
         private string Decode(string body)
         {
-            string codedBody = body.Replace("-", "+");
+            var codedBody = body.Replace("-", "+");
             codedBody = codedBody.Replace("_", "/");
             byte[] convertedBody = Convert.FromBase64String(codedBody);
             return Encoding.UTF8.GetString(convertedBody);

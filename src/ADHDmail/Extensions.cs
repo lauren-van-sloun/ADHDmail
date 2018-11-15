@@ -1,11 +1,5 @@
-﻿using ADHDmail.API;
-using ADHDmail.Config;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ADHDmail
 {
@@ -24,7 +18,7 @@ namespace ADHDmail
         public static bool IsValidPath(this string path)
         {
             const int MaxPath = 260;
-            return (path.ContainsInvalidPathChar() || path.Length > MaxPath) ? false : true;
+            return (!path.ContainsInvalidPathChar() && path.Length <= MaxPath);
         }
 
         private static bool ContainsInvalidPathChar(this string text)

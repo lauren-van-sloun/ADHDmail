@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -66,12 +65,12 @@ namespace ADHDmail.Config
         /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
         public List<Filter> LoadJson()
         {
-            if (!this.Exists)
+            if (!Exists)
                 return null;
 
-            using (StreamReader reader = File.OpenText(FullPath))
+            using (var reader = File.OpenText(FullPath))
             {
-                string json = reader.ReadToEnd();
+                var json = reader.ReadToEnd();
                 return JsonConvert.DeserializeObject<List<Filter>>(json);
             }
         }
