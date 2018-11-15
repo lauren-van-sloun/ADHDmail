@@ -16,6 +16,18 @@
             Initializes a new instance of the <see cref="T:ADHDmail.API.GmailApi"/> class.
             </summary>
         </member>
+        <member name="M:ADHDmail.API.GmailApi.ADHDmail#API#IEmailApi#GetEmails(ADHDmail.API.Query)">
+            <summary>
+            Retrieves a list of <see cref="T:ADHDmail.Email"/>s from the user's mailbox matching the query.
+            </summary>
+            <param name="query">Represents a query to retrieve messages from an email API.</param>
+        </member>
+        <member name="M:ADHDmail.API.GmailApi.GetEmails(ADHDmail.API.GmailQuery)">
+            <summary>
+            Retrieves a list of <see cref="T:ADHDmail.Email"/>s from the user's mailbox matching the query.
+            </summary>
+            <param name="query">Represents a query to retrieve messages from the Gmail API.</param>
+        </member>
         <member name="M:ADHDmail.API.GmailApi.ListMessages(System.String)">
             <summary>
             List all Messages of the user's mailbox matching the query.
@@ -23,17 +35,17 @@
             <param name="query">String used to filter Messages returned. By default, 
             returns the full email message data with body content parsed in the payload field.</param>
         </member>
-        <member name="M:ADHDmail.API.GmailApi.GetEmails(ADHDmail.API.GmailQuery)">
-            <summary>
-            List all Messages of the user's mailbox matching the query.
-            </summary>
-            <param name="query">Represents a query to retrieve messages from the Gmail API.</param>
-        </member>
         <member name="M:ADHDmail.API.GmailApi.GetMessage(System.String)">
             <summary>
-            Retrieve a Message by ID.
+            Retrieve a message by ID.
             </summary>
-            <param name="messageId">ID of Message to retrieve.</param>
+            <param name="messageId">The ID of the message to retrieve.</param>
+        </member>
+        <member name="M:ADHDmail.API.GmailApi.GetEmail(System.String)">
+            <summary>
+            Retrieves an email by ID.
+            </summary>
+            <param name="emailId">The ID of the email to retrieve.</param>
         </member>
         <member name="T:ADHDmail.API.GmailQuery">
             <summary>

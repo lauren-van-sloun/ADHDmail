@@ -13,7 +13,7 @@ namespace ADHDmail.API
     /// <summary>
     /// Represents a query to retrieve messages from the Gmail API.
     /// </summary>
-    public class GmailQuery
+    public class GmailQuery : Query
     {
         private readonly Dictionary<FilterOption, string> _queryFilters = 
             new Dictionary<FilterOption, string>()

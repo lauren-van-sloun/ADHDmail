@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Apis.Gmail.v1;
+using Google.Apis.Gmail.v1.Data;
+using Google.Apis.Services;
+using Google.Apis.Util.Store;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -28,7 +33,10 @@ namespace ADHDmail.API
         /// </summary>
         public GmailApi()
         {
-            _credential = GetCredential(@"C:\Users\Ashie\AppData\Roaming\ADHDmail\GmailOAuth.json");
+            _credential = GetCredential(
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                    @"ADHDmail\GmailOAuth.json"));
             PopulateService();
         }
 
@@ -38,7 +46,7 @@ namespace ADHDmail.API
 
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                var credPath = "token.json";
+                string credPath = "token.json";
 
                 return GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
@@ -51,8 +59,8 @@ namespace ADHDmail.API
 
         private void PopulateService()
         {
-            var fullName = Assembly.GetEntryAssembly().Location;
-            var applicationName = Path.GetFileNameWithoutExtension(fullName);
+            string fullName = Assembly.GetEntryAssembly().Location;
+            string applicationName = Path.GetFileNameWithoutExtension(fullName);
 
             _gmailService = new GmailService(new BaseClientService.Initializer()
             {
@@ -62,7 +70,16 @@ namespace ADHDmail.API
         }
 
         /// <summary>
-        /// List all Messages of the user's mailbox matching the query.
+        /// Retrieves a list of <see cref="Email"/>s from the user's mailbox matching the query.
+        /// </summary>
+        /// <param name="query">Represents a query to retrieve messages from an email API.</param>
+        List<Email> IEmailApi.GetEmails(Query query)
+        {
+            return this.GetEmails((GmailQuery)query);
+        }
+
+        /// <summary>
+        /// Retrieves a list of <see cref="Email"/>s from the user's mailbox matching the query.
         /// </summary>
         /// <param name="query">Represents a query to retrieve messages from the Gmail API.</param>
         public List<Email> GetEmails(GmailQuery query)
@@ -77,28 +94,16 @@ namespace ADHDmail.API
                 {
                     foreach (var message in gmailMessages)
                     {
-                        var gmailMessage = GetMessage(message.Id);
-                        var body = GetBody(gmailMessage.Payload.Parts);
-
-                        var emailToAdd = new Email();
-
-                        emailToAdd = new Email
-                        {
-                            Id = message.Id,
-                            Account = "Gmail",
-                            Body = body
-                        };
-
-                        ExtractDataFromHeader(ref emailToAdd, gmailMessage);
-                        emails.Add(emailToAdd);
+                        var gmailMessage = GetMessage(message.Id);                       
+                        emails.Add(ConvertToEmail(gmailMessage));
                     }
                 }
             }
             catch (Exception)
             {
+                // Log properly
                 throw;
             }
-
             return emails;
         }
 
@@ -125,6 +130,7 @@ namespace ADHDmail.API
                 }
                 catch (Exception e)
                 {
+                    // Log properly
                     Console.WriteLine("An error occurred: " + e.Message);
                 }
             }
@@ -133,22 +139,77 @@ namespace ADHDmail.API
             return result;
         }
 
+        /// <summary>
+        /// Retrieve a message by ID.
+        /// </summary>
+        /// <param name="messageId">The ID of the message to retrieve.</param>
+        private GmailMessage GetMessage(string messageId)
+        {
+            try
+            {
+                return _gmailService.Users.Messages.Get(userId, messageId).Execute();
+            }
+            catch (Exception e)
+            {
+                // Log properly
+                Console.WriteLine("An error occurred: " + e.Message);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Retrieves an email by ID.
+        /// </summary>
+        /// <param name="emailId">The ID of the email to retrieve.</param>
+        public Email GetEmail(string emailId)
+        {
+            var gmailMessage = GetMessage(emailId);
+            return ConvertToEmail(gmailMessage);
+        }
+
+        private Email ConvertToEmail(GmailMessage gmailMessage)
+        {
+            var body = GetBody(gmailMessage.Payload.Parts);
+
+            var email = new Email
+            {
+                Id = gmailMessage.Id,
+                Account = "Gmail",
+                Body = body
+            };
+
+            ExtractDataFromHeader(ref email, gmailMessage);
+            return email;
+        }
+
         private string GetBody(IList<MessagePart> parts)
         {
             try
             {
                 foreach (MessagePart part in parts)
                 {
-                    if (part.Body == null) continue;
-                    if (part.MimeType == "text/html" || part.MimeType == "text/plain")
-                        return Decode(part.Body.Data);
+                    if (part.Body != null)
+                    {
+                        if (part.MimeType == "text/html" || part.MimeType == "text/plain")
+                            return Decode(part.Body.Data);
+                    }
                 }
                 return GetBody(parts[0].Parts);
             }
             catch (Exception)
             {
+                // Log error properly
                 throw;
             }
+        }
+
+        private string Decode(string body)
+        {
+            string codedBody = body.Replace("-", "+");
+            codedBody = codedBody.Replace("_", "/");
+            byte[] convertedBody = Convert.FromBase64String(codedBody);
+            return Encoding.UTF8.GetString(convertedBody);
         }
 
         private void ExtractDataFromHeader(ref Email email, GmailMessage message)
@@ -166,6 +227,8 @@ namespace ADHDmail.API
                     case "Subject":
                         email.Subject = header.Value;
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -174,35 +237,8 @@ namespace ADHDmail.API
         {
             Regex sendersNameRegex = new Regex(@"[^<]*");
             Regex sendersEmailRegex = new Regex(@"<(.+)>");
-
             email.SendersName = sendersNameRegex.Match(fromHeader).Value.Trim();
             email.SendersEmail = sendersEmailRegex.Match(fromHeader).Groups[1].Value;
-        }
-
-        private string Decode(string body)
-        {
-            var codedBody = body.Replace("-", "+");
-            codedBody = codedBody.Replace("_", "/");
-            byte[] convertedBody = Convert.FromBase64String(codedBody);
-            return Encoding.UTF8.GetString(convertedBody);
-        }
-
-        /// <summary>
-        /// Retrieve a Message by ID.
-        /// </summary>
-        /// <param name="messageId">ID of Message to retrieve.</param>
-        public GmailMessage GetMessage(string messageId)
-        {
-            try
-            {
-                return _gmailService.Users.Messages.Get(userId, messageId).Execute();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("An error occurred: " + e.Message);
-            }
-
-            return null;
         }
     }
 }
