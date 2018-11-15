@@ -49,7 +49,6 @@ namespace ADHDmail.Config
         /// to make the full file path.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
-        /// <returns></returns>
         public string GetFullPath(string fileName)
         {
             return Path.Combine(_appDataFolderPath, _appNameFolder, fileName);

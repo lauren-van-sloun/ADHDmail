@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADHDmail.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,32 +9,32 @@ namespace ADHDmail.API
 {
     internal class GmailQuery
     {
-        private Dictionary<GmailQueryFilterOption, string> _queryFilters = 
-            new Dictionary<GmailQueryFilterOption, string>()
+        private readonly Dictionary<FilterOption, string> _queryFilters = 
+            new Dictionary<FilterOption, string>()
         {
-            { GmailQueryFilterOption.From, "from:<>" },
-            { GmailQueryFilterOption.To, "to:<>" },
-            { GmailQueryFilterOption.Subject, "subject:<>" },
-            { GmailQueryFilterOption.Label, "label:<>" },
-            { GmailQueryFilterOption.HasAttachment, "has:attachment" },
-            { GmailQueryFilterOption.HasFilename, "filename:<>" },
-            { GmailQueryFilterOption.ContainsWord, "<>" },
-            { GmailQueryFilterOption.AllFolders, "is:anywhere" },
-            { GmailQueryFilterOption.Starred, "is:starred" },
-            { GmailQueryFilterOption.Unread, "is:unread" },
-            { GmailQueryFilterOption.Read, "is:read" },
-            { GmailQueryFilterOption.After, "after:<>" },
-            { GmailQueryFilterOption.Before, "before:<>" },
-            { GmailQueryFilterOption.DeliveredTo, "deliveredto:<>" },
-            { GmailQueryFilterOption.LargerThan, "larger:<>" },
-            { GmailQueryFilterOption.SmallerThan, "smaller:<>" },
-            { GmailQueryFilterOption.MatchesWordExactly, "+<>" }
+            { FilterOption.From, "from:<>" },
+            { FilterOption.To, "to:<>" },
+            { FilterOption.Subject, "subject:<>" },
+            { FilterOption.Label, "label:<>" },
+            { FilterOption.HasAttachment, "has:attachment" },
+            { FilterOption.HasFilename, "filename:<>" },
+            { FilterOption.ContainsWord, "<>" },
+            { FilterOption.AllFolders, "is:anywhere" },
+            { FilterOption.Starred, "is:starred" },
+            { FilterOption.Unread, "is:unread" },
+            { FilterOption.Read, "is:read" },
+            { FilterOption.After, "after:<>" },
+            { FilterOption.Before, "before:<>" },
+            { FilterOption.DeliveredTo, "deliveredto:<>" },
+            { FilterOption.LargerThan, "larger:<>" },
+            { FilterOption.SmallerThan, "smaller:<>" },
+            { FilterOption.MatchesWordExactly, "+<>" }
         };
 
-        public List<GmailQueryFilter> QueryFilters { get; set; }
+        public List<Filter> QueryFilters { get; set; }
         public string Query { get; private set; }
 
-        public GmailQuery(List<GmailQueryFilter> queryFilters)
+        public GmailQuery(List<Filter> queryFilters)
         {
             this.QueryFilters = queryFilters;
             Query = ConstructQuery();
@@ -45,7 +46,7 @@ namespace ADHDmail.API
 
             for (int i = 0; i < QueryFilters.Count; i++)
             {
-                var key = QueryFilters[i].Filter;
+                var key = QueryFilters[i].FilterOption;
                 var value = QueryFilters[i].Value;
                 if (string.IsNullOrWhiteSpace(value))
                     queryBuilder.Append(_queryFilters[key]);

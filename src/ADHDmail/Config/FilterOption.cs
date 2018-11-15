@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ADHDmail.API
+﻿namespace ADHDmail.Config
 {
     /// <summary>
-    /// Search operators used to filter Gmail search results.
+    /// Search operators used to filter message search results.
     /// </summary>
-    public enum GmailQueryFilterOption
+    public enum FilterOption
     {
         /// <summary>
-        /// Specify the sender
+        /// Specify the sender's name or email address
         /// </summary>
         From,
         /// <summary>
-        /// Specify a recipient
+        /// Specify a recipient's name or email address
         /// </summary>
         To,
         /// <summary>
