@@ -32,41 +32,39 @@ namespace ADHDmail.API
         };
 
         /// <summary>
-        /// Represents the filters to apply to a query.
-        /// </summary>
-        private List<Filter> _queryFilters { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GmailQuery"/> class with filters 
-        /// to apply to the query.
-        /// </summary>
-        /// <param name="queryFilters">Represents the filters to apply to the query.</param>
-        public GmailQuery(List<Filter> queryFilters)
-        {
-            this._queryFilters = queryFilters;
-            RawQuery = ConstructQuery();
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GmailQuery"/> class with no filtering. 
         /// This will construct a query that will return all emails.
         /// </summary>
         public GmailQuery() : base()
         { }
 
-        private string ConstructQuery()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GmailQuery"/> class with filters 
+        /// to apply to the query.
+        /// </summary>
+        /// <param name="queryFilters">Represents the filters to apply to the query.</param>
+        public GmailQuery(List<Filter> queryFilters) : base(queryFilters)
+        { }
+
+        /// <summary>
+        /// Parses the <see cref="Filter"/>s provided into a query string that is usable 
+        /// in a <see cref="GmailApi"/> query.
+        /// </summary>
+        /// <param name="queryFilters">Represents the filters to apply to the query.</param>
+        /// <returns>Returns the fully constructed query.</returns>
+        protected override string ConstructQuery(List<Filter> queryFilters)
         {
             var queryBuilder = new StringBuilder();
 
-            for (int i = 0; i < _queryFilters.Count; i++)
+            for (int i = 0; i < queryFilters.Count; i++)
             {
-                var key = _queryFilters[i].FilterOption;
-                var value = _queryFilters[i].Value;
+                var key = queryFilters[i].FilterOption;
+                var value = queryFilters[i].Value;
                 if (string.IsNullOrWhiteSpace(value))
                     queryBuilder.Append(_queryFilterValues[key]);
                 else
                     queryBuilder.Append(_queryFilterValues[key].Replace("<>", value));
-                if (i != _queryFilters.Count - 1)
+                if (i != queryFilters.Count - 1)
                     queryBuilder.Append(' ');
             }
 

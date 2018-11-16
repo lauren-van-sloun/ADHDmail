@@ -14,17 +14,17 @@ namespace ADHDmail
             // see what happens with this line
             //api.GetEmails(null).ForEach(e => Console.WriteLine(e.Subject));
 
-            //var queryFilters = new List<Filter>()
-            //{
-            //    new Filter(FilterOption.Unread),
-            //    new Filter(FilterOption.LargerThan, "1"),
-            //    new Filter(FilterOption.From, "GitHub")
-            //};
-            //var query = new GmailQuery(queryFilters);
-            //var unreadEmails = api.GetEmails(query);
+            var queryFilters = new List<Filter>()
+            {
+                new Filter(FilterOption.Unread),
+                new Filter(FilterOption.LargerThan, "1"),
+                new Filter(FilterOption.From, "GitHub")
+            };
+            var query = new GmailQuery(queryFilters);
+            var unreadEmails = api.GetEmails(query);
 
-            //unreadEmails.ForEach(e => 
-            //    Console.WriteLine($"Email ID: {e.Id} Time received: {e.TimeReceived}. Subject: {e.Subject}"));
+            unreadEmails.ForEach(e =>
+                Console.WriteLine($"Email ID: {e.Id} Time received: {e.TimeReceived}. Subject: {e.Subject}"));
         }
     }
 }
