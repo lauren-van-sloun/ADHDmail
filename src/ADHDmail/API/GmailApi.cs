@@ -24,7 +24,7 @@ namespace ADHDmail.API
         private GmailService _gmailService;
 
         // User's email address. The special value "me" can be used to indicate the authenticated user.
-        const string userId = "me";
+        private const string userId = "me";
 
         private UserCredential _credential;
 
@@ -35,7 +35,7 @@ namespace ADHDmail.API
         {
             _credential = GetCredential(
                 Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), 
+                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     @"ADHDmail\GmailOAuth.json"));
             PopulateService();
         }
@@ -94,15 +94,14 @@ namespace ADHDmail.API
                 {
                     foreach (var message in gmailMessages)
                     {
-                        var gmailMessage = GetMessage(message.Id);                       
+                        var gmailMessage = GetMessage(message.Id);
                         emails.Add(ConvertToEmail(gmailMessage));
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // Log properly
-                throw;
+                LogWriter.Write($"Failed to retrieve emails. {ex.GetType()}: \"{ex.Message}\"");
             }
             return emails;
         }
@@ -120,6 +119,8 @@ namespace ADHDmail.API
 
             do
             {
+                // might not need this try-catch block since it is nested in another
+                // try-catch block that is in the calling method
                 try
                 {
                     ListMessagesResponse response = request.Execute();
@@ -128,10 +129,9 @@ namespace ADHDmail.API
                     result.AddRange(response.Messages);
                     request.PageToken = response.NextPageToken;
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    // Log properly
-                    Console.WriteLine("An error occurred: " + e.Message);
+                    LogWriter.Write($"Could not retrieve messages from Gmail. {ex.GetType()}: \"{ex.Message}\"");
                 }
             }
             while (!string.IsNullOrEmpty(request.PageToken));
@@ -149,13 +149,12 @@ namespace ADHDmail.API
             {
                 return _gmailService.Users.Messages.Get(userId, messageId).Execute();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // Log properly
-                Console.WriteLine("An error occurred: " + e.Message);
+                LogWriter.Write($"Failed to retrieve the gmail message with an id of {messageId}. " +
+                    $"{ex.GetType()}: \"{ex.Message}\"");
+                return null;
             }
-
-            return null;
         }
 
         /// <summary>
@@ -185,23 +184,15 @@ namespace ADHDmail.API
 
         private string GetBody(IList<MessagePart> parts)
         {
-            try
+            foreach (MessagePart part in parts)
             {
-                foreach (MessagePart part in parts)
+                if (part.Body != null)
                 {
-                    if (part.Body != null)
-                    {
-                        if (part.MimeType == "text/html" || part.MimeType == "text/plain")
-                            return Decode(part.Body.Data);
-                    }
+                    if (part.MimeType == "text/html" || part.MimeType == "text/plain")
+                        return Decode(part.Body.Data);
                 }
-                return GetBody(parts[0].Parts);
             }
-            catch (Exception)
-            {
-                // Log error properly
-                throw;
-            }
+            return GetBody(parts[0].Parts);
         }
 
         private string Decode(string body)
