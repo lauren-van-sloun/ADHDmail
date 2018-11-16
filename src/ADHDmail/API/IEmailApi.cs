@@ -2,7 +2,7 @@
 
 namespace ADHDmail.API
 {
-    interface IEmailApi
+    public interface IEmailApi
     {
         List<Email> GetEmails(Query query);
         Email GetEmail(string id);

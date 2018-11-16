@@ -9,8 +9,11 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            var api = new GmailApi();
-            api.GetEmails(null).ForEach(e => Console.WriteLine(e.Subject));
+            IEmailApi api = new GmailApi();
+
+            // see what happens with this line
+            //api.GetEmails(null).ForEach(e => Console.WriteLine(e.Subject));
+
             //var queryFilters = new List<Filter>()
             //{
             //    new Filter(FilterOption.Unread),
