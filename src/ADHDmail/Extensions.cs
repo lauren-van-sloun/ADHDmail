@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ADHDmail
 {
@@ -18,7 +19,9 @@ namespace ADHDmail
         public static bool IsValidPath(this string path)
         {
             const int MaxPath = 260;
-            return (!path.ContainsInvalidPathChar() && path.Length <= MaxPath);
+            return (!path.ContainsInvalidPathChar() 
+                && path.Length <= MaxPath
+                && !string.IsNullOrWhiteSpace(path));
         }
 
         private static bool ContainsInvalidPathChar(this string text)
@@ -36,7 +39,14 @@ namespace ADHDmail
             var result = new DateTime();
             if (!string.IsNullOrWhiteSpace(date))
                 DateTime.TryParse(date, out result);
-            return result;         
+
+            if (result == DateTime.MinValue)
+            {
+                var googleDateRegex = new Regex("[^+]*");
+                DateTime.TryParse(googleDateRegex.Match(date).Value, out result);
+            }
+
+            return result;
         }
     }
 }

@@ -1,49 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NUnit.Framework;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using Xunit;
+//using ADHDmail;
 
-namespace ADHDmailTests
-{
-    [TestFixture]
-    public class ExtensionsTests
-    {
-        [Test]
-        public void IsValidPath_Test_ValidInput()
-        {
+//namespace ADHDmailTests
+//{
+//    public class ExtensionsTests
+//    {
+//        [Theory]
+//        [InlineData(@"c:\temp\MyTest.txt")]
+//        public void IsValidPath_Test_ValidInput(string path)
+//        {
+//            Assert.True(path.IsValidPath());
+//        }
 
-        }
+//        [Theory]
+//        [InlineData("")]
+//        [InlineData(">")]
+//        [InlineData("|")]
+//        [InlineData("\"")]
+//        [InlineData("This is a string that exceeds 260 characters. This is a string that " +
+//            "exceeds 260 characters. This is a string that exceeds 260 characters. This is " +
+//            "a string that exceeds 260 characters. This is a string that exceeds 260 characters. " +
+//            "This is a string that exceeds 260 characters.")]
+//        public void IsValidPath_Test_InvalidInput(string path)
+//        {
+//            Assert.False(path.IsValidPath());
+//        }
 
-        //public static bool IsValidPath(this string path)
-        //{
-        //    const int MaxPath = 260;
-        //    return (!path.ContainsInvalidPathChar() && path.Length <= MaxPath);
-        //}
+//        private const string _gmailDateTimeFormatExample = "Tue, 13 Nov 2018 22:01:48 + 0000(UTC)";
+//        public static IEnumerable<object[]> ValidDateTimes =>
+//            new List<object[]>
+//            {
+//                new object[] { _gmailDateTimeFormatExample, new DateTime(2018, 11, 13, 22, 01, 48) },
+//            };
 
-        [Test]
-        public void ContainsInvalidPathChar_Test_ValidInput()
-        {
+//        public static IEnumerable<object[]> InvalidDateTimes =>
+//            new List<object[]>
+//            {
+//                new object[] { "Invalid date time", DateTime.MinValue },
+//                new object[] { "", DateTime.MinValue },
+//                new object[] { "     ", DateTime.MinValue }
+//            };
 
-        }
-
-        //private static bool ContainsInvalidPathChar(this string text)
-        //{
-        //    return text.IndexOfAny(_invalidPathChars) >= 0;
-        //}
-
-        [Test]
-        public void ToDateTime_Test_ValidInput()
-        {
-
-        }
-        //public static DateTime ToDateTime(this string date)
-        //{
-        //    var result = new DateTime();
-        //    if (!string.IsNullOrWhiteSpace(date))
-        //        DateTime.TryParse(date, out result);
-        //    return result;
-        //}
-    }
-}
+//        [Theory]
+//        [MemberData(nameof(ValidDateTimes))]
+//        [MemberData(nameof(InvalidDateTimes))]
+//        public void ToDateTime_Test_ValidInput(string input, DateTime expectedOutput)
+//        {
+//            Assert.Equal(expectedOutput, input.ToDateTime());
+//        }
+//    }
+//}
