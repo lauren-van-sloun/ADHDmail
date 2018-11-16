@@ -15,8 +15,10 @@ using GmailMessage = Google.Apis.Gmail.v1.Data.Message;
 namespace ADHDmail.API
 {
     /// <summary>
-    /// The Gmail implementation of IEmailApi.
-    /// <para>Uses the <a href="https://developers.google.com/api-client-library/dotnet/apis/gmail/v1">Gmail API</a> to query emails. 
+    /// The Gmail implementation of <see cref="IEmailApi"/>.
+    /// <para>
+    /// Uses the <a href="https://developers.google.com/api-client-library/dotnet/apis/gmail/v1">Gmail API</a> 
+    /// to query emails. 
     /// </para>
     /// </summary>
     public class GmailApi : IEmailApi

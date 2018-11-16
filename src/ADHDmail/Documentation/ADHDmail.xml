@@ -6,8 +6,10 @@
     <members>
         <member name="T:ADHDmail.API.GmailApi">
             <summary>
-            The Gmail implementation of IEmailApi.
-            <para>Uses the <a href="https://developers.google.com/api-client-library/dotnet/apis/gmail/v1">Gmail API</a> to query emails. 
+            The Gmail implementation of <see cref="T:ADHDmail.API.IEmailApi"/>.
+            <para>
+            Uses the <a href="https://developers.google.com/api-client-library/dotnet/apis/gmail/v1">Gmail API</a> 
+            to query emails. 
             </para>
             </summary>
         </member>
@@ -49,7 +51,7 @@
         </member>
         <member name="T:ADHDmail.API.GmailQuery">
             <summary>
-            Represents a query to retrieve messages from the Gmail API.
+            Represents a query used to retrieve emails from the Gmail API.
             </summary>
         </member>
         <member name="P:ADHDmail.API.GmailQuery.QueryFilters">
@@ -70,13 +72,30 @@
             This will make a request for all emails.
             </summary>
         </member>
-        <member name="M:ADHDmail.API.GmailQuery.ToString">
+        <member name="T:ADHDmail.API.Query">
             <summary>
-            Represents the fully constructed query for use in the <see cref="M:ADHDmail.API.GmailApi.GetMessage(System.String)"/> 
-            method. 
-            <para>If this returns <see cref="F:System.String.Empty"/>, then no filtering is applied to the query.</para>
+            The abstract, base class that represents a query used to 
+            retrieve messages from an email API.
             </summary>
-            <returns>Returns the fully constructed query.</returns>
+        </member>
+        <member name="T:ADHDmail.API.IEmailApi">
+            <summary>
+            Uses an email API with readonly access to query emails. 
+            </summary>
+        </member>
+        <member name="M:ADHDmail.API.IEmailApi.GetEmails(ADHDmail.API.Query)">
+            <summary>
+            Gets a list of emails from the user's mailbox.
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ADHDmail.API.IEmailApi.GetEmail(System.String)">
+            <summary>
+            Gets a specified email from the user's mailbox.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
         </member>
         <member name="T:ADHDmail.Config.Filter">
             <summary>
