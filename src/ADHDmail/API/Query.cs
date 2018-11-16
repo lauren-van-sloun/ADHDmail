@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADHDmail.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +8,7 @@ using System.Threading.Tasks;
 namespace ADHDmail.API
 {
     /// <summary>
-    /// The abstract, base class that represents a query used to 
-    /// retrieve messages from an email API.
+    /// The abstract, base class that represents a query used to retrieve messages from an email API.
     /// </summary>
     public abstract class Query
     {
@@ -25,6 +25,23 @@ namespace ADHDmail.API
         {
             RawQuery = "";
         }
+
+        /// <summary>
+        /// Constructs the <see cref="RawQuery"/> to contain the filters supplied.
+        /// </summary>
+        /// <param name="queryFilters">Represents the filters to apply to the query.</param>
+        protected Query(List<Filter> queryFilters)
+        {
+            RawQuery = ConstructQuery(queryFilters);
+        }
+
+        /// <summary>
+        /// Parses the <see cref="Filter"/>s provided into a query string that is usable 
+        /// in an API query.
+        /// </summary>
+        /// <param name="queryFilters">Represents the filters to apply to the query.</param>
+        /// <returns>Returns the fully constructed query.</returns>
+        protected abstract string ConstructQuery(List<Filter> queryFilters);
 
         /// <summary>
         /// Represents the fully constructed query for use in the <see cref="GmailApi.GetMessage(string)"/> 
