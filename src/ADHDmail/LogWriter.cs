@@ -37,9 +37,8 @@ namespace ADHDmail
 
         private static string GetLogPath()
         {
-            var localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-            var fileName = "ADHDemailLog.txt";
-            return Path.Combine(localAppDataPath, fileName);
+            var fileName = GlobalValues.ApplicationName + "Log.txt";
+            return Path.Combine(GlobalValues.LocalAppDataPath, fileName);
         }
 
         /// <summary>

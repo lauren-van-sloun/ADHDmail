@@ -105,6 +105,7 @@
     <Compile Include="Config\IgnoreFilterConfigFile.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="GlobalValues.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Program.cs" />

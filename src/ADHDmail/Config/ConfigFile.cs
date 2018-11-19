@@ -8,9 +8,6 @@ namespace ADHDmail.Config
     /// </summary>
     public abstract class ConfigFile
     {
-        private readonly string _appDataFolderPath;
-        private const string _appNameFolder = "ADHDmail";
-
         /// <summary>
         /// The path and name of the <see cref="ConfigFile"/>.
         /// </summary>
@@ -24,11 +21,6 @@ namespace ADHDmail.Config
         {
             get => _exists;
             set => _exists = FileExists(FullPath);
-        }
-
-        internal ConfigFile()
-        {
-            _appDataFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         }
 
         private bool FileExists(string path)
@@ -45,13 +37,13 @@ namespace ADHDmail.Config
         }
 
         /// <summary>
-        /// Combines the <see cref="_appDataFolderPath"/>, <see cref="_appNameFolder"/>, and <paramref name="fileName"/> 
-        /// to make the full file path.
+        /// Combines the <see cref="GlobalValues.AppDataPath"/>, <see cref="GlobalValues.ApplicationName"/>, 
+        /// and <paramref name="fileName"/> to make the full file path.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
         public string GetFullPath(string fileName)
         {
-            return Path.Combine(_appDataFolderPath, _appNameFolder, fileName);
+            return Path.Combine(GlobalValues.AppDataPath, GlobalValues.ApplicationName, fileName);
         }
 
         /// <summary>

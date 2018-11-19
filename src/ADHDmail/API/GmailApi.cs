@@ -37,8 +37,9 @@ namespace ADHDmail.API
         {
             _credential = GetCredential(
                 Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"ADHDmail\GmailOAuth.json"));
+                    GlobalValues.AppDataPath,
+                    GlobalValues.ApplicationName,
+                    "GmailOAuth.json"));
             PopulateService();
         }
 
@@ -219,8 +220,6 @@ namespace ADHDmail.API
                         break;
                     case "Subject":
                         email.Subject = header.Value;
-                        break;
-                    default:
                         break;
                 }
             }
