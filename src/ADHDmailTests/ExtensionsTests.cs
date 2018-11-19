@@ -38,7 +38,7 @@ namespace ADHDmailTests
         [MemberData(nameof(InvalidPaths))]
         public void IsValidPath_Test(string input, bool expectedOutput)
         {
-            Assert.Equal(expectedOutput, input.IsValidPath());
+            Assert.Equal(input.IsValidPath(), expectedOutput);
         }
 
         private const string GmailDateTimeFormatExample = "Tue, 13 Nov 2018 22:01:48 + 0000(UTC)";
@@ -63,7 +63,7 @@ namespace ADHDmailTests
         [MemberData(nameof(InvalidDateTimes))]
         public void ToDateTime_Test(string input, DateTime expectedOutput)
         {
-            Assert.Equal(expectedOutput, input.ToDateTime());
+            Assert.Equal(input.ToDateTime(), expectedOutput);
         }
     }
 }
