@@ -9,7 +9,7 @@ namespace ADHDmail
     /// </summary>
     public static class Extensions
     {
-        private static readonly char[] _invalidPathChars = Path.GetInvalidPathChars();
+        private static readonly char[] InvalidPathChars = Path.GetInvalidPathChars();
 
         /// <summary>
         /// Determines whether a string is a valid path based on the length and character content.
@@ -26,7 +26,7 @@ namespace ADHDmail
 
         private static bool ContainsInvalidPathChar(this string text)
         {
-            return text.IndexOfAny(_invalidPathChars) >= 0;
+            return text.IndexOfAny(InvalidPathChars) >= 0;
         }
 
         /// <summary>
@@ -36,11 +36,13 @@ namespace ADHDmail
         /// <returns>Returns the parsed date if able to be parsed, otherwise DateTime.MinValue.</returns>
         public static DateTime ToDateTime(this string date)
         {
-            var result = new DateTime();
-            if (!string.IsNullOrWhiteSpace(date))
-                DateTime.TryParse(date, out result);
+            if (string.IsNullOrWhiteSpace(date))
+                return new DateTime();
 
-            if (result == DateTime.MinValue)
+            DateTime.TryParse(date, out var result);
+
+            bool parsingFailed = result == DateTime.MinValue;
+            if (parsingFailed)
             {
                 var googleDateRegex = new Regex("[^+]*");
                 DateTime.TryParse(googleDateRegex.Match(date).Value, out result);
