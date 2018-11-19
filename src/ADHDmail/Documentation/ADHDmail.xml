@@ -263,8 +263,8 @@
         </member>
         <member name="M:ADHDmail.Config.ConfigFile.GetFullPath(System.String)">
             <summary>
-            Combines the <see cref="F:ADHDmail.Config.ConfigFile._appDataFolderPath"/>, <see cref="F:ADHDmail.Config.ConfigFile._appNameFolder"/>, and <paramref name="fileName"/> 
-            to make the full file path.
+            Combines the <see cref="P:ADHDmail.GlobalValues.AppDataPath"/>, <see cref="P:ADHDmail.GlobalValues.ApplicationName"/>, 
+            and <paramref name="fileName"/> to make the full file path.
             </summary>
             <param name="fileName">The name of the file.</param>
         </member>
