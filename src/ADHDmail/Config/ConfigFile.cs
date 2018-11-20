@@ -11,30 +11,12 @@ namespace ADHDmail.Config
         /// <summary>
         /// The path and name of the <see cref="ConfigFile"/>.
         /// </summary>
-        public abstract string FullPath { get; set; }
+        public string FullPath { get; set; }
 
-        private bool _exists { get; set; }
         /// <summary>
-        /// Determines whether the specified file exists.
+        /// Determines whether the <see cref="ConfigFile"/> exists.
         /// </summary>
-        public bool Exists
-        {
-            get => _exists;
-            set => _exists = FileExists(FullPath);
-        }
-
-        private bool FileExists(string path)
-        {
-            try
-            {
-                return File.Exists(path);
-            }
-            catch (Exception ex)
-            {
-                LogWriter.Write($"Could not check if the path {path} exists. {ex.GetType()}: \"{ex.Message}\"");
-                throw;
-            }
-        }
+        public bool Exists => File.Exists(FullPath);
 
         /// <summary>
         /// Combines the <see cref="GlobalValues.AppDataPath"/>, <see cref="GlobalValues.ApplicationName"/>, 

@@ -258,7 +258,7 @@
         </member>
         <member name="P:ADHDmail.Config.ConfigFile.Exists">
             <summary>
-            Determines whether the specified file exists.
+            Determines whether the <see cref="T:ADHDmail.Config.ConfigFile"/> exists.
             </summary>
         </member>
         <member name="M:ADHDmail.Config.ConfigFile.GetFullPath(System.String)">
@@ -286,11 +286,6 @@
         <member name="T:ADHDmail.Config.IgnoreFiltersConfigFile">
             <summary>
             Represents the config file for the ignoring specific fields and values of a message.
-            </summary>
-        </member>
-        <member name="P:ADHDmail.Config.IgnoreFiltersConfigFile.FullPath">
-            <summary>
-            The path and name of the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/>.
             </summary>
         </member>
         <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.#ctor">
@@ -337,11 +332,6 @@
             Represents the config file for Gmail's OAuth credentials.
             <para>This file should be encrypted to secure the user's credentials.
             </para>
-            </summary>
-        </member>
-        <member name="P:ADHDmail.Config.GmailOAuthConfigFile.FullPath">
-            <summary>
-            The path and name of the <see cref="T:ADHDmail.Config.GmailOAuthConfigFile"/>.
             </summary>
         </member>
         <member name="M:ADHDmail.Config.GmailOAuthConfigFile.#ctor">
