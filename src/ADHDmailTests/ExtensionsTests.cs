@@ -10,32 +10,16 @@ namespace ADHDmailTests
 {
     public class ExtensionsTests
     {
-        public static IEnumerable<object[]> ValidPaths =>
-            new List<object[]>
-            {
-                new object[] { @"c:\temp\MyTest.txt", true }
-            };
-
-        public static IEnumerable<object[]> InvalidPaths =>
-            new List<object[]>
-            {
-                new object[] {"", false},
-                new object[] {">", false},
-                new object[] {"|", false},
-                new object[] {"\"", false},
-                new object[]
-                {
-                    "This is a string that exceeds 260 characters. This is a string that " +
+        [Theory]
+        [InlineData(@"c:\temp\MyTest.txt", true)]
+        [InlineData("", false)]
+        [InlineData(">", false)]
+        [InlineData("|", false)]
+        [InlineData("\"", false)]
+        [InlineData("This is a string that exceeds 260 characters. This is a string that " +
                     "exceeds 260 characters. This is a string that exceeds 260 characters. " +
                     "This is a string that exceeds 260 characters. This is a string that " +
-                    "exceeds 260 characters. This is a string that exceeds 260 characters.",
-                    false
-                }
-            };
-
-        [Theory]
-        [MemberData(nameof(ValidPaths))]
-        [MemberData(nameof(InvalidPaths))]
+                    "exceeds 260 characters. This is a string that exceeds 260 characters.", false)]
         public void IsValidPath_Test(string input, bool expectedOutput)
         {
             Assert.Equal(input.IsValidPath(), expectedOutput);
