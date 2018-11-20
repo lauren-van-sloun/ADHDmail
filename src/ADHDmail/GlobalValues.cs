@@ -10,9 +10,9 @@ namespace ADHDmail
 {
     internal static class GlobalValues
     {
-        public static string ApplicationName { get; private set; }
-        public static string LocalAppDataPath { get; private set; }
-        public static string AppDataPath { get; private set; }
+        public static string ApplicationName { get; }
+        public static string LocalAppDataPath { get; }
+        public static string AppDataPath { get; }
 
         static GlobalValues()
         {

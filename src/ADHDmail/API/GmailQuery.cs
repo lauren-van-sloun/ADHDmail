@@ -39,7 +39,7 @@ namespace ADHDmail.API
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GmailQuery"/> class with filters 
+        /// Initializes a new instance of the <see cref="T:ADHDmail.API.GmailQuery" /> class with filters 
         /// to apply to the query.
         /// </summary>
         /// <param name="queryFilters">Represents the filters to apply to the query.</param>
@@ -60,10 +60,9 @@ namespace ADHDmail.API
             {
                 var key = queryFilters[i].FilterOption;
                 var value = queryFilters[i].Value;
-                if (string.IsNullOrWhiteSpace(value))
-                    queryBuilder.Append(_queryFilterValues[key]);
-                else
-                    queryBuilder.Append(_queryFilterValues[key].Replace("<>", value));
+                queryBuilder.Append(string.IsNullOrWhiteSpace(value)
+                    ? _queryFilterValues[key]
+                    : _queryFilterValues[key].Replace("<>", value));
                 if (i != queryFilters.Count - 1)
                     queryBuilder.Append(' ');
             }

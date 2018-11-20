@@ -10,32 +10,43 @@ namespace ADHDmailTests
 {
     public class ExtensionsTests
     {
-        [Theory]
-        [InlineData(@"c:\temp\MyTest.txt")]
-        public void IsValidPath_Test_ValidInput(string path)
-        {
-            Assert.True(path.IsValidPath());
-        }
+        public static IEnumerable<object[]> ValidPaths =>
+            new List<object[]>
+            {
+                new object[] { @"c:\temp\MyTest.txt", true }
+            };
+
+        public static IEnumerable<object[]> InvalidPaths =>
+            new List<object[]>
+            {
+                new object[] {"", false},
+                new object[] {">", false},
+                new object[] {"|", false},
+                new object[] {"\"", false},
+                new object[]
+                {
+                    "This is a string that exceeds 260 characters. This is a string that " +
+                    "exceeds 260 characters. This is a string that exceeds 260 characters. " +
+                    "This is a string that exceeds 260 characters. This is a string that " +
+                    "exceeds 260 characters. This is a string that exceeds 260 characters.",
+                    false
+                }
+            };
 
         [Theory]
-        [InlineData("")]
-        [InlineData(">")]
-        [InlineData("|")]
-        [InlineData("\"")]
-        [InlineData("This is a string that exceeds 260 characters. This is a string that " +
-            "exceeds 260 characters. This is a string that exceeds 260 characters. This is " +
-            "a string that exceeds 260 characters. This is a string that exceeds 260 characters. " +
-            "This is a string that exceeds 260 characters.")]
-        public void IsValidPath_Test_InvalidInput(string path)
+        [MemberData(nameof(ValidPaths))]
+        [MemberData(nameof(InvalidPaths))]
+        public void IsValidPath_Test(string input, bool expectedOutput)
         {
-            Assert.False(path.IsValidPath());
+            Assert.Equal(input.IsValidPath(), expectedOutput);
         }
 
-        private const string _gmailDateTimeFormatExample = "Tue, 13 Nov 2018 22:01:48 + 0000(UTC)";
+        private const string GmailDateTimeFormatExample = "Tue, 13 Nov 2018 22:01:48 + 0000(UTC)";
+
         public static IEnumerable<object[]> ValidDateTimes =>
             new List<object[]>
             {
-                new object[] { _gmailDateTimeFormatExample, new DateTime(2018, 11, 13, 22, 01, 48) },
+                new object[] { GmailDateTimeFormatExample, new DateTime(2018, 11, 13, 22, 01, 48) },
             };
 
         public static IEnumerable<object[]> InvalidDateTimes =>
@@ -43,15 +54,16 @@ namespace ADHDmailTests
             {
                 new object[] { "Invalid date time", DateTime.MinValue },
                 new object[] { "", DateTime.MinValue },
-                new object[] { "     ", DateTime.MinValue }
+                new object[] { "     ", DateTime.MinValue },
+                new object[] { null, DateTime.MinValue}
             };
 
         [Theory]
         [MemberData(nameof(ValidDateTimes))]
         [MemberData(nameof(InvalidDateTimes))]
-        public void ToDateTime_Test_ValidInput(string input, DateTime expectedOutput)
+        public void ToDateTime_Test(string input, DateTime expectedOutput)
         {
-            Assert.Equal(expectedOutput, input.ToDateTime());
+            Assert.Equal(input.ToDateTime(), expectedOutput);
         }
     }
 }
