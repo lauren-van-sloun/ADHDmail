@@ -11,11 +11,6 @@ namespace ADHDmail.Config
     public class IgnoreFiltersConfigFile : ConfigFile
     {
         /// <summary>
-        /// The path and name of the <see cref="IgnoreFiltersConfigFile"/>.
-        /// </summary>
-        public override string FullPath { get; set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="IgnoreFiltersConfigFile"/> class.
         /// </summary>
         public IgnoreFiltersConfigFile()
@@ -48,7 +43,7 @@ namespace ADHDmail.Config
         /// <exception cref="System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Append(List<Filter> filters)
         {
-            filters.ForEach(f => Append(f));
+            filters.ForEach(Append);
         }
 
         /// <summary>
