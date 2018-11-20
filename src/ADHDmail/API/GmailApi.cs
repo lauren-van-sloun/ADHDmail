@@ -26,9 +26,9 @@ namespace ADHDmail.API
         private GmailService _gmailService;
 
         // User's email address. The special value "me" can be used to indicate the authenticated user.
-        private const string userId = "me";
+        private const string UserId = "me";
 
-        private UserCredential _credential;
+        private readonly UserCredential _credential;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GmailApi"/> class.
@@ -43,20 +43,20 @@ namespace ADHDmail.API
             PopulateService();
         }
 
-        private UserCredential GetCredential(string path)
+        private static UserCredential GetCredential(string path)
         {
             string[] scopes = { GmailService.Scope.GmailReadonly };
 
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                string credPath = "token.json";
+                const string CredPath = "token.json";
 
                 return GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     scopes,
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(credPath, true)).Result;
+                    new FileDataStore(CredPath, true)).Result;
             }
         }
 
@@ -116,30 +116,21 @@ namespace ADHDmail.API
         /// returns the full email message data with body content parsed in the payload field.</param>
         private List<GmailMessage> ListMessages(string query = "")
         {
-            var result = new List<GmailMessage>();
-            UsersResource.MessagesResource.ListRequest request = _gmailService.Users.Messages.List(userId);
+            var messages = new List<GmailMessage>();
+            var request = _gmailService.Users.Messages.List(UserId);
             request.Q = query;
 
             do
             {
-                // might not need this try-catch block since it is nested in another
-                // try-catch block that is in the calling method
-                try
-                {
-                    ListMessagesResponse response = request.Execute();
-                    if (response.Messages == null)
-                        return null;
-                    result.AddRange(response.Messages);
-                    request.PageToken = response.NextPageToken;
-                }
-                catch (Exception ex)
-                {
-                    LogWriter.Write($"Could not retrieve messages from Gmail. {ex.GetType()}: \"{ex.Message}\"");
-                }
+                ListMessagesResponse response = request.Execute();
+                if (response.Messages == null)
+                    return null;
+                messages.AddRange(response.Messages);
+                request.PageToken = response.NextPageToken;
             }
             while (!string.IsNullOrEmpty(request.PageToken));
 
-            return result;
+            return messages;
         }
 
         /// <summary>
@@ -150,7 +141,7 @@ namespace ADHDmail.API
         {
             try
             {
-                return _gmailService.Users.Messages.Get(userId, messageId).Execute();
+                return _gmailService.Users.Messages.Get(UserId, messageId).Execute();
             }
             catch (Exception ex)
             {
@@ -185,20 +176,18 @@ namespace ADHDmail.API
             return email;
         }
 
-        private string GetBody(IList<MessagePart> parts)
+        private static string GetBody(IList<MessagePart> parts)
         {
             foreach (MessagePart part in parts)
             {
-                if (part.Body != null)
-                {
-                    if (part.MimeType == "text/html" || part.MimeType == "text/plain")
-                        return Decode(part.Body.Data);
-                }
+                if (part.Body == null) continue;
+                if (part.MimeType == "text/html" || part.MimeType == "text/plain")
+                    return Decode(part.Body.Data);
             }
             return GetBody(parts[0].Parts);
         }
 
-        private string Decode(string body)
+        private static string Decode(string body)
         {
             string codedBody = body.Replace("-", "+");
             codedBody = codedBody.Replace("_", "/");
@@ -225,7 +214,7 @@ namespace ADHDmail.API
             }
         }
 
-        private void PopulateSenderData(Email email, string fromHeader)
+        private static void PopulateSenderData(Email email, string fromHeader)
         {
             Regex sendersNameRegex = new Regex(@"[^<]*");
             Regex sendersEmailRegex = new Regex(@"<(.+)>");

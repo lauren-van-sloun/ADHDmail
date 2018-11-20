@@ -25,7 +25,7 @@ namespace ADHDmail
             set
             {
                 if (!value.IsValidPath())
-                    throw new ArgumentException("The LogPath provided is not a valid filepath.");
+                    throw new ArgumentException($"The LogPath provided is not a valid filepath. Value provided: {value}.");
                 _logPath = value;
             }
         }
