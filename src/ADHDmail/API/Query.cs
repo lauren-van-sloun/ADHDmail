@@ -1,6 +1,7 @@
 ﻿using ADHDmail.Config;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,21 +16,20 @@ namespace ADHDmail.API
         /// <summary>
         /// Represents the fully constructed query for filtering use in querying email APIs. 
         /// </summary>
-        protected string RawQuery;
+        protected string RawQuery = string.Empty;
 
         /// <summary>
         /// Sets the <see cref="RawQuery"/> to <see cref="string.Empty"/> which represents a query 
         /// with no filtering. This will construct a query that will return all emails.
         /// </summary>
         protected Query()
-        {
-            RawQuery = "";
-        }
+        { }
 
         /// <summary>
         /// Constructs the <see cref="RawQuery"/> to contain the filters supplied.
         /// </summary>
         /// <param name="queryFilters">Represents the filters to apply to the query.</param>
+        [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         protected Query(List<Filter> queryFilters)
         {
             RawQuery = ConstructQuery(queryFilters);
