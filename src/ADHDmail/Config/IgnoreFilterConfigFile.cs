@@ -59,7 +59,7 @@ namespace ADHDmail.Config
         /// </summary>
         /// <returns>A list of <see cref="Filter"/> objects that were saved in the file. 
         /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
-        public List<Filter> LoadJson()
+        public List<Filter> GetFilters()
         {
             if (!Exists)
                 return null;

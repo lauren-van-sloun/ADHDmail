@@ -320,7 +320,7 @@
             Clears the contents of the file.
             </summary>
         </member>
-        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.LoadJson">
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.GetFilters">
             <summary>
             Reads the file and returns its contents.
             </summary>
