@@ -11,15 +11,18 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            var fiveMinutesInMilliseconds = 300000;
-            //var fiveSecondsInMilliseconds = 5000;
+            //var fiveMinutesInMilliseconds = 300000;
+            /*
+            var fiveSecondsInMilliseconds = 5000;
             Timer timer = new Timer();
-            timer.Interval = fiveMinutesInMilliseconds;
+            timer.Interval = fiveSecondsInMilliseconds;
             timer.Elapsed += PrintEmails;
             timer.Start();
 
             Console.ReadKey();
             timer.Stop();
+            */
+            PrintEmails(null, null);
         }
 
         public static void PrintEmails(object sender, ElapsedEventArgs e)
@@ -33,19 +36,19 @@ namespace ADHDmail
             }
 
             var filters = filterConfigFile.GetFilters();
+            var query = new GmailQuery(filters);
 
             // These queries will be built at runtime from the IgnoreFilterConfigFile class
-            /*
-            var queryFilters = new List<Filter>()
-            {
-                new Filter(FilterOption.Unread),
-                new Filter(FilterOption.LargerThan, "1"),
-                new Filter(FilterOption.From, "GitHub")
-            };
-            
-            var query = new GmailQuery(queryFilters);
-            */
-            var query = new GmailQuery(filters);
+
+            //var queryFilters = new List<Filter>()
+            //{
+            //    new Filter(FilterOption.Unread),
+            //    new Filter(FilterOption.LargerThan, "1"),
+            //    new Filter(FilterOption.From, "GitHub")
+            //};
+
+            //var query = new GmailQuery(queryFilters);
+
             var emails = api.GetEmails(query);
 
             emails.ForEach(email =>

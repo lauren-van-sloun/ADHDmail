@@ -62,12 +62,17 @@ namespace ADHDmail.Config
         public List<Filter> GetFilters()
         {
             if (!Exists)
-                return null;
+            {
+                var message = $"Failed to retrieve filters from path: {FullPath}. File does not exist.";
+                LogWriter.Write(message);
+                throw new FileNotFoundException(message);
+            }
 
             using (var reader = File.OpenText(FullPath))
             {
                 var json = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<List<Filter>>(json);
+                List<Filter> result = JsonConvert.DeserializeObject<List<Filter>>(json);
+                return result ?? new List<Filter>();
             }
         }
     }
