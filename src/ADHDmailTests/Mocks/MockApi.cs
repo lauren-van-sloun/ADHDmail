@@ -1,10 +1,6 @@
 ﻿using ADHDmail;
 using ADHDmail.API;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ADHDmailTests.Mocks
 {
