@@ -7,7 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ADHDmailTests", "ADHDmailTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDmail", "src\ADHDmail\ADHDmail.csproj", "{EE49A8BD-41E2-4A26-9714-2FD170E25271}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDmailTests", "src\ADHDmailTests\ADHDmailTests.csproj", "{78998BCD-8F0C-4126-9EC1-F1377CE3E208}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDmailUnitTests", "src\ADHDmailTests\ADHDmailUnitTests.csproj", "{78998BCD-8F0C-4126-9EC1-F1377CE3E208}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ADHDmailIntegrationTests", "ADHDmailIntegrationTests\ADHDmailIntegrationTests.csproj", "{69AE1F54-EA07-4DC3-A521-51960DC619CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{78998BCD-8F0C-4126-9EC1-F1377CE3E208}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78998BCD-8F0C-4126-9EC1-F1377CE3E208}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78998BCD-8F0C-4126-9EC1-F1377CE3E208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69AE1F54-EA07-4DC3-A521-51960DC619CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69AE1F54-EA07-4DC3-A521-51960DC619CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69AE1F54-EA07-4DC3-A521-51960DC619CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69AE1F54-EA07-4DC3-A521-51960DC619CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{78998BCD-8F0C-4126-9EC1-F1377CE3E208} = {E1A53EF5-0911-47DB-BF30-36E89CBE5F99}
+		{69AE1F54-EA07-4DC3-A521-51960DC619CD} = {E1A53EF5-0911-47DB-BF30-36E89CBE5F99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CBA45149-944A-4FC1-9BA0-868CD7EA06B3}
