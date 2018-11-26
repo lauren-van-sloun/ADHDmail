@@ -49,7 +49,7 @@ namespace ADHDmail.API
 
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                var credPath = Path.Combine(GlobalValues.ApplicationName);
+                var credPath = GlobalValues.ApplicationName;
 
                 return GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
