@@ -13,32 +13,16 @@ namespace ADHDmail
     public static class LogWriter
     {
         private static string _logPath;
-        /// <summary>
-        /// The full path to the log file.
-        /// </summary>
-        /// <exception 
-        /// cref="ArgumentException">Thrown when given a string with one or more invalid path characters.
-        /// </exception>
-        public static string LogPath
-        {
-            get => _logPath;
-            set
-            {
-                if (!value.IsValidPath())
-                    throw new ArgumentException($"The LogPath provided is not a valid filepath. Value provided: {value}.");
-                _logPath = value;
-            }
-        }
 
         static LogWriter()
         {
-            _logPath = GetLogPath();
+            SetLogPath();
         }
 
-        private static string GetLogPath()
+        private static void SetLogPath()
         {
-            var fileName = GlobalValues.ApplicationName + "Log.txt";
-            return Path.Combine(GlobalValues.LocalAppDataPath, fileName);
+            var fileName = "ErrorLog.txt";
+            _logPath = Path.Combine(GlobalValues.LocalAppDataPath, GlobalValues.ApplicationName, fileName);
         }
 
         /// <summary>

@@ -13,6 +13,7 @@ namespace ADHDmail
         {
             //var fiveMinutesInMilliseconds = 300000;
             
+            /*
             var fiveSecondsInMilliseconds = 5000;
             Timer timer = new Timer();
             timer.Interval = fiveSecondsInMilliseconds;
@@ -21,8 +22,9 @@ namespace ADHDmail
 
             Console.ReadKey();
             timer.Stop();
-            
-            //PrintEmails(null, null);
+            */
+
+            PrintEmails(null, null);
         }
 
         public static void PrintEmails(object sender, ElapsedEventArgs e)

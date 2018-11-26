@@ -263,7 +263,7 @@
         </member>
         <member name="M:ADHDmail.Config.ConfigFile.GetFullPath(System.String)">
             <summary>
-            Combines the <see cref="P:ADHDmail.GlobalValues.AppDataPath"/>, <see cref="P:ADHDmail.GlobalValues.ApplicationName"/>, 
+            Combines the <see cref="P:ADHDmail.GlobalValues.AppDataPath"/>, <see cref="F:ADHDmail.GlobalValues.ApplicationName"/>, 
             and <paramref name="fileName"/> to make the full file path.
             </summary>
             <param name="fileName">The name of the file.</param>
@@ -385,14 +385,6 @@
             The default log file location is the LocalAppData folder.
             </para>
             </summary>
-        </member>
-        <member name="P:ADHDmail.LogWriter.LogPath">
-            <summary>
-            The full path to the log file.
-            </summary>
-            <exception 
-            cref="T:System.ArgumentException">Thrown when given a string with one or more invalid path characters.
-            </exception>
         </member>
         <member name="M:ADHDmail.LogWriter.Write(System.String,System.String,System.String,System.Int32)">
             <summary>

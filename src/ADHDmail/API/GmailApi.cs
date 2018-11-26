@@ -62,13 +62,10 @@ namespace ADHDmail.API
 
         private void PopulateService()
         {
-            string fullName = Assembly.GetEntryAssembly().Location;
-            string applicationName = Path.GetFileNameWithoutExtension(fullName);
-
             _gmailService = new GmailService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = _credential,
-                ApplicationName = applicationName
+                ApplicationName = GlobalValues.ApplicationName
             });
         }
 
