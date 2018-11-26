@@ -49,14 +49,14 @@ namespace ADHDmail.API
 
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                const string CredPath = "token.json";
+                var credPath = Path.Combine(GlobalValues.ApplicationName);
 
                 return GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     scopes,
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(CredPath, true)).Result;
+                    new FileDataStore(credPath, false)).Result;
             }
         }
 
