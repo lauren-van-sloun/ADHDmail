@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ADHDmailIntegrationTests
+namespace ADHDmailIntegrationTests.API
 {
     public class GmailApiTests
     {

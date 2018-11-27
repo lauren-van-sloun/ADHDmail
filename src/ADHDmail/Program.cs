@@ -2,7 +2,6 @@
 using ADHDmail.Config;
 using System;
 using System.Collections.Generic;
-//using System.Threading;
 using System.Timers;
 
 namespace ADHDmail
@@ -12,7 +11,7 @@ namespace ADHDmail
         public static void Main(string[] args)
         {
             //var fiveMinutesInMilliseconds = 300000;
-            
+
             /*
             var fiveSecondsInMilliseconds = 5000;
             Timer timer = new Timer();
@@ -24,7 +23,7 @@ namespace ADHDmail
             timer.Stop();
             */
 
-            PrintEmails(null, null);
+            //PrintEmails(null, null);
         }
 
         public static void PrintEmails(object sender, ElapsedEventArgs e)
