@@ -10,18 +10,36 @@ using Xunit;
 
 namespace ADHDmailIntegrationTests.Config
 {
-    public class IgnoreFilterConfigFileTests
+    // order these tests to match the method order that is in IgnorefilterConfigFile.cs
+    public static class IgnoreFilterConfigFileTests
     {
-        IgnoreFiltersConfigFile filterConfigFile = new IgnoreFiltersConfigFile();
+        private static IgnoreFiltersConfigFile _filterConfigFile = new IgnoreFiltersConfigFile();
 
-        private void SetConfigPathForTesting()
+        static IgnoreFilterConfigFileTests()
         {
-            filterConfigFile.FullPath = Path.Combine(
+            SetConfigPathForTesting();
+        }
+
+        private static void SetConfigPathForTesting()
+        {
+            _filterConfigFile.FullPath = Path.Combine(
                     GlobalValues.AppDataPath,
                     GlobalValues.ApplicationName,
                     "IgnoreFiltersTest.json");
         }
-        
+
+        private static void TestTearDown()
+        {
+            _filterConfigFile.Clear();
+        }
+
+        [Fact]
+        public static void ConstructorTest()
+        {
+            Assert.True(_filterConfigFile.FullPath.IsValidPath());
+        }
+
+        // give better name to distinguish between this and the other data set
         public static IEnumerable<object[]> TestFiltersAndTheirSerializedValues =>
             new List<object[]>
             {
@@ -33,26 +51,17 @@ namespace ADHDmailIntegrationTests.Config
                         new Filter(FilterOption.ContainsWord, "Test")
                     },
                     "{\"FilterOption\":7,\"Value\":\"\"}{\"FilterOption\":6,\"Value\":\"Test\"}"
-                }
+                },
             };
 
         [Theory]
         [MemberData(nameof(TestFiltersAndTheirSerializedValues))]
-        public void AppendTests(List<Filter> input, string expectedFileContent)
+        public static void AppendMultipleTests(List<Filter> input, string expectedFileContent)
         {
-            SetConfigPathForTesting();
-
             try
             {
-                // act
-                filterConfigFile.Append(input);
-
-                // check
-                bool fileContainsFilters = false;
-                if (File.ReadLines(filterConfigFile.FullPath).Any(line => line.Contains(expectedFileContent)))
-                    fileContainsFilters = true;
-                // assert
-                Assert.True(fileContainsFilters);
+                _filterConfigFile.Append(input);
+                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(expectedFileContent)));
             }
             catch (Exception)
             {
@@ -60,15 +69,72 @@ namespace ADHDmailIntegrationTests.Config
             }
             finally
             {
-                filterConfigFile.Remove(input);
+                TestTearDown();
             }
         }
 
+        // give better name to distinguish between this and the other data set
+        public static IEnumerable<object[]> FiltersAndValues =>
+            new List<object[]>
+            {
+                new object[] { new Filter(FilterOption.AllFolders), "{\"FilterOption\":7,\"Value\":\"\"}" },
+                new object[] { new Filter(FilterOption.ContainsWord, "Test"), "{\"FilterOption\":6,\"Value\":\"Test\"}"},    
+            };
 
-        // Test these
-        // ctor sets FullPath field on base class
-        // Append successfully appends filter(s)
-        // Clear clears the file
-        // GetFilters successfully reads and returns Filters
+        [Theory]
+        [MemberData(nameof(FiltersAndValues))]
+        public static void AppendSingularTests(Filter input, string expectedFileContent)
+        {
+            try
+            {
+                _filterConfigFile.Append(input);
+                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(expectedFileContent)));
+            }
+            catch (Exception)
+            {
+                Assert.True(false);
+            }
+            finally
+            {
+                TestTearDown();
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(FiltersAndValues))]
+        public static void ContainsTest(Filter input, string serializedFilter)
+        {
+            try
+            {
+                _filterConfigFile.Append(input);
+                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(serializedFilter)));
+            }
+            catch (Exception)
+            {
+                Assert.True(false);
+            }
+            finally
+            {
+                TestTearDown();
+            }
+        }
+
+        [Fact]
+        public static void ClearTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Theory]
+        public static void RemoveTest()
+        {
+            throw new NotImplementedException();
+        }
+
+        [Theory]
+        public static void GetFilters()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

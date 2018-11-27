@@ -293,6 +293,13 @@
             Initializes a new instance of the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> class.
             </summary>
         </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Contains(ADHDmail.Config.Filter)">
+            <summary>
+            Determines whether the file contains a specified <see cref="T:ADHDmail.Config.Filter"/>.
+            </summary>
+            <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
+            <returns>Returns true if the <see cref="T:ADHDmail.Config.Filter"/> exists within the file, otherwise false.</returns>
+        </member>
         <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(ADHDmail.Config.Filter)">
             <summary>
             Opens a file, appends the specified <see cref="T:ADHDmail.Config.Filter"/> to the file, and then closes the file. If the file does 

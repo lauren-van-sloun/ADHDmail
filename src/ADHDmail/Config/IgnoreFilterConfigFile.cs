@@ -20,10 +20,15 @@ namespace ADHDmail.Config
             FullPath = GetFullPath("IgnoreFilters.json");
         }
 
+        /// <summary>
+        /// Determines whether the file contains a specified <see cref="Filter"/>.
+        /// </summary>
+        /// <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
+        /// <returns>Returns true if the <see cref="Filter"/> exists within the file, otherwise false.</returns>
         public bool Contains(Filter filter)
         {
             var serializedFilter = JsonConvert.SerializeObject(filter);
-            return File.ReadLines(FullPath).Contains(serializedFilter);
+            return LoadFile().Contains(serializedFilter);
         }
 
         /// <summary>
@@ -61,7 +66,7 @@ namespace ADHDmail.Config
                     serializedFiltersToAdd.Add(serializedFilter);
             }
 
-            string combinedSerializedFilters = string.Join("", serializedFiltersToAdd);
+            var combinedSerializedFilters = string.Join("", serializedFiltersToAdd);
             File.AppendAllText(FullPath, combinedSerializedFilters);
         }
 
@@ -75,10 +80,7 @@ namespace ADHDmail.Config
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Remove(Filter filter)
         {
-            var serializedFilter = JsonConvert.SerializeObject(filter);
-
-            File.WriteAllLines(FullPath, 
-                File.ReadLines(FullPath).Where(line => line != serializedFilter).ToList());
+            Remove(new List<Filter>() { filter });
         }
 
         /// <summary>
@@ -92,8 +94,13 @@ namespace ADHDmail.Config
         public void Remove(List<Filter> filters)
         {
             // Figure out how I want to handle the case when the file does not exist
-            // implement this in a better way as described in the comments for Append(filters)
-            filters.ForEach(Remove);
+
+            var serializedFilters = new List<string>();
+            filters.ForEach(f => serializedFilters.Add(JsonConvert.SerializeObject(f)));
+
+            string fileContent = LoadFile();
+            serializedFilters.ForEach(f => fileContent.Replace(f, string.Empty));
+            File.WriteAllText(FullPath, fileContent);
         }
 
         /// <summary>
