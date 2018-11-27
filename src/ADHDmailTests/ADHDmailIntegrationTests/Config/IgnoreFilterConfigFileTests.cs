@@ -14,31 +14,44 @@ namespace ADHDmailIntegrationTests.Config
     {
         IgnoreFiltersConfigFile filterConfigFile = new IgnoreFiltersConfigFile();
 
-        [Fact]
-        public void AppendTests()
+        private void SetConfigPathForTesting()
         {
             filterConfigFile.FullPath = Path.Combine(
                     GlobalValues.AppDataPath,
                     GlobalValues.ApplicationName,
                     "IgnoreFiltersTest.json");
-
-            Filter filter = new Filter(FilterOption.AllFolders);
-            var filters = new List<Filter>()
+        }
+        
+        public static IEnumerable<object[]> TestFiltersAndTheirSerializedValues =>
+            new List<object[]>
             {
-                new Filter(FilterOption.AllFolders),
-                new Filter(FilterOption.ContainsWord, "Test")
+                new object[] 
+                {
+                    new List<Filter>()
+                    {
+                        new Filter(FilterOption.AllFolders),
+                        new Filter(FilterOption.ContainsWord, "Test")
+                    },
+                    "{\"FilterOption\":7,\"Value\":\"\"}{\"FilterOption\":6,\"Value\":\"Test\"}"
+                }
             };
+
+        [Theory]
+        [MemberData(nameof(TestFiltersAndTheirSerializedValues))]
+        public void AppendTests(List<Filter> input, string expectedFileContent)
+        {
+            SetConfigPathForTesting();
 
             try
             {
-                filterConfigFile.Append(filters);
+                // act
+                filterConfigFile.Append(input);
 
-                var expectedText = "{\"FilterOption\":7,\"Value\":\"\"}{\"FilterOption\":6,\"Value\":\"Test\"}";
-
+                // check
                 bool fileContainsFilters = false;
-                if (File.ReadLines(filterConfigFile.FullPath).Any(line => line.Contains(expectedText)))
+                if (File.ReadLines(filterConfigFile.FullPath).Any(line => line.Contains(expectedFileContent)))
                     fileContainsFilters = true;
-
+                // assert
                 Assert.True(fileContainsFilters);
             }
             catch (Exception)
@@ -47,7 +60,7 @@ namespace ADHDmailIntegrationTests.Config
             }
             finally
             {
-                filterConfigFile.Remove(filters);
+                filterConfigFile.Remove(input);
             }
         }
 

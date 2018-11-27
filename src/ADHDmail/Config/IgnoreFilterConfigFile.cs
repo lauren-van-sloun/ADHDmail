@@ -20,6 +20,12 @@ namespace ADHDmail.Config
             FullPath = GetFullPath("IgnoreFilters.json");
         }
 
+        public bool Contains(Filter filter)
+        {
+            var serializedFilter = JsonConvert.SerializeObject(filter);
+            return File.ReadLines(FullPath).Contains(serializedFilter);
+        }
+
         /// <summary>
         /// Opens a file, appends the specified <see cref="Filter"/> to the file, and then closes the file. If the file does 
         /// not exist, this method creates a file, writes the specified <see cref="Filter"/> to the file, then closes the file.
@@ -31,7 +37,7 @@ namespace ADHDmail.Config
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Append(Filter filter)
         {
-            File.AppendAllText(FullPath, JsonConvert.SerializeObject(filter));
+            Append(new List<Filter>() { filter });
         }
 
         /// <summary>
@@ -45,10 +51,18 @@ namespace ADHDmail.Config
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Append(List<Filter> filters)
         {
-            // Improve this logic/performance so that it is not opening and apending to the file individually over and over
-            // (Append many at once)
-            // Also add logic to make sure I don't add duplicates
-            filters.ForEach(Append);
+            var fileContents = LoadFile();
+
+            var serializedFiltersToAdd = new List<string>();
+            foreach (var filter in filters)
+            {
+                var serializedFilter = JsonConvert.SerializeObject(filter);
+                if (!fileContents.Contains(serializedFilter))
+                    serializedFiltersToAdd.Add(serializedFilter);
+            }
+
+            string combinedSerializedFilters = string.Join("", serializedFiltersToAdd);
+            File.AppendAllText(FullPath, combinedSerializedFilters);
         }
 
         /// <summary>
@@ -62,6 +76,7 @@ namespace ADHDmail.Config
         public void Remove(Filter filter)
         {
             var serializedFilter = JsonConvert.SerializeObject(filter);
+
             File.WriteAllLines(FullPath, 
                 File.ReadLines(FullPath).Where(line => line != serializedFilter).ToList());
         }
@@ -109,6 +124,11 @@ namespace ADHDmail.Config
                 List<Filter> result = JsonConvert.DeserializeObject<List<Filter>>(json);
                 return result ?? new List<Filter>();
             }
+        }
+
+        private string LoadFile()
+        {
+            return File.ReadAllText(FullPath);
         }
     }
 }
