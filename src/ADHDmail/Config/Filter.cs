@@ -63,6 +63,12 @@ namespace ADHDmail.Config
                 : _filterValues[FilterOption].Replace("<>", Value);
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="Filter"/> instances are considered equal
+        /// in terms of their <see cref="FilterOption"/> selection and <see cref="Value"/>'s value.
+        /// </summary>
+        /// <param name="obj">The other <see cref="Filter"/> to compare to.</param>
+        /// <returns>Returns true if the <see cref="Filter"/>s are equal, otherwise false.</returns>
         public override bool Equals(object obj)
         {
             var other = obj as Filter;
@@ -70,6 +76,10 @@ namespace ADHDmail.Config
                                            this.Value == other.Value;
         }
 
+        /// <summary>
+        /// Serves as the default hash function.
+        /// </summary>
+        /// <returns>Returns the base class's hash code.</returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();

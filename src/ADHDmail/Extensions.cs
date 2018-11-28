@@ -53,12 +53,22 @@ namespace ADHDmail
             return result;
         }
 
-        public static List<T> Deserialize<T>(this string SerializedJSONString)
+        /// <summary>
+        /// Deserializes a JSON string into a List of <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of object to deserialize to.</typeparam>
+        /// <param name="serializedJSONString">The serialized JSON string to parse.</param>
+        /// <returns>Returns a deserialized List of <typeparamref name="T"/>.</returns>
+        public static List<T> Deserialize<T>(this string serializedJSONString)
         {
-            var stuff = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
-            return stuff;
+            return JsonConvert.DeserializeObject<List<T>>(serializedJSONString);
         }
 
+        /// <summary>
+        /// Determines if the file specified is empty.
+        /// </summary>
+        /// <param name="path">The full path of the file.</param>
+        /// <returns>Returns true if the file is empty, otherwise false.</returns>
         public static bool IsEmptyFile(this string path)
         {
             return new FileInfo(path).Length == 0;
