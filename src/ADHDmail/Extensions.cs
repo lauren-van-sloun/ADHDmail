@@ -16,6 +16,7 @@ namespace ADHDmail
         /// </summary>
         /// <param name="path">The path to be checked.</param>
         /// <returns>Returns true if the string is a valid path, false if not.</returns>
+        [Obsolete("Not being used anywhere - may remove.")]
         public static bool IsValidPath(this string path)
         {
             const int MaxPath = 260;

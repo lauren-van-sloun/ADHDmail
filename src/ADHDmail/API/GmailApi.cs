@@ -49,26 +49,23 @@ namespace ADHDmail.API
 
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                const string CredPath = "token.json";
+                var credPath = GlobalValues.ApplicationName;
 
                 return GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     scopes,
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(CredPath, true)).Result;
+                    new FileDataStore(credPath, false)).Result;
             }
         }
 
         private void PopulateService()
         {
-            string fullName = Assembly.GetEntryAssembly().Location;
-            string applicationName = Path.GetFileNameWithoutExtension(fullName);
-
             _gmailService = new GmailService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = _credential,
-                ApplicationName = applicationName
+                ApplicationName = GlobalValues.ApplicationName
             });
         }
 
