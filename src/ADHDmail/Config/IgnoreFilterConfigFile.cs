@@ -93,7 +93,9 @@ namespace ADHDmail.Config
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Remove(List<Filter> filters)
         {
-            // Figure out how I want to handle the case when the file does not exist
+            // Change message
+            if (!Exists)
+                LogAndThrowFileNotFoundException($"Failed to retrieve filters from path: {FullPath}. File does not exist.");
 
             var serializedFilters = new List<string>();
             filters.ForEach(f => serializedFilters.Add(JsonConvert.SerializeObject(f)));
@@ -119,11 +121,8 @@ namespace ADHDmail.Config
         public List<Filter> GetFilters()
         {
             if (!Exists)
-            {
-                var message = $"Failed to retrieve filters from path: {FullPath}. File does not exist.";
-                LogWriter.Write(message);
-                throw new FileNotFoundException(message);
-            }
+                // make message more descriptive to this specific GetFilters method
+                LogAndThrowFileNotFoundException($"Failed to retrieve filters from path: {FullPath}. File does not exist.");
 
             using (var reader = File.OpenText(FullPath))
             {
@@ -136,6 +135,13 @@ namespace ADHDmail.Config
         private string LoadFile()
         {
             return File.ReadAllText(FullPath);
+        }
+
+        // consider renaming to a single pupose name (no "and")
+        private void LogAndThrowFileNotFoundException(string message)
+        {
+            LogWriter.Write(message);
+            throw new FileNotFoundException(message);
         }
     }
 }

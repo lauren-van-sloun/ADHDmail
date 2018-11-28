@@ -9,28 +9,6 @@ namespace ADHDmail.API
     /// </summary>
     public class GmailQuery : Query
     {
-        private readonly Dictionary<FilterOption, string> _queryFilterValues = 
-            new Dictionary<FilterOption, string>()
-        {
-            { FilterOption.From, "from:<>" },
-            { FilterOption.To, "to:<>" },
-            { FilterOption.Subject, "subject:<>" },
-            { FilterOption.Label, "label:<>" },
-            { FilterOption.HasAttachment, "has:attachment" },
-            { FilterOption.HasFilename, "filename:<>" },
-            { FilterOption.ContainsWord, "<>" },
-            { FilterOption.AllFolders, "is:anywhere" },
-            { FilterOption.Starred, "is:starred" },
-            { FilterOption.Unread, "is:unread" },
-            { FilterOption.Read, "is:read" },
-            { FilterOption.After, "after:<>" },
-            { FilterOption.Before, "before:<>" },
-            { FilterOption.DeliveredTo, "deliveredto:<>" },
-            { FilterOption.LargerThan, "larger:<>" },
-            { FilterOption.SmallerThan, "smaller:<>" },
-            { FilterOption.MatchesWordExactly, "+<>" }
-        };
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GmailQuery"/> class with no filtering. 
         /// This will construct a query that will return all emails.
@@ -58,11 +36,7 @@ namespace ADHDmail.API
 
             for (int i = 0; i < queryFilters.Count; i++)
             {
-                var key = queryFilters[i].FilterOption;
-                var value = queryFilters[i].Value;
-                queryBuilder.Append(string.IsNullOrWhiteSpace(value)
-                    ? _queryFilterValues[key]
-                    : _queryFilterValues[key].Replace("<>", value));
+                queryBuilder.Append(queryFilters[i]);
                 if (i != queryFilters.Count - 1)
                     queryBuilder.Append(' ');
             }
