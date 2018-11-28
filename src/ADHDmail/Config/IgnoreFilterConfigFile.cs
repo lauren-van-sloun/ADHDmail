@@ -56,18 +56,11 @@ namespace ADHDmail.Config
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Append(List<Filter> filters)
         {
-            var fileContents = LoadFile();
-
-            var serializedFiltersToAdd = new List<string>();
-            foreach (var filter in filters)
+            using (StreamWriter writer = File.AppendText(FullPath))
             {
-                var serializedFilter = JsonConvert.SerializeObject(filter);
-                if (!fileContents.Contains(serializedFilter))
-                    serializedFiltersToAdd.Add(serializedFilter);
+                var serializer = new JsonSerializer();
+                serializer.Serialize(writer, filters);
             }
-
-            var combinedSerializedFilters = string.Join("", serializedFiltersToAdd);
-            File.AppendAllText(FullPath, combinedSerializedFilters);
         }
 
         /// <summary>
@@ -93,6 +86,7 @@ namespace ADHDmail.Config
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Remove(List<Filter> filters)
         {
+            // maybe will rewrite this to be more similar to the style of the new append methods
             var serializedFilters = new List<string>();
             filters.ForEach(f => serializedFilters.Add(JsonConvert.SerializeObject(f)));
 
@@ -116,11 +110,13 @@ namespace ADHDmail.Config
         /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
         public List<Filter> GetFilters()
         {
+            // Not sure which implementation I want to use yet
+
             var fileContents = LoadFile();
             List<Filter> result = fileContents.Deserialize<Filter>();
             return result ?? new List<Filter>();
 
-            
+
             //using (var reader = File.OpenText(FullPath))
             //{
             //    var json = reader.ReadToEnd();

@@ -50,7 +50,7 @@ namespace ADHDmailIntegrationTests.Config
                         new Filter(FilterOption.AllFolders),
                         new Filter(FilterOption.ContainsWord, "Test")
                     },
-                    "{\"FilterOption\":7,\"Value\":\"\"}{\"FilterOption\":6,\"Value\":\"Test\"}"
+                    "[{\"FilterOption\":7,\"Value\":\"\"},{\"FilterOption\":6,\"Value\":\"Test\"}]"
                 },
             };
 
@@ -61,7 +61,7 @@ namespace ADHDmailIntegrationTests.Config
             try
             {
                 _filterConfigFile.Append(input);
-                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(expectedFileContent)));
+                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
             }
             catch (Exception)
             {
@@ -77,8 +77,8 @@ namespace ADHDmailIntegrationTests.Config
         public static IEnumerable<object[]> FiltersAndValues =>
             new List<object[]>
             {
-                new object[] { new Filter(FilterOption.AllFolders), "{\"FilterOption\":7,\"Value\":\"\"}" },
-                new object[] { new Filter(FilterOption.ContainsWord, "Test"), "{\"FilterOption\":6,\"Value\":\"Test\"}"},    
+                new object[] { new Filter(FilterOption.AllFolders), "[{\"FilterOption\":7,\"Value\":\"\"}]" },
+                new object[] { new Filter(FilterOption.ContainsWord, "Test"), "[{\"FilterOption\":6,\"Value\":\"Test\"}]"},    
             };
 
         [Theory]
@@ -88,7 +88,7 @@ namespace ADHDmailIntegrationTests.Config
             try
             {
                 _filterConfigFile.Append(input);
-                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(expectedFileContent)));
+                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
             }
             catch (Exception)
             {
@@ -122,7 +122,11 @@ namespace ADHDmailIntegrationTests.Config
         [Fact]
         public static void ClearTest()
         {
-            throw new NotImplementedException();
+            // test case - file does not exist
+            File.WriteAllText(_filterConfigFile.FullPath, "Sample text to ensure the file has content");
+            _filterConfigFile.Clear();
+            var fileIsEmpty = new FileInfo(_filterConfigFile.FullPath).Length == 0;
+            Assert.True(fileIsEmpty);
         }
 
         [Theory]

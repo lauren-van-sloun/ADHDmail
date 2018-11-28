@@ -32,8 +32,12 @@ namespace ADHDmail
 
             var filterConfigFile = new IgnoreFiltersConfigFile();
             filterConfigFile.Clear();
-            //filterConfigFile.Append(new Filter(FilterOption.AllFolders));
-            filterConfigFile.Append(new List<Filter>() { new Filter(FilterOption.AllFolders), new Filter(FilterOption.Read) });
+            filterConfigFile.Append(new Filter(FilterOption.AllFolders));
+            //filterConfigFile.Append(new List<Filter>()
+            //{
+            //    new Filter(FilterOption.AllFolders),
+            //    new Filter(FilterOption.Read)
+            //});
 
             var filters = filterConfigFile.GetFilters();
             var query = new GmailQuery(filters);
