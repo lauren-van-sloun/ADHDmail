@@ -30,7 +30,7 @@ namespace ADHDmail.Config
             this.Value = value;
         }
 
-        private readonly Dictionary<FilterOption, string> _FilterValues =
+        private readonly Dictionary<FilterOption, string> _filterValues =
             new Dictionary<FilterOption, string>()
         {
             { FilterOption.From, "from:<>" },
@@ -59,8 +59,8 @@ namespace ADHDmail.Config
         public override string ToString()
         {
             return string.IsNullOrWhiteSpace(Value)
-                ? _FilterValues[FilterOption]
-                : _FilterValues[FilterOption].Replace("<>", Value);
+                ? _filterValues[FilterOption]
+                : _filterValues[FilterOption].Replace("<>", Value);
         }
     }
 }

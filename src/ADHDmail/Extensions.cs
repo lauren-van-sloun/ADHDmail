@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -49,6 +51,12 @@ namespace ADHDmail
             }
 
             return result;
+        }
+
+        public static List<T> Deserialize<T>(this string SerializedJSONString)
+        {
+            var stuff = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
+            return stuff;
         }
     }
 }

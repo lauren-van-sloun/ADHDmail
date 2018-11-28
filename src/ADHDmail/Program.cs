@@ -22,8 +22,8 @@ namespace ADHDmail
             Console.ReadKey();
             timer.Stop();
             */
-
-            //PrintEmails(null, null);
+            
+            PrintEmails(null, null);
         }
 
         public static void PrintEmails(object sender, ElapsedEventArgs e)
@@ -31,10 +31,9 @@ namespace ADHDmail
             IEmailApi api = new GmailApi();
 
             var filterConfigFile = new IgnoreFiltersConfigFile();
-            if (!filterConfigFile.Exists)
-            {
-                filterConfigFile.Create();
-            }
+            filterConfigFile.Clear();
+            //filterConfigFile.Append(new Filter(FilterOption.AllFolders));
+            filterConfigFile.Append(new List<Filter>() { new Filter(FilterOption.AllFolders), new Filter(FilterOption.Read) });
 
             var filters = filterConfigFile.GetFilters();
             var query = new GmailQuery(filters);

@@ -156,6 +156,12 @@
             <param name="value">The value to filter by. Not needed for certain filters such 
             as <see cref="F:ADHDmail.Config.FilterOption.HasAttachment"/>, <see cref="F:ADHDmail.Config.FilterOption.Unread"/>, etc.</param>
         </member>
+        <member name="M:ADHDmail.Config.Filter.ToString">
+            <summary>
+            Returns the filter as a string formatted for use in an API query.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:ADHDmail.Config.FilterOption">
             <summary>
             Search operators used to filter message search results.
