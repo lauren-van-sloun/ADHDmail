@@ -100,7 +100,8 @@ namespace ADHDmail.Config
         /// </summary>
         public void Clear()
         {
-            File.WriteAllText(FullPath, string.Empty);
+            if (this.Exists)
+                File.WriteAllText(FullPath, string.Empty);
         }
 
         /// <summary>
@@ -128,16 +129,13 @@ namespace ADHDmail.Config
         private string LoadFile()
         {
             if (!Exists)
-                LogAndThrowFileNotFoundException($"Failed to retrieve filters from path: {FullPath}. File does not exist.");
+            {
+                var message = $"Failed to retrieve filters from path: {FullPath}. File does not exist.";
+                LogWriter.Write(message);
+                throw new FileNotFoundException(message);
+            }
 
             return File.ReadAllText(FullPath);
-        }
-
-        // consider renaming to a single pupose name (no "and")
-        private void LogAndThrowFileNotFoundException(string message)
-        {
-            LogWriter.Write(message);
-            throw new FileNotFoundException(message);
         }
     }
 }

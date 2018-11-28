@@ -63,10 +63,6 @@ namespace ADHDmailIntegrationTests.Config
                 _filterConfigFile.Append(input);
                 Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
             }
-            catch (Exception)
-            {
-                Assert.True(false);
-            }
             finally
             {
                 TestTearDown();
@@ -90,10 +86,6 @@ namespace ADHDmailIntegrationTests.Config
                 _filterConfigFile.Append(input);
                 Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
             }
-            catch (Exception)
-            {
-                Assert.True(false);
-            }
             finally
             {
                 TestTearDown();
@@ -109,10 +101,6 @@ namespace ADHDmailIntegrationTests.Config
                 _filterConfigFile.Append(input);
                 Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(serializedFilter)));
             }
-            catch (Exception)
-            {
-                Assert.True(false);
-            }
             finally
             {
                 TestTearDown();
@@ -122,11 +110,36 @@ namespace ADHDmailIntegrationTests.Config
         [Fact]
         public static void ClearTest()
         {
-            // test case - file does not exist
             File.WriteAllText(_filterConfigFile.FullPath, "Sample text to ensure the file has content");
             _filterConfigFile.Clear();
             var fileIsEmpty = new FileInfo(_filterConfigFile.FullPath).Length == 0;
             Assert.True(fileIsEmpty);
+        }
+
+        public static IEnumerable<object[]> PathsAndExceptions =>
+          new List<object[]>
+          {
+                new object[] { _filterConfigFile.FullPath.Replace("ADHDmail", "NonexistantDirectory"), typeof(DirectoryNotFoundException) },
+                new object[] { _filterConfigFile.FullPath.Replace("IgnoreFiltersTest.json", "NonexistantFile.json"), typeof(FileNotFoundException) }
+          };
+
+        [Theory]
+        [MemberData(nameof(PathsAndExceptions))]
+        public static void ClearTest_ExpectedExceptions(string path, Type expectedExceptionType)
+        {
+            try
+            {
+                _filterConfigFile.FullPath = path;
+                _filterConfigFile.Clear();
+            }
+            catch (Exception ex)
+            {
+                Assert.True(ex.GetType() == expectedExceptionType);
+            }
+            finally
+            {
+                SetConfigPathForTesting();
+            }
         }
 
         [Theory]
