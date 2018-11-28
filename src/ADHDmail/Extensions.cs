@@ -58,5 +58,10 @@ namespace ADHDmail
             var stuff = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
             return stuff;
         }
+
+        public static bool IsEmptyFile(this string path)
+        {
+            return new FileInfo(path).Length == 0;
+        }
     }
 }

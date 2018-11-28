@@ -28,11 +28,6 @@ namespace ADHDmailIntegrationTests.Config
                     "IgnoreFiltersTest.json");
         }
 
-        private static void TestTearDown()
-        {
-            _filterConfigFile.Clear();
-        }
-
         [Fact]
         public static void ConstructorTest()
         {
@@ -65,12 +60,12 @@ namespace ADHDmailIntegrationTests.Config
             }
             finally
             {
-                TestTearDown();
+                _filterConfigFile.Clear();
             }
         }
 
         // give better name to distinguish between this and the other data set
-        public static IEnumerable<object[]> FiltersAndValues =>
+        public static IEnumerable<object[]> SampleFiltersAndValues =>
             new List<object[]>
             {
                 new object[] { new Filter(FilterOption.AllFolders), "[{\"FilterOption\":7,\"Value\":\"\"}]" },
@@ -78,7 +73,7 @@ namespace ADHDmailIntegrationTests.Config
             };
 
         [Theory]
-        [MemberData(nameof(FiltersAndValues))]
+        [MemberData(nameof(SampleFiltersAndValues))]
         public static void AppendSingularTests(Filter input, string expectedFileContent)
         {
             try
@@ -88,12 +83,12 @@ namespace ADHDmailIntegrationTests.Config
             }
             finally
             {
-                TestTearDown();
+                _filterConfigFile.Clear();
             }
         }
 
         [Theory]
-        [MemberData(nameof(FiltersAndValues))]
+        [MemberData(nameof(SampleFiltersAndValues))]
         public static void ContainsTest(Filter input, string serializedFilter)
         {
             try
@@ -103,7 +98,7 @@ namespace ADHDmailIntegrationTests.Config
             }
             finally
             {
-                TestTearDown();
+                _filterConfigFile.Clear();
             }
         }
 
@@ -112,40 +107,25 @@ namespace ADHDmailIntegrationTests.Config
         {
             File.WriteAllText(_filterConfigFile.FullPath, "Sample text to ensure the file has content");
             _filterConfigFile.Clear();
-            var fileIsEmpty = new FileInfo(_filterConfigFile.FullPath).Length == 0;
-            Assert.True(fileIsEmpty);
+            Assert.True(_filterConfigFile.FullPath.IsEmptyFile());
         }
 
-        public static IEnumerable<object[]> PathsAndExceptions =>
-          new List<object[]>
-          {
-                new object[] { _filterConfigFile.FullPath.Replace("ADHDmail", "NonexistantDirectory"), typeof(DirectoryNotFoundException) },
-                new object[] { _filterConfigFile.FullPath.Replace("IgnoreFiltersTest.json", "NonexistantFile.json"), typeof(FileNotFoundException) }
-          };
+        
 
         [Theory]
-        [MemberData(nameof(PathsAndExceptions))]
-        public static void ClearTest_ExpectedExceptions(string path, Type expectedExceptionType)
+        [MemberData(nameof(SampleFiltersAndValues))]
+        public static void RemoveTest(Filter filter, string serializedFilter)
         {
             try
             {
-                _filterConfigFile.FullPath = path;
-                _filterConfigFile.Clear();
-            }
-            catch (Exception ex)
-            {
-                Assert.True(ex.GetType() == expectedExceptionType);
+                File.WriteAllText(_filterConfigFile.FullPath, serializedFilter);
+                _filterConfigFile.Remove(filter);
+                Assert.True(_filterConfigFile.FullPath.IsEmptyFile());
             }
             finally
             {
-                SetConfigPathForTesting();
+                _filterConfigFile.Clear();
             }
-        }
-
-        [Theory]
-        public static void RemoveTest()
-        {
-            throw new NotImplementedException();
         }
 
         [Theory]

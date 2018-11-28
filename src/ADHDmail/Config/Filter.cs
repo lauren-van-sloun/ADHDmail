@@ -62,5 +62,17 @@ namespace ADHDmail.Config
                 ? _filterValues[FilterOption]
                 : _filterValues[FilterOption].Replace("<>", Value);
         }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as Filter;
+            return other == null ? false : this.FilterOption == other.FilterOption &&
+                                           this.Value == other.Value;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

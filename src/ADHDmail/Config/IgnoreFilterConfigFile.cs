@@ -56,6 +56,9 @@ namespace ADHDmail.Config
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
         public void Append(List<Filter> filters)
         {
+            if (filters.Count == 0)
+                return;
+
             using (StreamWriter writer = File.AppendText(FullPath))
             {
                 var serializer = new JsonSerializer();
@@ -79,20 +82,23 @@ namespace ADHDmail.Config
         /// <summary>
         /// Opens a file, removes the specified <see cref="Filter"/>s from the file, and then closes the file.
         /// </summary>
-        /// <param name="filters">Represents filters to apply to a message based on the part of the message to filter and the value to filter by.</param>
+        /// <param name="filtersToRemove">Represents filters to apply to a message based on the part of the message to filter and the value to filter by.</param>
         /// <exception cref="IOException">Thrown when an I/O error occurrs while opening the file.</exception>
         /// <exception cref="UnauthorizedAccessException">Thrown when given a read-only filepath, when the operation is not supported on the current platform, 
         /// or the caller does not have the required permission.</exception>
         /// <exception cref="SecurityException">Thrown when the caller does not have the required permission.</exception>
-        public void Remove(List<Filter> filters)
+        public void Remove(List<Filter> filtersToRemove)
         {
-            // maybe will rewrite this to be more similar to the style of the new append methods
-            var serializedFilters = new List<string>();
-            filters.ForEach(f => serializedFilters.Add(JsonConvert.SerializeObject(f)));
+            var filtersInFile = GetFilters();
+            var filtersToKeep = new List<Filter>();
+            foreach (Filter filterInFile in filtersInFile)
+            {
+                if (!filtersToRemove.Contains(filterInFile))
+                    filtersToKeep.Add(filterInFile);
+            }
 
-            string fileContent = LoadFile();
-            serializedFilters.ForEach(f => fileContent.Replace(f, string.Empty));
-            File.WriteAllText(FullPath, fileContent);
+            Clear();
+            Append(filtersToKeep);
         }
 
         /// <summary>
@@ -111,19 +117,9 @@ namespace ADHDmail.Config
         /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
         public List<Filter> GetFilters()
         {
-            // Not sure which implementation I want to use yet
-
             var fileContents = LoadFile();
-            List<Filter> result = fileContents.Deserialize<Filter>();
-            return result ?? new List<Filter>();
-
-
-            //using (var reader = File.OpenText(FullPath))
-            //{
-            //    var json = reader.ReadToEnd();
-            //    List<Filter> result = JsonConvert.DeserializeObject<List<Filter>>(json);
-            //    return result ?? new List<Filter>();
-            //}
+            var filters = fileContents.Deserialize<Filter>();
+            return filters ?? new List<Filter>();
         }
 
         private string LoadFile()
