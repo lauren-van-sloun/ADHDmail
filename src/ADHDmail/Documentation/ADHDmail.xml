@@ -156,6 +156,26 @@
             <param name="value">The value to filter by. Not needed for certain filters such 
             as <see cref="F:ADHDmail.Config.FilterOption.HasAttachment"/>, <see cref="F:ADHDmail.Config.FilterOption.Unread"/>, etc.</param>
         </member>
+        <member name="M:ADHDmail.Config.Filter.ToString">
+            <summary>
+            Returns the filter as a string formatted for use in an API query.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ADHDmail.Config.Filter.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:ADHDmail.Config.Filter"/> instances are considered equal
+            in terms of their <see cref="P:ADHDmail.Config.Filter.FilterOption"/> selection and <see cref="P:ADHDmail.Config.Filter.Value"/>'s value.
+            </summary>
+            <param name="obj">The other <see cref="T:ADHDmail.Config.Filter"/> to compare to.</param>
+            <returns>Returns true if the <see cref="T:ADHDmail.Config.Filter"/>s are equal, otherwise false.</returns>
+        </member>
+        <member name="M:ADHDmail.Config.Filter.GetHashCode">
+            <summary>
+            Serves as the default hash function.
+            </summary>
+            <returns>Returns the base class's hash code.</returns>
+        </member>
         <member name="T:ADHDmail.Config.FilterOption">
             <summary>
             Search operators used to filter message search results.
@@ -293,13 +313,20 @@
             Initializes a new instance of the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> class.
             </summary>
         </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Contains(ADHDmail.Config.Filter)">
+            <summary>
+            Determines whether the file contains a specified <see cref="T:ADHDmail.Config.Filter"/>.
+            </summary>
+            <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
+            <returns>Returns true if the <see cref="T:ADHDmail.Config.Filter"/> exists within the file, otherwise false.</returns>
+        </member>
         <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(ADHDmail.Config.Filter)">
             <summary>
             Opens a file, appends the specified <see cref="T:ADHDmail.Config.Filter"/> to the file, and then closes the file. If the file does 
             not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Config.Filter"/> to the file, then closes the file.
             </summary>
             <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
-            <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
+            <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>
             <exception cref="T:System.UnauthorizedAccessException">Thrown when given a read-only filepath, when the operation is not supported on the current platform, 
             or the caller does not have the required permission.</exception>
             <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
@@ -310,7 +337,27 @@
             not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Config.Filter"/>s to the file, then closes the file.
             </summary>
             <param name="filters">Represents filters to apply to a message based on the part of the message to filter and the value to filter by.</param>
-            <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
+            <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>
+            <exception cref="T:System.UnauthorizedAccessException">Thrown when given a read-only filepath, when the operation is not supported on the current platform, 
+            or the caller does not have the required permission.</exception>
+            <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
+        </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Remove(ADHDmail.Config.Filter)">
+            <summary>
+            Opens a file, removes the specified <see cref="T:ADHDmail.Config.Filter"/> from the file, and then closes the file.
+            </summary>
+            <param name="filter">Represents the filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
+            <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>
+            <exception cref="T:System.UnauthorizedAccessException">Thrown when given a read-only filepath, when the operation is not supported on the current platform, 
+            or the caller does not have the required permission.</exception>
+            <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
+        </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Remove(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+            <summary>
+            Opens a file, removes the specified <see cref="T:ADHDmail.Config.Filter"/>s from the file, and then closes the file.
+            </summary>
+            <param name="filtersToRemove">Represents filters to apply to a message based on the part of the message to filter and the value to filter by.</param>
+            <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>
             <exception cref="T:System.UnauthorizedAccessException">Thrown when given a read-only filepath, when the operation is not supported on the current platform, 
             or the caller does not have the required permission.</exception>
             <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
@@ -377,6 +424,43 @@
             </summary>
             <param name="date">The date to be parsed.</param>
             <returns>Returns the parsed date if able to be parsed, otherwise DateTime.MinValue.</returns>
+        </member>
+        <member name="M:ADHDmail.Extensions.Deserialize``1(System.String)">
+            <summary>
+            Deserializes a JSON string into a List of <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">The type of object to deserialize to.</typeparam>
+            <param name="serializedJSONString">The serialized JSON string to parse.</param>
+            <returns>Returns a deserialized List of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:ADHDmail.Extensions.IsEmptyFile(System.String)">
+            <summary>
+            Determines if the file specified is empty.
+            </summary>
+            <param name="path">The full path of the file.</param>
+            <returns>Returns true if the file is empty, otherwise false.</returns>
+        </member>
+        <member name="T:ADHDmail.GlobalValues">
+            <summary>
+            A static class that holds commonly used or shared variables such as folder paths and names.
+            </summary>
+        </member>
+        <member name="F:ADHDmail.GlobalValues.ApplicationName">
+            <summary>
+            The name of the application for use in creating filepaths.
+            </summary>
+        </member>
+        <member name="P:ADHDmail.GlobalValues.LocalAppDataPath">
+            <summary>
+            The path to the directory that serves as a common repository for application-specific 
+            data that is used by the current, non-roaming user.
+            </summary>
+        </member>
+        <member name="P:ADHDmail.GlobalValues.AppDataPath">
+            <summary>
+            The path to the directory that serves as a common repository for application-specific
+            data for the current roaming user.
+            </summary>
         </member>
         <member name="T:ADHDmail.LogWriter">
             <summary>
