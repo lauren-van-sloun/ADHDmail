@@ -313,6 +313,13 @@
             Initializes a new instance of the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> class.
             </summary>
         </member>
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.GetFilters">
+            <summary>
+            Reads the file and returns its contents.
+            </summary>
+            <returns>A list of <see cref="T:ADHDmail.Config.Filter"/> objects that were saved in the file. 
+            Returns null if the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> does not exist.</returns>
+        </member>
         <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Contains(ADHDmail.Config.Filter)">
             <summary>
             Determines whether the file contains a specified <see cref="T:ADHDmail.Config.Filter"/>.
@@ -366,13 +373,6 @@
             <summary>
             Clears the contents of the file.
             </summary>
-        </member>
-        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.GetFilters">
-            <summary>
-            Reads the file and returns its contents.
-            </summary>
-            <returns>A list of <see cref="T:ADHDmail.Config.Filter"/> objects that were saved in the file. 
-            Returns null if the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> does not exist.</returns>
         </member>
         <member name="T:ADHDmail.Config.GmailOAuthConfigFile">
             <summary>

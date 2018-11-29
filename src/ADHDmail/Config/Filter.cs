@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ADHDmail.Config
 {
@@ -6,7 +7,7 @@ namespace ADHDmail.Config
     /// Represents a filter to apply to a message based on the part of the message to 
     /// filter and the value to filter by.
     /// </summary>
-    public class Filter
+    public class Filter : IEquatable<Filter>
     {
         /// <summary>
         /// Represents the part of the message to filter.
@@ -82,7 +83,12 @@ namespace ADHDmail.Config
         /// <returns>Returns the base class's hash code.</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return FilterOption.GetHashCode() ^ Value.GetHashCode();
+        }
+
+        bool IEquatable<Filter>.Equals(Filter other)
+        {
+            return this.Equals(other);
         }
     }
 }

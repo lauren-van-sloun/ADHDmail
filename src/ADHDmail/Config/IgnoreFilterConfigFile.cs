@@ -21,6 +21,18 @@ namespace ADHDmail.Config
         }
 
         /// <summary>
+        /// Reads the file and returns its contents.
+        /// </summary>
+        /// <returns>A list of <see cref="Filter"/> objects that were saved in the file. 
+        /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
+        public List<Filter> GetFilters()
+        {
+            var fileContents = LoadFile();
+            var filters = fileContents.Deserialize<Filter>();
+            return filters ?? new List<Filter>();
+        }
+
+        /// <summary>
         /// Determines whether the file contains a specified <see cref="Filter"/>.
         /// </summary>
         /// <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
@@ -59,13 +71,15 @@ namespace ADHDmail.Config
             if (filters.Count == 0)
                 return;
 
+            filters = filters.Distinct().ToList();
+
             using (StreamWriter writer = File.AppendText(FullPath))
             {
                 var serializer = new JsonSerializer();
                 serializer.Serialize(writer, filters);
             }
         }
-
+         
         /// <summary>
         /// Opens a file, removes the specified <see cref="Filter"/> from the file, and then closes the file.
         /// </summary>
@@ -108,18 +122,6 @@ namespace ADHDmail.Config
         {
             if (this.Exists)
                 File.WriteAllText(FullPath, string.Empty);
-        }
-
-        /// <summary>
-        /// Reads the file and returns its contents.
-        /// </summary>
-        /// <returns>A list of <see cref="Filter"/> objects that were saved in the file. 
-        /// Returns null if the <see cref="IgnoreFiltersConfigFile"/> does not exist.</returns>
-        public List<Filter> GetFilters()
-        {
-            var fileContents = LoadFile();
-            var filters = fileContents.Deserialize<Filter>();
-            return filters ?? new List<Filter>();
         }
 
         private string LoadFile()
