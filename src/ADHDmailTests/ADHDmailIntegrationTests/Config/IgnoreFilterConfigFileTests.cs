@@ -10,10 +10,30 @@ using Xunit;
 
 namespace ADHDmailIntegrationTests.Config
 {
-    // order these tests to match the method order that is in IgnorefilterConfigFile.cs
     public static class IgnoreFilterConfigFileTests
     {
         private static IgnoreFiltersConfigFile _filterConfigFile = new IgnoreFiltersConfigFile();
+
+        public static IEnumerable<object[]> SampleFilterListsAndSerializedValues =>
+            new List<object[]>
+            {
+                new object[]
+                {
+                    new List<Filter>()
+                    {
+                        new Filter(FilterOption.AllFolders),
+                        new Filter(FilterOption.ContainsWord, "Test")
+                    },
+                    "[{\"FilterOption\":7,\"Value\":\"\"},{\"FilterOption\":6,\"Value\":\"Test\"}]"
+                }
+            };
+
+        public static IEnumerable<object[]> SampleFiltersAndSerializedValues =>
+            new List<object[]>
+            {
+                new object[] { new Filter(FilterOption.AllFolders), "[{\"FilterOption\":7,\"Value\":\"\"}]" },
+                new object[] { new Filter(FilterOption.ContainsWord, "Test"), "[{\"FilterOption\":6,\"Value\":\"Test\"}]" }
+            };
 
         static IgnoreFilterConfigFileTests()
         {
@@ -34,29 +54,15 @@ namespace ADHDmailIntegrationTests.Config
             Assert.True(_filterConfigFile.FullPath.IsValidPath());
         }
 
-        // give better name to distinguish between this and the other data set
-        public static IEnumerable<object[]> TestFiltersAndTheirSerializedValues =>
-            new List<object[]>
-            {
-                new object[] 
-                {
-                    new List<Filter>()
-                    {
-                        new Filter(FilterOption.AllFolders),
-                        new Filter(FilterOption.ContainsWord, "Test")
-                    },
-                    "[{\"FilterOption\":7,\"Value\":\"\"},{\"FilterOption\":6,\"Value\":\"Test\"}]"
-                },
-            };
-
         [Theory]
-        [MemberData(nameof(TestFiltersAndTheirSerializedValues))]
-        public static void AppendMultipleTests(List<Filter> input, string expectedFileContent)
+        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        public static void GetFiltersTest_WhenFileOnlyHasOneFilter(Filter filter, string serializedFilter)
         {
             try
             {
-                _filterConfigFile.Append(input);
-                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
+                File.WriteAllText(_filterConfigFile.FullPath, serializedFilter);
+                var filterFromFile = _filterConfigFile.GetFilters();
+                Assert.Equal(filter, filterFromFile.First());
             }
             finally
             {
@@ -64,16 +70,39 @@ namespace ADHDmailIntegrationTests.Config
             }
         }
 
-        // give better name to distinguish between this and the other data set
-        public static IEnumerable<object[]> SampleFiltersAndValues =>
-            new List<object[]>
+        [Theory]
+        [MemberData(nameof(SampleFilterListsAndSerializedValues))]
+        public static void GetFiltersTest_WhenFileHasMultipleFilters(List<Filter> filters, string serializedFilter)
+        {
+            try
             {
-                new object[] { new Filter(FilterOption.AllFolders), "[{\"FilterOption\":7,\"Value\":\"\"}]" },
-                new object[] { new Filter(FilterOption.ContainsWord, "Test"), "[{\"FilterOption\":6,\"Value\":\"Test\"}]"},    
-            };
+                File.WriteAllText(_filterConfigFile.FullPath, serializedFilter);
+                var filtersFromFile = _filterConfigFile.GetFilters();
+                Assert.Equal(filters[0], filtersFromFile[0]);
+            }
+            finally
+            {
+                _filterConfigFile.Clear();
+            }
+        }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndValues))]
+        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        public static void ContainsTest(Filter input, string serializedFilter)
+        {
+            try
+            {
+                _filterConfigFile.Append(input);
+                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(serializedFilter)));
+            }
+            finally
+            {
+                _filterConfigFile.Clear();
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(SampleFiltersAndSerializedValues))]
         public static void AppendSingularTests(Filter input, string expectedFileContent)
         {
             try
@@ -88,13 +117,13 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndValues))]
-        public static void ContainsTest(Filter input, string serializedFilter)
+        [MemberData(nameof(SampleFilterListsAndSerializedValues))]
+        public static void AppendMultipleTests(List<Filter> filters, string expectedFileContent)
         {
             try
             {
-                _filterConfigFile.Append(input);
-                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(serializedFilter)));
+                _filterConfigFile.Append(filters);
+                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
             }
             finally
             {
@@ -103,17 +132,47 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Fact]
-        public static void ClearTest()
+        public static void AppendMultipleTest_DoesNotAddDuplicatesWhenGivenListWithDuplicates()
         {
-            File.WriteAllText(_filterConfigFile.FullPath, "Sample text to ensure the file has content");
-            _filterConfigFile.Clear();
-            Assert.True(_filterConfigFile.FullPath.IsEmptyFile());
+            try
+            {
+                var filter = new Filter(FilterOption.HasAttachment);
+                var duplicateFilters = new List<Filter>
+                {
+                    filter,
+                    filter
+                };
+                var expectedFileContent = "[{\"FilterOption\":4,\"Value\":\"\"}]";
+
+                _filterConfigFile.Append(duplicateFilters);
+
+                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
+            }
+            finally
+            {
+                _filterConfigFile.Clear();
+            }
         }
 
-        
+        [Theory]
+        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        public static void AppendMultipleTest_DoesNotAddDuplicatesWhenFilterIsAlreadyInFile(Filter filter, string expectedFileContent)
+        {
+            try
+            {
+                _filterConfigFile.Append(filter);
+                _filterConfigFile.Append(filter);
+                // extract this line out into a separate method because it's used all over my tests
+                Assert.True(File.ReadAllText(_filterConfigFile.FullPath) == expectedFileContent);
+            }
+            finally
+            {
+                _filterConfigFile.Clear();
+            }
+        }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndValues))]
+        [MemberData(nameof(SampleFiltersAndSerializedValues))]
         public static void RemoveTest(Filter filter, string serializedFilter)
         {
             try
@@ -128,10 +187,47 @@ namespace ADHDmailIntegrationTests.Config
             }
         }
 
+        public static IEnumerable<object[]> SampleFiltersAndExpectedFileContent =>
+            new List<object[]>
+            {
+                new object[] 
+                {
+                    new Filter(FilterOption.AllFolders),
+                    new Filter(FilterOption.DeliveredTo, "Nobody"),
+                    "[{\"FilterOption\":7,\"Value\":\"\"}]"
+                },
+                new object[] 
+                {
+                    new Filter(FilterOption.ContainsWord, "Test"),
+                    new Filter(FilterOption.Read),
+                    "[{\"FilterOption\":6,\"Value\":\"Test\"}]"
+                }
+            };
+
         [Theory]
-        public static void GetFilters()
+        [MemberData(nameof(SampleFiltersAndExpectedFileContent))]
+        public static void RemoveTest_WhenFilterIsNotInFile(Filter filterInFile,
+                                                            Filter filterToRemove,
+                                                            string expectedFileContent)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _filterConfigFile.Append(filterInFile);
+                _filterConfigFile.Remove(filterToRemove);
+                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
+            }
+            finally
+            {
+                _filterConfigFile.Clear();
+            }
         }
+
+        [Fact]
+        public static void ClearTest()
+        {
+            File.WriteAllText(_filterConfigFile.FullPath, "Sample text to ensure the file has content");
+            _filterConfigFile.Clear();
+            Assert.True(_filterConfigFile.FullPath.IsEmptyFile());
+        }        
     }
 }

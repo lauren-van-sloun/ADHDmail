@@ -7,21 +7,6 @@ namespace ADHDmailTests
 {
     public class ExtensionsTests
     {
-        [Theory]
-        [InlineData(@"c:\temp\MyTest.txt", true)]
-        [InlineData("", false)]
-        [InlineData(">", false)]
-        [InlineData("|", false)]
-        [InlineData("\"", false)]
-        [InlineData("This is a string that exceeds 260 characters. This is a string that " +
-                    "exceeds 260 characters. This is a string that exceeds 260 characters. " +
-                    "This is a string that exceeds 260 characters. This is a string that " +
-                    "exceeds 260 characters. This is a string that exceeds 260 characters.", false)]
-        public void IsValidPath_Test(string input, bool expectedOutput)
-        {
-            Assert.Equal(input.IsValidPath(), expectedOutput);
-        }
-
         private const string GmailDateTimeFormatExample = "Tue, 13 Nov 2018 22:01:48 + 0000(UTC)";
 
         public static IEnumerable<object[]> ValidDateTimes =>
@@ -38,6 +23,21 @@ namespace ADHDmailTests
                 new object[] { "     ", DateTime.MinValue },
                 new object[] { null, DateTime.MinValue}
             };
+
+        [Theory]
+        [InlineData(@"c:\temp\MyTest.txt", true)]
+        [InlineData("", false)]
+        [InlineData(">", false)]
+        [InlineData("|", false)]
+        [InlineData("\"", false)]
+        [InlineData("This is a string that exceeds 260 characters. This is a string that " +
+                    "exceeds 260 characters. This is a string that exceeds 260 characters. " +
+                    "This is a string that exceeds 260 characters. This is a string that " +
+                    "exceeds 260 characters. This is a string that exceeds 260 characters.", false)]
+        public void IsValidPath_Test(string input, bool expectedOutput)
+        {
+            Assert.Equal(input.IsValidPath(), expectedOutput);
+        }
 
         [Theory]
         [MemberData(nameof(ValidDateTimes))]
