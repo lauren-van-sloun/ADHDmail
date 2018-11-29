@@ -154,10 +154,21 @@ namespace ADHDmailIntegrationTests.Config
             }
         }
 
-        [Fact]
-        public static void AppendMultipleTest_DoesNotAddDuplicatesWhenFilterIsAlreadyInFile()
+        [Theory]
+        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        public static void AppendMultipleTest_DoesNotAddDuplicatesWhenFilterIsAlreadyInFile(Filter filter, string expectedFileContent)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _filterConfigFile.Append(filter);
+                _filterConfigFile.Append(filter);
+                // extract this line out into a separate method because it's used all over my tests
+                Assert.True(File.ReadAllText(_filterConfigFile.FullPath) == expectedFileContent);
+            }
+            finally
+            {
+                _filterConfigFile.Clear();
+            }
         }
 
         [Theory]

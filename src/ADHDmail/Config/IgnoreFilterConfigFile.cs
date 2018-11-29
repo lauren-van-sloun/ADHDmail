@@ -71,13 +71,21 @@ namespace ADHDmail.Config
             if (filters.Count == 0)
                 return;
 
-            filters = filters.Distinct().ToList();
+            var filtersToAdd = RemoveDuplicates(filters);
+
+            if (filtersToAdd.Count == 0)
+                return;
 
             using (StreamWriter writer = File.AppendText(FullPath))
             {
                 var serializer = new JsonSerializer();
-                serializer.Serialize(writer, filters);
+                serializer.Serialize(writer, filtersToAdd);
             }
+        }
+
+        private List<Filter> RemoveDuplicates(List<Filter> filters)
+        {
+            return filters.Distinct().Except(GetFilters()).ToList();
         }
          
         /// <summary>
