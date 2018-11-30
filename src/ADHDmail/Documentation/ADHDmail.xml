@@ -374,16 +374,16 @@
             Clears the contents of the file.
             </summary>
         </member>
-        <member name="T:ADHDmail.Config.GmailOAuthConfigFile">
+        <member name="T:ADHDmail.Config.GmailOAuthCredentials">
             <summary>
             Represents the config file for Gmail's OAuth credentials.
             <para>This file should be encrypted to secure the user's credentials.
             </para>
             </summary>
         </member>
-        <member name="M:ADHDmail.Config.GmailOAuthConfigFile.#ctor">
+        <member name="M:ADHDmail.Config.GmailOAuthCredentials.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:ADHDmail.Config.GmailOAuthConfigFile"/> class.
+            Initializes a new instance of the <see cref="T:ADHDmail.Config.GmailOAuthCredentials"/> class.
             </summary>
         </member>
         <member name="T:ADHDmail.Email">

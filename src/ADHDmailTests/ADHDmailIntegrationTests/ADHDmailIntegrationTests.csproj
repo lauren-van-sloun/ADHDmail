@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="API\GmailApiTests.cs" />
+    <Compile Include="Config\ConfigFileTests.cs" />
     <Compile Include="Config\IgnoreFilterConfigFileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

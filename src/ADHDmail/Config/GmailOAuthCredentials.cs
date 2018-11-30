@@ -5,12 +5,12 @@
     /// <para>This file should be encrypted to secure the user's credentials.
     /// </para>
     /// </summary>
-    public class GmailOAuthConfigFile : ConfigFile
+    public class GmailOAuthCredentials : ConfigFile
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GmailOAuthConfigFile"/> class.
+        /// Initializes a new instance of the <see cref="GmailOAuthCredentials"/> class.
         /// </summary>
-        public GmailOAuthConfigFile()
+        public GmailOAuthCredentials()
         {
             FullPath = GetFullPath("GmailOAuth.json"); 
         }
