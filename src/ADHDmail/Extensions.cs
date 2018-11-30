@@ -75,5 +75,16 @@ namespace ADHDmail
         {
             return new FileInfo(path).Length == 0;
         }
+
+        /// <summary>
+        /// Reads a file's attributes to determine whether it is encrypted.
+        /// </summary>
+        /// <param name="path">The full path of the file.</param>
+        /// <returns>Returns true if the file is encrypted, otherwise false.</returns>
+        public static bool IsEncrypted(this string path)
+        {
+            var fileAttributes = File.GetAttributes(path);
+            return (fileAttributes & FileAttributes.Encrypted) == FileAttributes.Encrypted;
+        }
     }
 }

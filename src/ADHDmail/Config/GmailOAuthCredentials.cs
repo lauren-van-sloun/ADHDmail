@@ -10,9 +10,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="GmailOAuthCredentials"/> class.
         /// </summary>
-        public GmailOAuthCredentials()
+        public GmailOAuthCredentials(string fileName = "GmailOAuth.json")
         {
-            FullPath = GetFullPath("GmailOAuth.json"); 
+            FullPath = GetFullPath(fileName);
         }
     }
 }
