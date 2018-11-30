@@ -1,4 +1,5 @@
-﻿using Google.Apis.Auth.OAuth2;
+﻿using ADHDmail.Config;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Gmail.v1;
 using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
@@ -28,35 +29,46 @@ namespace ADHDmail.API
         // User's email address. The special value "me" can be used to indicate the authenticated user.
         private const string UserId = "me";
 
-        private readonly UserCredential _credential;
+        private readonly UserCredential _credentials;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GmailApi"/> class.
         /// </summary>
         public GmailApi()
         {
-            _credential = GetCredential(
-                Path.Combine(
-                    GlobalValues.AppDataPath,
-                    GlobalValues.ApplicationName,
-                    "GmailOAuth.json"));
+            _credentials = GetCredentials();
             PopulateService();
         }
 
-        private static UserCredential GetCredential(string path)
+        private static UserCredential GetCredentials()
         {
-            string[] scopes = { GmailService.Scope.GmailReadonly };
+            var credentialsFile = new GmailOAuthCredentials();
+            var path = credentialsFile.FullPath;
 
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            try
             {
-                var credPath = GlobalValues.ApplicationName;
+                credentialsFile.Decrypt();
+                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    string[] scopes = { GmailService.Scope.GmailReadonly };
+                    var credentialPath = GlobalValues.ApplicationName;
 
-                return GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, false)).Result;
+                    return GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        GoogleClientSecrets.Load(stream).Secrets,
+                        scopes,
+                        "user",
+                        CancellationToken.None,
+                        new FileDataStore(credentialPath, false)).Result;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogWriter.Write($"Failed to retrieve Gmail OAuth credentials from {path}. {ex.GetType()}: \"{ex.Message}\"");
+                return null;
+            }
+            finally
+            {
+                credentialsFile.Encrypt();
             }
         }
 
@@ -64,7 +76,7 @@ namespace ADHDmail.API
         {
             _gmailService = new GmailService(new BaseClientService.Initializer()
             {
-                HttpClientInitializer = _credential,
+                HttpClientInitializer = _credentials,
                 ApplicationName = GlobalValues.ApplicationName
             });
         }
@@ -211,12 +223,12 @@ namespace ADHDmail.API
             }
         }
 
-        private static void PopulateSenderData(Email email, string fromHeader)
+        private static void PopulateSenderData(Email email, string gmailFromHeader)
         {
             Regex sendersNameRegex = new Regex(@"[^<]*");
             Regex sendersEmailRegex = new Regex(@"<(.+)>");
-            email.SendersName = sendersNameRegex.Match(fromHeader).Value.Trim();
-            email.SendersEmail = sendersEmailRegex.Match(fromHeader).Groups[1].Value;
+            email.SendersName = sendersNameRegex.Match(gmailFromHeader).Value.Trim();
+            email.SendersEmail = sendersEmailRegex.Match(gmailFromHeader).Groups[1].Value;
         }
     }
 }

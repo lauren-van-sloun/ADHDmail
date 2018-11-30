@@ -14,7 +14,7 @@ namespace ADHDmailIntegrationTests.API
 {
     public class GmailApiTests
     {
-        public readonly IEmailApi GmailApi = new GmailApi();
+        private readonly IEmailApi _gmailApi = new GmailApi();
 
         // Figure out a cleaner way to represent test data
         public static IEnumerable<object[]> Queries =>
@@ -51,7 +51,7 @@ namespace ADHDmailIntegrationTests.API
         [MemberData(nameof(Queries))]
         public void GetEmailsTest(GmailQuery input, int numOfRetrievedEmails)
         {
-            Assert.True(GmailApi.GetEmails(input).Count >= numOfRetrievedEmails);
+            Assert.True(_gmailApi.GetEmails(input).Count >= numOfRetrievedEmails);
         }
 
 
@@ -60,8 +60,8 @@ namespace ADHDmailIntegrationTests.API
         public void GetEmailTest()
         {
             var messageIds = new List<string>();
-            GmailApi.GetEmails(new GmailQuery()).ForEach(e => messageIds.Add(e.Id));
-            Assert.True(messageIds.Count > 0 && GmailApi.GetEmail(messageIds[0]) != null);           
+            _gmailApi.GetEmails(new GmailQuery()).ForEach(e => messageIds.Add(e.Id));
+            Assert.True(messageIds.Count > 0 && _gmailApi.GetEmail(messageIds[0]) != null);           
         }
     }
 }
