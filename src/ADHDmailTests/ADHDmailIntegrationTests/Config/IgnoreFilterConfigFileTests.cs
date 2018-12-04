@@ -14,7 +14,7 @@ namespace ADHDmailIntegrationTests.Config
     {
         private static IgnoreFiltersConfigFile _filterConfigFile = new IgnoreFiltersConfigFile();
 
-        public static IEnumerable<object[]> SampleFilterListsAndSerializedValues =>
+        public static IEnumerable<object[]> SampleFilterListsAndTheirSerializedValues =>
             new List<object[]>
             {
                 new object[]
@@ -28,7 +28,7 @@ namespace ADHDmailIntegrationTests.Config
                 }
             };
 
-        public static IEnumerable<object[]> SampleFiltersAndSerializedValues =>
+        public static IEnumerable<object[]> SampleFiltersAndTheirSerializedValues =>
             new List<object[]>
             {
                 new object[] { new Filter(FilterOption.AllFolders), "[{\"FilterOption\":7,\"Value\":\"\"}]" },
@@ -48,6 +48,16 @@ namespace ADHDmailIntegrationTests.Config
                     "IgnoreFiltersTest.json");
         }
 
+        private static bool TestFileContentMatches(string expectedContents)
+        {
+            return File.ReadAllText(_filterConfigFile.FullPath) == expectedContents;
+        }
+
+        private static bool TestFileContains(string expectedContents)
+        {
+            return File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedContents);
+        }
+
         [Fact]
         public static void ConstructorTest()
         {
@@ -55,7 +65,7 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        [MemberData(nameof(SampleFiltersAndTheirSerializedValues))]
         public static void GetFiltersTest_WhenFileOnlyHasOneFilter(Filter filter, string serializedFilter)
         {
             try
@@ -71,7 +81,7 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFilterListsAndSerializedValues))]
+        [MemberData(nameof(SampleFilterListsAndTheirSerializedValues))]
         public static void GetFiltersTest_WhenFileHasMultipleFilters(List<Filter> filters, string serializedFilter)
         {
             try
@@ -87,13 +97,13 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        [MemberData(nameof(SampleFiltersAndTheirSerializedValues))]
         public static void ContainsTest(Filter input, string serializedFilter)
         {
             try
             {
                 _filterConfigFile.Append(input);
-                Assert.True(File.ReadLines(_filterConfigFile.FullPath).Any(line => line.Contains(serializedFilter)));
+                Assert.True(TestFileContains(serializedFilter));
             }
             finally
             {
@@ -102,13 +112,13 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        [MemberData(nameof(SampleFiltersAndTheirSerializedValues))]
         public static void AppendSingularTests(Filter input, string expectedFileContent)
         {
             try
             {
                 _filterConfigFile.Append(input);
-                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
+                Assert.True(TestFileContains(expectedFileContent));
             }
             finally
             {
@@ -117,13 +127,13 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFilterListsAndSerializedValues))]
+        [MemberData(nameof(SampleFilterListsAndTheirSerializedValues))]
         public static void AppendMultipleTests(List<Filter> filters, string expectedFileContent)
         {
             try
             {
                 _filterConfigFile.Append(filters);
-                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
+                Assert.True(TestFileContains(expectedFileContent));
             }
             finally
             {
@@ -146,7 +156,7 @@ namespace ADHDmailIntegrationTests.Config
 
                 _filterConfigFile.Append(duplicateFilters);
 
-                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
+                Assert.True(TestFileContains(expectedFileContent));
             }
             finally
             {
@@ -155,15 +165,14 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        [MemberData(nameof(SampleFiltersAndTheirSerializedValues))]
         public static void AppendMultipleTest_DoesNotAddDuplicatesWhenFilterIsAlreadyInFile(Filter filter, string expectedFileContent)
         {
             try
             {
                 _filterConfigFile.Append(filter);
                 _filterConfigFile.Append(filter);
-                // extract this line out into a separate method because it's used all over my tests
-                Assert.True(File.ReadAllText(_filterConfigFile.FullPath) == expectedFileContent);
+                Assert.True(TestFileContentMatches(expectedFileContent));
             }
             finally
             {
@@ -172,7 +181,7 @@ namespace ADHDmailIntegrationTests.Config
         }
 
         [Theory]
-        [MemberData(nameof(SampleFiltersAndSerializedValues))]
+        [MemberData(nameof(SampleFiltersAndTheirSerializedValues))]
         public static void RemoveTest(Filter filter, string serializedFilter)
         {
             try
@@ -214,7 +223,7 @@ namespace ADHDmailIntegrationTests.Config
             {
                 _filterConfigFile.Append(filterInFile);
                 _filterConfigFile.Remove(filterToRemove);
-                Assert.True(File.ReadAllText(_filterConfigFile.FullPath).Contains(expectedFileContent));
+                Assert.True(TestFileContains(expectedFileContent));
             }
             finally
             {

@@ -63,7 +63,15 @@ namespace ADHDmail
         /// <returns>Returns a deserialized List of <typeparamref name="T"/>.</returns>
         public static List<T> Deserialize<T>(this string serializedJSONString)
         {
-            return JsonConvert.DeserializeObject<List<T>>(serializedJSONString);
+            try
+            {
+                return JsonConvert.DeserializeObject<List<T>>(serializedJSONString);
+            }
+            catch(Exception ex)
+            {
+                LogWriter.Write($"Could not deserialize the string: {serializedJSONString}. {ex.GetType()}: \"{ex.Message}\"");
+                throw;
+            }
         }
 
         /// <summary>
