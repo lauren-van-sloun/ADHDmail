@@ -42,6 +42,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="API\GmailQueryTests.cs" />
     <Compile Include="ExtensionsTests.cs" />
     <Compile Include="Mocks\MockApi.cs" />
     <Compile Include="Mocks\MockQuery.cs" />
