@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="API\GmailApiTests.cs" />
     <Compile Include="Config\ConfigFileTests.cs" />
+    <Compile Include="Config\GmailOAuthCredentialsTests.cs" />
     <Compile Include="Config\IgnoreFilterConfigFileTests.cs" />
     <Compile Include="Config\TestConfigFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -22,7 +22,8 @@ namespace ADHDmailTests.Config
                 {
                     new Filter(FilterOption.Starred),
                     "is:starred"
-                },new object[]
+                },
+                new object[]
                 {
                     new Filter(FilterOption.To, "Recipient"),
                     "to:Recipient"
