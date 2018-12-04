@@ -42,6 +42,7 @@
     <Compile Include="Config\GmailOAuthCredentialsTests.cs" />
     <Compile Include="Config\IgnoreFilterConfigFileTests.cs" />
     <Compile Include="Config\TestConfigFile.cs" />
+    <Compile Include="Misc\LogWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

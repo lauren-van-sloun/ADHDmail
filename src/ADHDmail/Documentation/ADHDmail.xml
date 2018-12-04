@@ -473,7 +473,7 @@
             <summary>
             A simple log file writer.
             <para>
-            The default log file location is the LocalAppData folder.
+            The default log file location is in the LocalAppData folder.
             </para>
             </summary>
         </member>
@@ -488,6 +488,11 @@
             source file that contains the caller. This is the file path at compile time.</param>
             <param name="sourceLineNumber">An optional parameter that automatically obtains the line number in 
             the source file at which the method is called.</param>
+        </member>
+        <member name="M:ADHDmail.LogWriter.RemoveLastEntry">
+            <summary>
+            Removes the last entry in the log.
+            </summary>
         </member>
         <member name="T:ADHDmail.Message">
             <summary>

@@ -22,8 +22,8 @@ namespace ADHDmail
             Console.ReadKey();
             timer.Stop();
             */
-            
-            PrintEmails(null, null);
+
+            PrintEmails(null, null);            
         }
 
         public static void PrintEmails(object sender, ElapsedEventArgs e)
@@ -32,12 +32,11 @@ namespace ADHDmail
 
             var filterConfigFile = new IgnoreFiltersConfigFile();
             filterConfigFile.Clear();
-            filterConfigFile.Append(new Filter(FilterOption.AllFolders));
-            //filterConfigFile.Append(new List<Filter>()
-            //{
-            //    new Filter(FilterOption.AllFolders),
-            //    new Filter(FilterOption.Read)
-            //});
+            filterConfigFile.Append(new List<Filter>()
+            {
+                new Filter(FilterOption.AllFolders),
+                new Filter(FilterOption.Read)
+            });
 
             var filters = filterConfigFile.GetFilters();
             var query = new GmailQuery(filters);
@@ -48,17 +47,6 @@ namespace ADHDmail
                                   $"Subject: {email.Subject} Time: {email.TimeReceived}"));
 
             Console.WriteLine("-----------------------");
-        }
-
-        // in memory filters to use for temp testing
-        public static List<Filter> CreateFilters()
-        {
-            return new List<Filter>()
-            {
-                new Filter(FilterOption.Unread),
-                new Filter(FilterOption.LargerThan, "1"),
-                new Filter(FilterOption.From, "GitHub")
-            };
         }
     }
 }
