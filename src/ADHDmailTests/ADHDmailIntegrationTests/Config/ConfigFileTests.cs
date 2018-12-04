@@ -14,6 +14,25 @@ namespace ADHDmailIntegrationTests.Config
         private readonly TestConfigFile _configFile = new TestConfigFile();
 
         [Fact]
+        public void ExistsTest()
+        {
+            Assert.True(File.Exists(_configFile.FullPath));
+        }
+
+        [Fact]
+        public void GetFullPathTest()
+        {
+            Assert.True(_configFile.FullPath.IsValidPath());
+        }
+
+        [Fact]
+        public void CreateTest()
+        {
+            _configFile.Create();
+            Assert.True(File.Exists(_configFile.FullPath));
+        }
+
+        [Fact]
         public void EncryptTest()
         {
             _configFile.Encrypt();
@@ -26,5 +45,6 @@ namespace ADHDmailIntegrationTests.Config
             _configFile.Decrypt();
             Assert.False(_configFile.FullPath.IsEncrypted());
         }
+
     }
 }
