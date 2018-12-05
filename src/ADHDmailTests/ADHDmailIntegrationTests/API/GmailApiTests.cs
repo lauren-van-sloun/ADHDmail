@@ -1,13 +1,6 @@
-﻿using ADHDmail;
-using ADHDmail.API;
+﻿using ADHDmail.API;
 using ADHDmail.Config;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Remoting.Channels;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ADHDmailIntegrationTests.API
@@ -16,8 +9,7 @@ namespace ADHDmailIntegrationTests.API
     {
         private readonly IEmailApi _gmailApi = new GmailApi();
 
-        // Figure out a cleaner way to represent test data
-        public static IEnumerable<object[]> Queries =>
+        public static IEnumerable<object[]> QueriesAndTheirMinimumNumberOfRetrievedEmails =>
             new List<object[]>
             {
                 new object[] 
@@ -48,7 +40,7 @@ namespace ADHDmailIntegrationTests.API
 
         // This test will currently fail if there are no messages in the Gmail inbox.
         [Theory]
-        [MemberData(nameof(Queries))]
+        [MemberData(nameof(QueriesAndTheirMinimumNumberOfRetrievedEmails))]
         public void GetEmailsTest(GmailQuery input, int numOfRetrievedEmails)
         {
             Assert.True(_gmailApi.GetEmails(input).Count >= numOfRetrievedEmails);
