@@ -1,10 +1,6 @@
 ﻿using ADHDmail.API;
-using ADHDmail.Config;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-//using System.Timers;
 
 namespace ADHDmail
 {
@@ -12,15 +8,25 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            // Approach using System.Timers
-            //EmailFetcher fetcher = new EmailFetcher(5000);
-            //fetcher.Start();
-            //Console.ReadKey();
-            //fetcher.Stop();
+            EmailFetcher.SetTimer(new GmailApi(), PrintEmails);
+            EmailFetcher.Start();
+            Console.ReadKey();
+            EmailFetcher.Stop();
+        }
 
-            // Approach using System.Threading
-            EmailFetcherUsingThreading fetcher = new EmailFetcherUsingThreading(8);
-            
+        public static bool PrintEmails(List<Email> emails)
+        {
+            emails.ForEach(email =>
+                Console.WriteLine($"Email ID: {email.Id} Subject: {email.Subject} Time: {email.TimeReceived}"));
+
+            Console.WriteLine("-----------------------");
+
+            // do whatever you want here to handle the response...
+            // you can write it out, store in a queue, put in a member, etc.
+            // check result to see if it's a certain value...
+            // if it should keep going, return true, otherwise return false
+
+            return true;
         }
     }
 }

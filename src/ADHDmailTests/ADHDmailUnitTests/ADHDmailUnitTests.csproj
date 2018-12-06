@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="API\GmailQueryTests.cs" />
     <Compile Include="Config\FilterTests.cs" />
+    <Compile Include="EmailFetcherTests.cs" />
     <Compile Include="ExtensionsTests.cs" />
     <Compile Include="Mocks\MockApi.cs" />
     <Compile Include="Mocks\MockQuery.cs" />
