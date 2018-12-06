@@ -3,7 +3,8 @@ using ADHDmail.Config;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Timers;
+using System.Threading;
+//using System.Timers;
 
 namespace ADHDmail
 {
@@ -11,42 +12,15 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            //var fiveMinutesInMilliseconds = 300000;
-            /*
-            var fiveSecondsInMilliseconds = 5000;
-            Timer timer = new Timer();
-            timer.Interval = fiveSecondsInMilliseconds;
-            timer.Elapsed += PrintEmails;
-            timer.Start();
+            // Approach using System.Timers
+            //EmailFetcher fetcher = new EmailFetcher(5000);
+            //fetcher.Start();
+            //Console.ReadKey();
+            //fetcher.Stop();
 
-            Console.ReadKey();
-            timer.Stop();
-            */
-
-            PrintEmails(null, null);            
-        }
-
-        public static void PrintEmails(object sender, ElapsedEventArgs e)
-        {
-            IEmailApi api = new GmailApi();
-
-            var filterConfigFile = new IgnoreFiltersConfigFile();
-            filterConfigFile.Clear();
-            filterConfigFile.Append(new List<Filter>()
-            {
-                new Filter(FilterOption.AllFolders),
-                new Filter(FilterOption.Read)
-            });
-
-            var filters = filterConfigFile.GetFilters();
-            var query = new GmailQuery(filters);
-            var emails = api.GetEmails(query);
-
-            emails.ForEach(email =>
-                Console.WriteLine($"Email ID: {email.Id} Time received: {email.TimeReceived}. " +
-                                  $"Subject: {email.Subject} Time: {email.TimeReceived}"));
-
-            Console.WriteLine("-----------------------");
+            // Approach using System.Threading
+            EmailFetcherUsingThreading fetcher = new EmailFetcherUsingThreading(8);
+            
         }
     }
 }
