@@ -1,4 +1,5 @@
 ﻿using ADHDmail.API;
+using ADHDmail.Config;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,9 @@ namespace ADHDmail
             //emailFetcher.Start();
             //Console.ReadKey();
             //emailFetcher.Stop();
+
+            var queryConfig = new QueryScheduleConfigFile();
+            queryConfig.UpdateFrequency(30000);
         }
 
         public static bool PrintEmails(List<Email> emails)

@@ -303,6 +303,12 @@
             Decrypts a file that was encrypted by the current account using the Encrypt(String) method.
             </summary>
         </member>
+        <member name="M:ADHDmail.Config.ConfigFile.LoadFile">
+            <summary>
+            Opens the file, reads all lines of the file, and then closes the file.
+            </summary>
+            <returns>Returns the full contents of the file.</returns>
+        </member>
         <member name="T:ADHDmail.Config.IgnoreFiltersConfigFile">
             <summary>
             Represents the config file for the ignoring specific fields and values of a message.
@@ -372,6 +378,11 @@
         <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Clear">
             <summary>
             Clears the contents of the file.
+            </summary>
+        </member>
+        <member name="M:ADHDmail.Config.QueryScheduleConfigFile.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ADHDmail.Config.QueryScheduleConfigFile"/> class.
             </summary>
         </member>
         <member name="T:ADHDmail.Config.GmailOAuthCredentials">

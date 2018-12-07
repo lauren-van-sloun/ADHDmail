@@ -131,17 +131,5 @@ namespace ADHDmail.Config
             if (this.Exists)
                 File.WriteAllText(FullPath, string.Empty);
         }
-
-        private string LoadFile()
-        {
-            if (!Exists)
-            {
-                var message = $"Failed to retrieve filters from path: {FullPath}. File does not exist.";
-                LogWriter.Write(message);
-                throw new FileNotFoundException(message);
-            }
-
-            return File.ReadAllText(FullPath);
-        }
     }
 }

@@ -66,5 +66,21 @@ namespace ADHDmail.Config
                 LogWriter.Write($"Could not decrypt {FullPath}. {ex.GetType()}: \"{ex.Message}\"");
             }
         }
+
+        /// <summary>
+        /// Opens the file, reads all lines of the file, and then closes the file.
+        /// </summary>
+        /// <returns>Returns the full contents of the file.</returns>
+        protected string LoadFile()
+        {
+            if (!Exists)
+            {
+                var message = $"Failed to load file contents from path: {FullPath}. File does not exist.";
+                LogWriter.Write(message);
+                throw new FileNotFoundException(message);
+            }
+
+            return File.ReadAllText(FullPath);
+        }
     }
 }

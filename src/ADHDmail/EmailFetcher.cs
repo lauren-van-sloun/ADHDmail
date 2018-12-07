@@ -24,7 +24,7 @@ namespace ADHDmail
         public void SetTimer(Func<List<Email>, bool> callback)
         {
             _timer = new Timer();
-            _timer.Interval = _queryScheduleConfigFile.QueryFrequencyInMilliseconds;
+            _timer.Interval = _queryScheduleConfigFile.GetFrequency();
             _timer.Elapsed += delegate
             {
                 var filterConfigFile = new IgnoreFiltersConfigFile();

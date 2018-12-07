@@ -10,10 +10,15 @@ namespace ADHDmailTests.Config
 {
     public class MockQueryScheduleConfigFile : QueryScheduleConfigFile
     {
+        private const double fiveSecondsInMilliseconds = 5000;
+        private const double oneHourInMilliseconds = 3600000;
+
         public MockQueryScheduleConfigFile()
         {
             // providing a default value
-            QueryFrequencyInMilliseconds = 50;
+            UpdateFrequency(50);
         }
+
+        // hide the base class implementation with the new keyword so I'm not accessing file dependencies
     }
 }

@@ -1,56 +1,98 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace ADHDmail.Config
 {
     public class QueryScheduleConfigFile : ConfigFile
     {
-        const double fiveSecondsInMilliseconds = 5000;
-        const double oneHourInMilliseconds = 3600000;
-
-        // this range attribute isn't working 
-        [Range(fiveSecondsInMilliseconds, oneHourInMilliseconds, ErrorMessage = "Value for {0} must be between {1} and {2}")]
-        public double QueryFrequencyInMilliseconds { get; set; }
-
-        public QueryScheduleConfigFile()
+        private class QuerySchedule
         {
-            // providing a default value
-            QueryFrequencyInMilliseconds = 50;
+            public QuerySchedule()
+            {
+                Days = new HashSet<DayOfWeek>();
+                Hours = new HashSet<byte>();
+                FrequencyInMilliseconds = new double();
+                SetDefaultValues();
+            }
+
+            // Restrict these properties' potential values when I code the UI potion of the app
+            // and optionally here as well
+            public HashSet<DayOfWeek> Days { get; set; }
+            public HashSet<byte> Hours { get; set; }
+            public double FrequencyInMilliseconds { get; set; }
+
+            private void SetDefaultValues()
+            {
+                Days.Add(DayOfWeek.Monday);
+                Days.Add(DayOfWeek.Tuesday);
+                Days.Add(DayOfWeek.Wednesday);
+                Days.Add(DayOfWeek.Thursday);
+                Days.Add(DayOfWeek.Friday);
+
+                for (byte hour = 8; hour < 17; hour++)
+                {
+                    Hours.Add(hour);
+                }
+                // check from the file first, and if the number is invalid or not set, then use this
+                FrequencyInMilliseconds = 5000;
+            }
+        }
+
+        private QuerySchedule _querySchedule = new QuerySchedule();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QueryScheduleConfigFile"/> class.
+        /// </summary>
+        public QueryScheduleConfigFile(string fileName = "QuerySchedule.json")
+        {
+            FullPath = GetFullPath(fileName);
         }
 
         public void AddDays(HashSet<DayOfWeek> daysToApplyFilter)
         {
-            throw new NotImplementedException();
+            foreach (var day in daysToApplyFilter)
+            {
+                _querySchedule.Days.Add(day);
+            }
         }
 
         public HashSet<DayOfWeek> GetDays()
         {
-            throw new NotImplementedException();
+            return _querySchedule.Days;
         }
 
         public void AddHours(HashSet<byte> hoursToApplyFilter)
         {
-            throw new NotImplementedException();
+            foreach (var hour in hoursToApplyFilter)
+            {
+                _querySchedule.Hours.Add(hour);
+            }
         }
 
         public HashSet<byte> GetHours()
         {
-            throw new NotImplementedException();
+            return _querySchedule.Hours;
         }
 
-        public void UpdateQueryFrequency(double queryFrequencyInMilliseconds)
+        public void UpdateFrequency(double frequencyInMilliseconds)
         {
-            // writes this to the file
-            QueryFrequencyInMilliseconds = queryFrequencyInMilliseconds;
+            if (_querySchedule.FrequencyInMilliseconds == frequencyInMilliseconds)
+                return;
+            _querySchedule.FrequencyInMilliseconds = frequencyInMilliseconds;
+
+            using (StreamWriter writer = File.AppendText(FullPath))
+            {
+                var serializer = new JsonSerializer();
+                serializer.Serialize(writer, _querySchedule);
+            }
         }
 
-        public double GetQueryFrequency()
+        public double GetFrequency()
         {
-            return QueryFrequencyInMilliseconds;
+            // read from file? 
+            return _querySchedule.FrequencyInMilliseconds;
         }
     }
 }
