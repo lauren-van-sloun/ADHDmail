@@ -46,8 +46,9 @@
     <Compile Include="Config\FilterTests.cs" />
     <Compile Include="EmailFetcherTests.cs" />
     <Compile Include="ExtensionsTests.cs" />
-    <Compile Include="Mocks\MockApi.cs" />
-    <Compile Include="Mocks\MockQuery.cs" />
+    <Compile Include="API\MockApi.cs" />
+    <Compile Include="Config\MockQueryScheduleConfigFile.cs" />
+    <Compile Include="API\MockQuery.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -65,6 +66,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
       <Private>True</Private>

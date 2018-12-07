@@ -1,9 +1,9 @@
 ﻿using ADHDmail.API;
-using ADHDmail.Config;
+using ADHDmail;
 using System;
 using System.Collections.Generic;
 
-namespace ADHDmailTests.Mocks
+namespace ADHDmailTests.API
 {
     internal class MockQuery : Query
     {

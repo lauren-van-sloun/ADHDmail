@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ADHDmail.Config
+namespace ADHDmail
 {
     /// <summary>
     /// Represents a filter to apply to a message based on the part of the message to 

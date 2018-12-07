@@ -1,5 +1,5 @@
 ﻿using ADHDmail.API;
-using ADHDmail.Config;
+using ADHDmail;
 using System;
 using System.Collections.Generic;
 using System.Linq;

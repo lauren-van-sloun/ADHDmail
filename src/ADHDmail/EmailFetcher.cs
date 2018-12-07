@@ -9,41 +9,46 @@ using System.Timers;
 
 namespace ADHDmail
 {
-    public static class EmailFetcher
+    public class EmailFetcher
     {
-        private static Timer _timer;
+        private Timer _timer;
+        private IEmailApi _emailApi;
+        private QueryScheduleConfigFile _queryScheduleConfigFile;
 
-        public static void SetTimer(IEmailApi emailApi, Func<List<Email>, bool> callback)
+        public EmailFetcher(IEmailApi emailApi, QueryScheduleConfigFile queryScheduleConfigFile)
         {
-            // read from file
-            double intervalInMilliseconds = 5000;
+            _emailApi = emailApi;
+            _queryScheduleConfigFile = queryScheduleConfigFile;
+        }
 
+        public void SetTimer(Func<List<Email>, bool> callback)
+        {
             _timer = new Timer();
-            _timer.Interval = intervalInMilliseconds;
+            _timer.Interval = _queryScheduleConfigFile.QueryFrequencyInMilliseconds;
             _timer.Elapsed += delegate
             {
                 var filterConfigFile = new IgnoreFiltersConfigFile();
                 var filters = filterConfigFile.GetFilters();
                 var query = new GmailQuery(filters);
-                var response = emailApi.GetEmails(query);
-                if (!callback(response))
+                var emails = _emailApi.GetEmails(query);
+                if (!callback(emails))
                 {
                     _timer.Stop();
                 }
             };
         }
 
-        public static void Start()
+        public void Start()
         {
             _timer.Start();
         }
 
-        public static void Stop()
+        public void Stop()
         {
             _timer.Stop();
         }
 
-        public static void ChangeInterval(double intervalInMilliseconds)
+        public void ChangeInterval(double intervalInMilliseconds)
         {
             _timer.Interval = intervalInMilliseconds;
         }

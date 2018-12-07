@@ -60,16 +60,16 @@
             This will construct a query that will return all emails.
             </summary>
         </member>
-        <member name="M:ADHDmail.API.GmailQuery.#ctor(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+        <member name="M:ADHDmail.API.GmailQuery.#ctor(System.Collections.Generic.List{ADHDmail.Filter})">
             <summary>
             Initializes a new instance of the <see cref="T:ADHDmail.API.GmailQuery" /> class with filters 
             to apply to the query.
             </summary>
             <param name="queryFilters">Represents the filters to apply to the query.</param>
         </member>
-        <member name="M:ADHDmail.API.GmailQuery.ConstructQuery(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+        <member name="M:ADHDmail.API.GmailQuery.ConstructQuery(System.Collections.Generic.List{ADHDmail.Filter})">
             <summary>
-            Parses the <see cref="T:ADHDmail.Config.Filter"/>s provided into a query string that is usable 
+            Parses the <see cref="T:ADHDmail.Filter"/>s provided into a query string that is usable 
             in a <see cref="T:ADHDmail.API.GmailApi"/> query.
             </summary>
             <param name="queryFilters">Represents the filters to apply to the query.</param>
@@ -91,15 +91,15 @@
             with no filtering. This will construct a query that will return all emails.
             </summary>
         </member>
-        <member name="M:ADHDmail.API.Query.#ctor(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+        <member name="M:ADHDmail.API.Query.#ctor(System.Collections.Generic.List{ADHDmail.Filter})">
             <summary>
             Constructs the <see cref="F:ADHDmail.API.Query.RawQuery"/> to contain the filters supplied.
             </summary>
             <param name="queryFilters">Represents the filters to apply to the query.</param>
         </member>
-        <member name="M:ADHDmail.API.Query.ConstructQuery(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+        <member name="M:ADHDmail.API.Query.ConstructQuery(System.Collections.Generic.List{ADHDmail.Filter})">
             <summary>
-            Parses the <see cref="T:ADHDmail.Config.Filter"/>s provided into a query string that is usable 
+            Parses the <see cref="T:ADHDmail.Filter"/>s provided into a query string that is usable 
             in an API query.
             </summary>
             <param name="queryFilters">Represents the filters to apply to the query.</param>
@@ -132,136 +132,136 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:ADHDmail.Config.Filter">
+        <member name="T:ADHDmail.Filter">
             <summary>
             Represents a filter to apply to a message based on the part of the message to 
             filter and the value to filter by.
             </summary>
         </member>
-        <member name="P:ADHDmail.Config.Filter.FilterOption">
+        <member name="P:ADHDmail.Filter.FilterOption">
             <summary>
             Represents the part of the message to filter.
             </summary>
         </member>
-        <member name="P:ADHDmail.Config.Filter.Value">
+        <member name="P:ADHDmail.Filter.Value">
             <summary>
             Represents the value to filter by.
             </summary>
         </member>
-        <member name="M:ADHDmail.Config.Filter.#ctor(ADHDmail.Config.FilterOption,System.String)">
+        <member name="M:ADHDmail.Filter.#ctor(ADHDmail.FilterOption,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:ADHDmail.Config.Filter"/> class.
+            Initializes a new instance of the <see cref="T:ADHDmail.Filter"/> class.
             </summary>
             <param name="filterOption">The filter to apply.</param>
             <param name="value">The value to filter by. Not needed for certain filters such 
-            as <see cref="F:ADHDmail.Config.FilterOption.HasAttachment"/>, <see cref="F:ADHDmail.Config.FilterOption.Unread"/>, etc.</param>
+            as <see cref="F:ADHDmail.FilterOption.HasAttachment"/>, <see cref="F:ADHDmail.FilterOption.Unread"/>, etc.</param>
         </member>
-        <member name="M:ADHDmail.Config.Filter.ToString">
+        <member name="M:ADHDmail.Filter.ToString">
             <summary>
             Returns the filter as a string formatted for use in an API query.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:ADHDmail.Config.Filter.Equals(System.Object)">
+        <member name="M:ADHDmail.Filter.Equals(System.Object)">
             <summary>
-            Determines whether the specified <see cref="T:ADHDmail.Config.Filter"/> instances are considered equal
-            in terms of their <see cref="P:ADHDmail.Config.Filter.FilterOption"/> selection and <see cref="P:ADHDmail.Config.Filter.Value"/>'s value.
+            Determines whether the specified <see cref="T:ADHDmail.Filter"/> instances are considered equal
+            in terms of their <see cref="P:ADHDmail.Filter.FilterOption"/> selection and <see cref="P:ADHDmail.Filter.Value"/>'s value.
             </summary>
-            <param name="obj">The other <see cref="T:ADHDmail.Config.Filter"/> to compare to.</param>
-            <returns>Returns true if the <see cref="T:ADHDmail.Config.Filter"/>s are equal, otherwise false.</returns>
+            <param name="obj">The other <see cref="T:ADHDmail.Filter"/> to compare to.</param>
+            <returns>Returns true if the <see cref="T:ADHDmail.Filter"/>s are equal, otherwise false.</returns>
         </member>
-        <member name="M:ADHDmail.Config.Filter.GetHashCode">
+        <member name="M:ADHDmail.Filter.GetHashCode">
             <summary>
             Serves as the default hash function.
             </summary>
             <returns>Returns the base class's hash code.</returns>
         </member>
-        <member name="T:ADHDmail.Config.FilterOption">
+        <member name="T:ADHDmail.FilterOption">
             <summary>
             Search operators used to filter message search results.
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.From">
+        <member name="F:ADHDmail.FilterOption.From">
             <summary>
             Specify the sender's name or email address
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.To">
+        <member name="F:ADHDmail.FilterOption.To">
             <summary>
             Specify a recipient's name or email address
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.Subject">
+        <member name="F:ADHDmail.FilterOption.Subject">
             <summary>
             Words in the subject line
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.Label">
+        <member name="F:ADHDmail.FilterOption.Label">
             <summary>
             Messages that have a certain label
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.HasAttachment">
+        <member name="F:ADHDmail.FilterOption.HasAttachment">
             <summary>
             Messages that have an attachment
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.HasFilename">
+        <member name="F:ADHDmail.FilterOption.HasFilename">
             <summary>
             Attachments with a certain name or file type
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.ContainsWord">
+        <member name="F:ADHDmail.FilterOption.ContainsWord">
             <summary>
             Search for an exact word or phrase
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.AllFolders">
+        <member name="F:ADHDmail.FilterOption.AllFolders">
             <summary>
             Messages in any folder, including Spam and Trash	
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.Starred">
+        <member name="F:ADHDmail.FilterOption.Starred">
             <summary>
             Search for messages that are starred
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.Unread">
+        <member name="F:ADHDmail.FilterOption.Unread">
             <summary>
             Search for messages that are unread
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.Read">
+        <member name="F:ADHDmail.FilterOption.Read">
             <summary>
             Search for messages that are read
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.After">
+        <member name="F:ADHDmail.FilterOption.After">
             <summary>
             Search for messages sent before a certain time period
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.Before">
+        <member name="F:ADHDmail.FilterOption.Before">
             <summary>
             Search for messages sent after a certain time period
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.DeliveredTo">
+        <member name="F:ADHDmail.FilterOption.DeliveredTo">
             <summary>
             Messages delivered to a certain email address
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.LargerThan">
+        <member name="F:ADHDmail.FilterOption.LargerThan">
             <summary>
             Messages larger than a certain size in bytes
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.SmallerThan">
+        <member name="F:ADHDmail.FilterOption.SmallerThan">
             <summary>
             Messages smaller than a certain size in bytes	
             </summary>
         </member>
-        <member name="F:ADHDmail.Config.FilterOption.MatchesWordExactly">
+        <member name="F:ADHDmail.FilterOption.MatchesWordExactly">
             <summary>
             Results that match a word exactly
             </summary>
@@ -317,20 +317,20 @@
             <summary>
             Reads the file and returns its contents.
             </summary>
-            <returns>A list of <see cref="T:ADHDmail.Config.Filter"/> objects that were saved in the file. 
+            <returns>A list of <see cref="T:ADHDmail.Filter"/> objects that were saved in the file. 
             Returns null if the <see cref="T:ADHDmail.Config.IgnoreFiltersConfigFile"/> does not exist.</returns>
         </member>
-        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Contains(ADHDmail.Config.Filter)">
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Contains(ADHDmail.Filter)">
             <summary>
-            Determines whether the file contains a specified <see cref="T:ADHDmail.Config.Filter"/>.
+            Determines whether the file contains a specified <see cref="T:ADHDmail.Filter"/>.
             </summary>
             <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
-            <returns>Returns true if the <see cref="T:ADHDmail.Config.Filter"/> exists within the file, otherwise false.</returns>
+            <returns>Returns true if the <see cref="T:ADHDmail.Filter"/> exists within the file, otherwise false.</returns>
         </member>
-        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(ADHDmail.Config.Filter)">
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(ADHDmail.Filter)">
             <summary>
-            Opens a file, appends the specified <see cref="T:ADHDmail.Config.Filter"/> to the file, and then closes the file. If the file does 
-            not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Config.Filter"/> to the file, then closes the file.
+            Opens a file, appends the specified <see cref="T:ADHDmail.Filter"/> to the file, and then closes the file. If the file does 
+            not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Filter"/> to the file, then closes the file.
             </summary>
             <param name="filter">Represents a filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
             <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>
@@ -338,10 +338,10 @@
             or the caller does not have the required permission.</exception>
             <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
         </member>
-        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Append(System.Collections.Generic.List{ADHDmail.Filter})">
             <summary>
-            Opens a file, appends the specified <see cref="T:ADHDmail.Config.Filter"/>s to the file, and then closes the file. If the file does 
-            not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Config.Filter"/>s to the file, then closes the file.
+            Opens a file, appends the specified <see cref="T:ADHDmail.Filter"/>s to the file, and then closes the file. If the file does 
+            not exist, this method creates a file, writes the specified <see cref="T:ADHDmail.Filter"/>s to the file, then closes the file.
             </summary>
             <param name="filters">Represents filters to apply to a message based on the part of the message to filter and the value to filter by.</param>
             <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>
@@ -349,9 +349,9 @@
             or the caller does not have the required permission.</exception>
             <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
         </member>
-        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Remove(ADHDmail.Config.Filter)">
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Remove(ADHDmail.Filter)">
             <summary>
-            Opens a file, removes the specified <see cref="T:ADHDmail.Config.Filter"/> from the file, and then closes the file.
+            Opens a file, removes the specified <see cref="T:ADHDmail.Filter"/> from the file, and then closes the file.
             </summary>
             <param name="filter">Represents the filter to apply to a message based on the part of the message to filter and the value to filter by.</param>
             <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>
@@ -359,9 +359,9 @@
             or the caller does not have the required permission.</exception>
             <exception cref="T:System.Security.SecurityException">Thrown when the caller does not have the required permission.</exception>
         </member>
-        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Remove(System.Collections.Generic.List{ADHDmail.Config.Filter})">
+        <member name="M:ADHDmail.Config.IgnoreFiltersConfigFile.Remove(System.Collections.Generic.List{ADHDmail.Filter})">
             <summary>
-            Opens a file, removes the specified <see cref="T:ADHDmail.Config.Filter"/>s from the file, and then closes the file.
+            Opens a file, removes the specified <see cref="T:ADHDmail.Filter"/>s from the file, and then closes the file.
             </summary>
             <param name="filtersToRemove">Represents filters to apply to a message based on the part of the message to filter and the value to filter by.</param>
             <exception cref="T:System.IO.IOException">Thrown when an I/O error occurrs while opening the file.</exception>

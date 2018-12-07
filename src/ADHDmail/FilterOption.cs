@@ -1,4 +1,4 @@
-﻿namespace ADHDmail.Config
+﻿namespace ADHDmail
 {
     /// <summary>
     /// Search operators used to filter message search results.
