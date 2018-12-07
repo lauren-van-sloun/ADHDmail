@@ -2,7 +2,7 @@
 using ADHDmail.Config;
 using System;
 using System.Collections.Generic;
-//using System.Threading;
+using System.IO;
 using System.Timers;
 
 namespace ADHDmail
@@ -12,7 +12,6 @@ namespace ADHDmail
         public static void Main(string[] args)
         {
             //var fiveMinutesInMilliseconds = 300000;
-            
             /*
             var fiveSecondsInMilliseconds = 5000;
             Timer timer = new Timer();
@@ -24,7 +23,7 @@ namespace ADHDmail
             timer.Stop();
             */
 
-            PrintEmails(null, null);
+            PrintEmails(null, null);            
         }
 
         public static void PrintEmails(object sender, ElapsedEventArgs e)
@@ -32,10 +31,12 @@ namespace ADHDmail
             IEmailApi api = new GmailApi();
 
             var filterConfigFile = new IgnoreFiltersConfigFile();
-            if (!filterConfigFile.Exists)
+            filterConfigFile.Clear();
+            filterConfigFile.Append(new List<Filter>()
             {
-                filterConfigFile.Create();
-            }
+                new Filter(FilterOption.AllFolders),
+                new Filter(FilterOption.Read)
+            });
 
             var filters = filterConfigFile.GetFilters();
             var query = new GmailQuery(filters);
@@ -46,17 +47,6 @@ namespace ADHDmail
                                   $"Subject: {email.Subject} Time: {email.TimeReceived}"));
 
             Console.WriteLine("-----------------------");
-        }
-
-        // in memory filters to use for temp testing
-        public static List<Filter> CreateFilters()
-        {
-            return new List<Filter>()
-            {
-                new Filter(FilterOption.Unread),
-                new Filter(FilterOption.LargerThan, "1"),
-                new Filter(FilterOption.From, "GitHub")
-            };
         }
     }
 }

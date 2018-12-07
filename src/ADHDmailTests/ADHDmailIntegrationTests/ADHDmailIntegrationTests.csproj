@@ -37,7 +37,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GmailApiTests.cs" />
+    <Compile Include="API\GmailApiTests.cs" />
+    <Compile Include="Config\ConfigFileTests.cs" />
+    <Compile Include="Config\GmailOAuthCredentialsTests.cs" />
+    <Compile Include="Config\IgnoreFilterConfigFileTests.cs" />
+    <Compile Include="Config\TestConfigFile.cs" />
+    <Compile Include="Misc\LogWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

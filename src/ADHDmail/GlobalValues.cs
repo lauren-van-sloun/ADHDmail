@@ -4,10 +4,26 @@ using System.Reflection;
 
 namespace ADHDmail
 {
-    internal static class GlobalValues
+    /// <summary>
+    /// A static class that holds commonly used or shared variables such as folder paths and names.
+    /// </summary>
+    public static class GlobalValues
     {
+        /// <summary>
+        /// The name of the application for use in creating filepaths.
+        /// </summary>
         public const string ApplicationName = "ADHDmail";
+
+        /// <summary>
+        /// The path to the directory that serves as a common repository for application-specific 
+        /// data that is used by the current, non-roaming user.
+        /// </summary>
         public static string LocalAppDataPath { get; }
+
+        /// <summary>
+        /// The path to the directory that serves as a common repository for application-specific
+        /// data for the current roaming user.
+        /// </summary>
         public static string AppDataPath { get; }
 
         static GlobalValues()
