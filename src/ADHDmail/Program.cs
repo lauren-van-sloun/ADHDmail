@@ -9,14 +9,11 @@ namespace ADHDmail
     {
         public static void Main(string[] args)
         {
-            //var emailFetcher = new EmailFetcher(new GmailApi(), new mockConfigFile());
-            //emailFetcher.SetTimer(callback: PrintEmails);
-            //emailFetcher.Start();
-            //Console.ReadKey();
-            //emailFetcher.Stop();
-
-            var queryConfig = new QueryScheduleConfigFile();
-            queryConfig.UpdateFrequency(30000);
+            var emailFetcher = new EmailFetcher(new GmailApi(), new QueryScheduleConfigFile());
+            emailFetcher.SetTimer(callback: PrintEmails);
+            emailFetcher.Start();
+            Console.ReadKey();
+            emailFetcher.Stop();
         }
 
         public static bool PrintEmails(List<Email> emails)

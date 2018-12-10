@@ -28,7 +28,7 @@ namespace ADHDmail.Config
         public List<Filter> GetFilters()
         {
             var fileContents = LoadFile();
-            var filters = fileContents.Deserialize<Filter>();
+            var filters = fileContents.DeserializeToList<Filter>();
             return filters ?? new List<Filter>();
         }
 

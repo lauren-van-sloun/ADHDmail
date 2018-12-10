@@ -14,7 +14,6 @@ namespace ADHDmail.Config
                 Days = new HashSet<DayOfWeek>();
                 Hours = new HashSet<byte>();
                 FrequencyInMilliseconds = new double();
-                SetDefaultValues();
             }
 
             // Restrict these properties' potential values when I code the UI potion of the app
@@ -23,7 +22,7 @@ namespace ADHDmail.Config
             public HashSet<byte> Hours { get; set; }
             public double FrequencyInMilliseconds { get; set; }
 
-            private void SetDefaultValues()
+            public void SetDefaultValues()
             {
                 Days.Add(DayOfWeek.Monday);
                 Days.Add(DayOfWeek.Tuesday);
@@ -35,12 +34,12 @@ namespace ADHDmail.Config
                 {
                     Hours.Add(hour);
                 }
-                // check from the file first, and if the number is invalid or not set, then use this
+
                 FrequencyInMilliseconds = 5000;
             }
         }
 
-        private QuerySchedule _querySchedule = new QuerySchedule();
+        private QuerySchedule _querySchedule;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QueryScheduleConfigFile"/> class.
@@ -48,6 +47,20 @@ namespace ADHDmail.Config
         public QueryScheduleConfigFile(string fileName = "QuerySchedule.json")
         {
             FullPath = GetFullPath(fileName);
+            GetValuesFromFile();
+        }
+
+        private void GetValuesFromFile()
+        {
+            var fileContents = LoadFile();
+            var deserializedSchedule = fileContents.Deserialize<QuerySchedule>();
+            if (deserializedSchedule == null)
+            {
+                _querySchedule = new QuerySchedule();
+                _querySchedule.SetDefaultValues();
+            }
+            else
+                _querySchedule = deserializedSchedule;
         }
 
         public void AddDays(HashSet<DayOfWeek> daysToApplyFilter)
@@ -56,6 +69,8 @@ namespace ADHDmail.Config
             {
                 _querySchedule.Days.Add(day);
             }
+
+            WriteScheduleToFile();
         }
 
         public HashSet<DayOfWeek> GetDays()
@@ -69,6 +84,8 @@ namespace ADHDmail.Config
             {
                 _querySchedule.Hours.Add(hour);
             }
+
+            WriteScheduleToFile();
         }
 
         public HashSet<byte> GetHours()
@@ -82,17 +99,18 @@ namespace ADHDmail.Config
                 return;
             _querySchedule.FrequencyInMilliseconds = frequencyInMilliseconds;
 
-            using (StreamWriter writer = File.AppendText(FullPath))
-            {
-                var serializer = new JsonSerializer();
-                serializer.Serialize(writer, _querySchedule);
-            }
+            WriteScheduleToFile();
         }
 
         public double GetFrequency()
         {
-            // read from file? 
             return _querySchedule.FrequencyInMilliseconds;
+        }
+
+        private void WriteScheduleToFile()
+        {
+            string serializedQuerySchedule = JsonConvert.SerializeObject(_querySchedule);
+            File.WriteAllText(FullPath, serializedQuerySchedule);
         }
     }
 }

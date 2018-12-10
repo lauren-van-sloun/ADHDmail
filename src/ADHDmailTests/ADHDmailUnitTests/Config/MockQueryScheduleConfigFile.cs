@@ -15,8 +15,7 @@ namespace ADHDmailTests.Config
 
         public MockQueryScheduleConfigFile()
         {
-            // providing a default value
-            UpdateFrequency(50);
+            
         }
 
         // hide the base class implementation with the new keyword so I'm not accessing file dependencies

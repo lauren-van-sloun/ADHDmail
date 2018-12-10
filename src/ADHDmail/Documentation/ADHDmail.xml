@@ -436,13 +436,21 @@
             <param name="date">The date to be parsed.</param>
             <returns>Returns the parsed date if able to be parsed, otherwise DateTime.MinValue.</returns>
         </member>
-        <member name="M:ADHDmail.Extensions.Deserialize``1(System.String)">
+        <member name="M:ADHDmail.Extensions.DeserializeToList``1(System.String)">
             <summary>
             Deserializes a JSON string into a List of <typeparamref name="T"/>.
             </summary>
             <typeparam name="T">The type of object to deserialize to.</typeparam>
             <param name="serializedJSONString">The serialized JSON string to parse.</param>
             <returns>Returns a deserialized List of <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:ADHDmail.Extensions.Deserialize``1(System.String)">
+            <summary>
+            Deserializes a JSON string into an object of type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T">The type of object to deserialize to.</typeparam>
+            <param name="serializedJSONString">The serialized JSON string to parse.</param>
+            <returns>Returns a deserialized object of type <typeparamref name="T"/>.</returns>
         </member>
         <member name="M:ADHDmail.Extensions.IsEmptyFile(System.String)">
             <summary>
